@@ -108,9 +108,15 @@ RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Wcmsvc
 //In Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\wdiwifi
 //Partial in Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\WinSock
 //Partial in Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\WinSock2
-// mrxsmb10
+// SMB v1.0 service. Extract and expand mrxsmb10.sys from WinSxS
 If,Not,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
-  ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% #$q\Windows\WinSxS\*_microsoft-windows-smb10-minirdr_*\mrxsmb10.sys#$q --dest-dir=#$q%GTarget_Sys%\drivers#$q --no-acls"
+  ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% #$q\Windows\WinSxS\*_microsoft-windows-smb10-minirdr_*\mrxsmb10.sys#$q --dest-dir=#$q%GTemp%#$q --no-acls"
+  If,ExistFile,%GTemp%\mrxsmb10.sys,ShellExecute,Hide,%GTools%\sxsexp32.exe,"#$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q"
+  //If,ExistFile,%GTemp%\mrxsmb10.sys,ShellExecute,Open,cmd.exe,"/K Echo sxsexp32.exe#$q #$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q&#$q%GTools%\sxsexp32.exe#$q #$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q"
+  If,Not,%ExitCode%,Equal,0,Begin
+    EchoExtended,"SMB v1.0 Service will Not be Available. the WinSxS mrxsmb10.sys Driver could Not be Expanded.",,5
+    If,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,FileDeleteQ,%GTarget_Sys%\drivers\mrxsmb10.sys
+  End
 End
 If,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
   RegWrite,HKLM,0x7,Tmp_System\ControlSet001\Services\mrxsmb10,DependOnService,mrxsmb

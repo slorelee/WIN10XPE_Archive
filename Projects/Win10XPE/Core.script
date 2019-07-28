@@ -57,7 +57,7 @@ Msi_CheckBox="Msi Windows Installer",1,3,122,330,142,18,True,"__Add Msi Windows 
 DotNET_CheckBox="Microsoft .NETFx4",1,3,6,348,115,18,False,_DotNet_Info_,True,"__Add Embedded Microsoft .NET Framework 4 - To Get WIFI, You Must Also Enable Network Addition"
 ImDisk_CheckBox="ImDisk Ramdisk B:\Temp",1,3,122,348,142,18,True,"__ImDisk Virtual Disk Driver. Create B: RamDisk and Set %Temp% to B:\Temp"
 Admin_CheckBox="Switch To Admin",1,3,6,366,115,18,False,_Admin_Info_,True,"__Switch to Administrator Account Login At Startup"
-IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,True,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
+IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,False,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
 //-
 Drivers_Bevel=Drivers_Bevel,1,12,270,280,226,61
 Drivers_CheckBox="Integrate Drivers",1,3,276,284,112,18,True,"__Integrate Your Custom Drivers"
@@ -365,7 +365,8 @@ If,Not,ExistFile,%ProjectDir%\Features\IE11.Script,IniWrite,%ProjectDir%\Script.
 Else,IniWrite,%ProjectDir%\Script.Project,Features,IE11,%IE11_CheckBox%
 If,Not,ExistFile,%ProjectDir%\Features\DotNET.Script,IniWrite,%ProjectDir%\Script.Project,Features,DotNET,False
 Else,IniWrite,%ProjectDir%\Script.Project,Features,DotNET,%DotNET_CheckBox%
-System,RebuildVars
+// Tip for not doing "System,RebuildVars" with PEBakery. It is not required, variables are refreshed and it does not work well in beta5
+If,Not,%WBExe%,Equal,#$pWBExe#$p,System,RebuildVars
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
