@@ -128,6 +128,7 @@
 \Windows\SysWOW64\netapi32.dll
 \Windows\SysWOW64\netutils.dll
 \Windows\SysWOW64\normaliz.dll
+\Windows\SysWOW64\nsi.dll
 \Windows\SysWOW64\ntasn1.dll
 \Windows\SysWOW64\ntdll.dll
 \Windows\SysWOW64\ntdsapi.dll

@@ -3,7 +3,7 @@ Title=Admin
 Type=XPEPlugin
 Description=Admin Login
 Author=ChriSR
-Date=2019.04.04
+Date=2019.04.25
 Version=002
 Selected=None
 Mandatory=None
@@ -89,6 +89,7 @@ End
 
 [ChangeAdminName]
 If,Not,%AdminName_TextBox%-,Equal,-,Begin
+  TXTReplace,%GTarget_Sys%\Pecmd.ini,Administrator,%AdminName_TextBox%
   TXTReplace,%GTarget_Sys%\PecmdAdmin.ini,Administrator,%AdminName_TextBox%
   IniWrite,%GTarget_Win%\Security\Templates\unattend.inf,"System Access",NewAdministratorName,#$q%AdminName_TextBox%#$q
 End

@@ -40,7 +40,7 @@ End
 If,ExistFile,%ScriptDir%\WoW64_AddFiles.txt,Begin
   FileCopy,%ScriptDir%\WoW64_AddFiles.txt,%GTemp%\WoW64_AddFiles.txt
   TXTReplace,%GTemp%\WoW64_AddFiles.txt,_xx-xx_,_%Language%_
-  // In Win10 17763 shellstyle.dll(.mui) does not exist in SysWOW64 (wimlib do it well without removing the line)
+  // In Win10 17763 shellstyle.dll(.mui) does not exist in SysWOW64
   If,%SourceBuild%,Equal,17763,TXTDelLine,%GTemp%\WoW64_AddFiles.txt,\Windows\SysWOW64\shellstyle.dll
   ExtractListFiles,%GTemp%\WoW64_AddFiles.txt
   FileDelete,%GTemp%\WoW64_AddFiles.txt
