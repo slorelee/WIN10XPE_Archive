@@ -1,0 +1,59 @@
+; In Common
+\Windows\System32\IconCodecService.dll
+\Windows\System32\mfc42u.dll
+\Windows\System32\UIRibbon.dll
+\Windows\System32\UIRibbonRes.dll
+\Windows\System32\WindowsCodecs.dll
+\Windows\System32\WindowsCodecsExt.dll
+\Windows\System32\??-??\mfc42u.dll.mui
+\Windows\System32\??-??\UIRibbon.dll.mui
+; SnippingTool
+;Start Menu\Programs\Accessories: OSK.exe,mspaint.exe,ImagingDevices.exe,SnippingTool.exe,WordPad.exe
+\Program Files\Common Files\microsoft shared\ink\fsdefinitions
+\Program Files\Common Files\microsoft shared\ink\tabskb.dll
+\Program Files\Common Files\microsoft shared\ink\tipresx.dll
+\Program Files\Common Files\microsoft shared\ink\tiptsf.dll
+\Program Files\Common Files\microsoft shared\ink\tpcps.dll
+\Program Files\Common Files\microsoft shared\ink\InkObj.dll
+\Program Files\Common Files\microsoft shared\ink\??-??\tabskb.dll.mui
+\Program Files\Common Files\microsoft shared\ink\en-US\tipresx.dll.mui
+\Program Files\Common Files\microsoft shared\ink\xx-xx\tipresx.dll.mui
+\Program Files\Common Files\microsoft shared\ink\??-??\tiptsf.dll.mui
+\Program Files\Common Files\microsoft shared\ink\??-??\InkObj.dll.mui
+\Windows\System32\clbcatq.dll
+\Windows\System32\msdrm.dll
+\Windows\System32\SnippingTool.exe
+\Windows\System32\UIAnimation.dll
+\Windows\System32\Windows.Globalization.dll
+\Windows\System32\wisp.dll
+\Windows\System32\??-??\msdrm.dll.mui
+\Windows\System32\??-??\SnippingTool.exe.mui
+\Windows\System32\??-??\UIAnimation.dll.mui
+\Windows\System32\??-??\Windows.Globalization.dll.mui
+\Windows\System32\??-??\wisp.dll.mui
+; PhotoViewer
+; Not required: \Program Files\Windows Photo Viewer\ImagingDevices.exe(.mui) and PhotoAcq.dll
+\Program Files\Windows Photo Viewer\ImagingEngine.dll
+\Program Files\Windows Photo Viewer\PhotoBase.dll
+\Program Files\Windows Photo Viewer\PhotoViewer.dll
+\Program Files\Windows Photo Viewer\??-??\PhotoViewer.dll.mui
+\Windows\System32\Spool\drivers\color
+\Windows\System32\d3d8thk.dll
+\Windows\System32\d3d9.dll
+\Windows\System32\efswrt.dll
+\Windows\System32\htui.dll
+\Windows\System32\icm32.dll
+\Windows\System32\mscms.dll
+\Windows\System32\PhotoMetadataHandler.dll
+\Windows\System32\photowiz.dll
+\Windows\System32\shimgvw.dll
+\Windows\System32\sti.dll
+\Windows\System32\WMPhoto.dll
+\Windows\System32\??-??\efswrt.dll.mui
+\Windows\System32\??-??\htui.dll.mui
+\Windows\System32\??-??\icm32.dll.mui
+\Windows\System32\??-??\mscms.dll.mui
+\Windows\System32\??-??\photowiz.dll.mui
+\Windows\System32\??-??\shimgvw.dll.mui
+\Windows\System32\??-??\sti.dll.mui
+\Windows\System32\??-??\WMPhoto.dll.mui

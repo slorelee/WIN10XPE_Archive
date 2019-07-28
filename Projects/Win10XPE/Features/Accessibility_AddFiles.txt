@@ -1,0 +1,33 @@
+; In Common Osk Paint Wordpad
+\Windows\System32\IconCodecService.dll
+\Windows\System32\mfc42u.dll
+\Windows\System32\UIRibbon.dll
+\Windows\System32\UIRibbonRes.dll
+\Windows\System32\WindowsCodecs.dll
+\Windows\System32\WindowsCodecsExt.dll
+\Windows\System32\??-??\mfc42u.dll.mui
+\Windows\System32\??-??\UIRibbon.dll.mui
+; Osk
+\Windows\System32\osk.exe
+\Windows\System32\OskSupport.dll
+\Windows\System32\utilman.exe
+\Windows\System32\??-??\osk.exe.mui
+\Windows\System32\??-??\utilman.exe.mui
+; Ease of Access
+\Windows\System32\accessibilitycpl.dll
+\Windows\System32\Magnification.dll
+\Windows\System32\Magnify.exe
+\Windows\System32\PlaySndSrv.dll
+\Windows\System32\sethc.exe
+\Windows\System32\Windows.Internal.Shell.Broker.dll
+;\Windows\System32\Windows.Media.Speech.dll
+\Windows\System32\Windows.Perception.Stub.dll
+\Windows\System32\Windows.UI.dll
+\Windows\System32\??-??\accessibilitycpl.dll.mui
+\Windows\System32\??-??\Magnification.dll.mui
+\Windows\System32\??-??\Magnify.exe.mui
+\Windows\System32\??-??\PlaySndSrv.dll.mui
+\Windows\System32\??-??\sethc.exe.mui
+\Windows\System32\??-??\Windows.Internal.Shell.Broker.dll.mui
+\Windows\System32\??-??\Windows.Perception.Stub.dll.mui
+\Windows\System32\??-??\Windows.UI.dll.mui

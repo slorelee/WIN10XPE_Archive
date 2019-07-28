@@ -1,0 +1,96 @@
+\Windows\Fonts\segoeui.ttf
+; DragAndDrop (in Winre.wim d2d1.dll,ksuser.dll)
+\Windows\System32\DataExchange.dll
+\Windows\System32\dcomp.dll
+\Windows\System32\??-??\dcomp.dll.mui
+\windows\system32\d3d11.dll
+\windows\system32\dxgi.dll
+; CopyProgress
+\Windows\System32\chartv.dll
+\Windows\System32\??-??\chartv.dll.mui
+\Windows\System32\OneCoreUAPCommonProxyStub.dll
+; Control services
+\Windows\System32\sc.exe
+\Windows\System32\??-??\sc.exe.mui
+; Browse folder. Additions for WinApps,...
+\Windows\System32\shellstyle.dll
+\Windows\System32\twinapi.appcore.dll
+\Windows\System32\rmclient.dll
+\Windows\System32\StructuredQuery.dll
+\Windows\System32\ExplorerFrame.dll
+\Windows\System32\TextInputFramework.dll
+\Windows\System32\CoreUIComponents.dll
+\Windows\System32\Windows.Storage.Search.dll
+\Windows\System32\??-??\shellstyle.dll.mui
+\Windows\System32\??-??\twinapi.appcore.dll.mui
+\Windows\System32\??-??\ExplorerFrame.dll.mui
+\Windows\System32\??-??\Windows.Storage.Search.dll.mui
+; System properties
+\windows\system32\systemcpl.dll
+\windows\system32\??-??\systemcpl.dll.mui
+; Microsoft Managment Control. Disk Management
+\windows\system32\apphelp.dll
+\windows\system32\diskmgmt.msc
+\windows\system32\dmdlgs.dll
+\windows\system32\dmdskmgr.dll
+\windows\system32\dmdskres.dll
+\windows\system32\dmdskres2.dll
+\windows\system32\dmintf.dll
+\windows\system32\dmocx.dll
+\windows\system32\dmutil.dll
+\windows\system32\dmvdsitf.dll
+\windows\system32\dmview.ocx
+\windows\system32\hhsetup.dll
+\windows\system32\mmc.exe
+\windows\system32\mmcbase.dll
+\windows\system32\mmcndmgr.dll
+\windows\system32\mmcshext.dll
+\windows\system32\??-??\apphelp.dll
+\Windows\System32\??-??\diskmgmt.msc
+\windows\system32\??-??\dmdskres.dll.mui
+\windows\system32\??-??\dmdskres2.dll.mui
+\Windows\System32\??-??\dmocx.dll.mui
+\Windows\System32\??-??\dmutil.dll.mui
+\windows\system32\??-??\mmc.exe.mui
+\windows\system32\??-??\mmcbase.dll.mui
+\windows\system32\??-??\mmcndmgr.dll.mui
+\windows\system32\??-??\mmcshext.dll.mui
+;
+; Catalogs, Use signtool.exe
+; Full Catalogs \Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Basic-Http-Minio-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Drivers-drivers-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Drivers-net-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Drivers-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Drivers-Package-net~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Features-Package*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Desktop-Shared-Drivers-*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-DataCenterBridging-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-SMB1-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Client-Features-Classic-WOW64-*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Features-WOW64-Package*.cat
+; For updates
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Package_*
+; Additions
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Browser-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-BusinessScanning-Feature-Package-admin~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Common-Modem-Drivers-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Dedup-ChunkLibrary-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-InternetExplorer-inetcore-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-InternetExplorer-onecoreuap-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-NetFx4-US-OC-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Media-Format-multimedia-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Multimedia-RestrictedCodecs-multimedia-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-OneCoreUAP-WCN-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-OneCoreUAP-WCN-WOW64-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-PeerToPeer-Full-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-PhotoBasic-Feature-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-RemoteDesktop-*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-SearchEngine-Client-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-SnippingTool-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-WCN-net-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-WCN-WOW64-net-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-MFCore-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-MFCore-WOW64-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-RestrictedCodecsCore-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-RestrictedCodecsExt-Package~*.cat

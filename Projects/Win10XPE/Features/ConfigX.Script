@@ -1,0 +1,152 @@
+[Main]
+Title=ConfigX
+Type=XPEPlugin
+Description=Configure the base for WinXShell
+Author=ChriSR
+Date=2018.05.30
+Version=001
+Selected=None
+Mandatory=None
+NoWarning=False
+Level=0
+Download_Level=0
+Credits=
+Contact=
+
+[Process]
+Echo,"Processing %ScriptTitle%..."
+If,%FullSoftware%,Equal,True,EchoExtended,"WinXShell is designed to be light, it is not intended for using the full Software hive.",Warn,,Message,,Halt
+Run,%ScriptFile%,RegConfig
+
+[RegConfig]
+RegHiveLoad,Tmp_System,%RegSystem%
+RegHiveLoad,Tmp_Software,%RegSoftware%
+RegHiveLoad,Tmp_Default,%RegDefault%
+RegHiveLoad,Tmp_Drivers,%RegDrivers%
+//-
+//ACLRegKey,Tmp_System
+//ACLRegKey,Tmp_Software
+//ACLRegKey,Tmp_Default
+//ACLRegKey,Tmp_Drivers
+ACLRegKey,Tmp_Software\Classes
+//Rights required for the proper execution of the Network plugin
+ACLRegKey,Tmp_System\ControlSet001\control\lsa
+ACLRegKey,Tmp_System\ControlSet001\Control\NetworkSetup2
+//-
+System,FileRedirect,OFF
+ShellExecute,Hide,cmd.exe,"/C For /F #$pA IN ('Reg Query HKLM\Tmp_Software\Classes\AppID /s /f #$qInteractive User#$q ^|Findstr Tmp_Software') Do Reg Add #$q#$pA#$q /v RunAs /d #$q#$q /F >nul 2>nul"
+ShellExecute,Hide,cmd.exe,"/C For /F #$pA IN ('Reg Query HKLM\Tmp_Software\Classes /K /F OpenWithProgIds /S') Do Reg Delete #$q#$pA#$q /F >nul 2>nul"
+System,FileRedirect,ON
+//-
+Run,%ScriptFile%,EditReg_System
+Run,%ScriptFile%,EditReg_Software
+//-
+RegHiveUnLoad,Tmp_System
+RegHiveUnLoad,Tmp_Software
+RegHiveUnLoad,Tmp_Default
+RegHiveUnLoad,Tmp_Drivers
+
+[EditReg_System]
+// Environment
+RegWrite,HKLM,0x2,"Tmp_System\ControlSet001\Control\Session Manager\Environment",AppData,#$pSystemDrive#$p\Users\Default\AppData\Roaming
+// Disable Auto chkdsk at bootup autochk
+//System,ERROROFF
+//RegWrite,HKLM,0x7,"Tmp_System\ControlSet001\Control\Session Manager",BootExecute,"autocheck autochk /k:C /k:D /k:D /k:E /k:F /k:G /k:H /k:I /k:J /k:K /k:L /k:M /k:N /k:O /k:P /k:Q /k:R /k:S /k:T /k:U /k:V /k:W /k:Y /k:Z *"
+// Disable Hibernate
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power,HibernateEnabled,0
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power,CustomizeDuringSetup,0
+// Disable Fast Startup
+RegWrite,HKLM,0x4,"Tmp_System\ControlSet001\Control\Session Manager\Power",HiberbootEnabled,0
+// Do not update the last-access timestamp for Ntfs and Refs
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\FileSystem,NtfsDisableLastAccessUpdate,1
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\FileSystem,RefsDisableLastAccessUpdate,1
+// For samba servers
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LmCompatibilityLevel,2
+// Allow network users to access without password > Also display Share with in Context Menu!
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LimitBlankPasswordUse,0
+// ComputerName
+System,ERROROFF,5
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\ComputerName\ComputerName,ComputerName,%ProjectName%
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\ComputerName\ActiveComputerName,ComputerName,%ProjectName%
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,"NV Hostname",%ProjectName%
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,Hostname,%ProjectName%
+RegWrite,HKLM,0x1,"Tmp_System\ControlSet001\Control\Session Manager\Environment",ComputerName,%ProjectName%
+
+[EditReg_Software]
+System,ERROROFF
+RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\ProfileList\S-1-5-18",ProfileImagePath,X:\Users\Default
+// Manage Computer
+RegWrite,HKLM,0x2,Tmp_software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\Manage\command,,"#$pSystemRoot#$p\System32\mmc.exe /b compmgmt.msc",NoWarn
+// Enable SIHost
+RegWrite,HKLM,0x4,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Winlogon",EnableSIHostIntegration,1
+// Disable First Logon Animation
+RegWrite,HKLM,0x4,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Winlogon",EnableFirstLogonAnimation,0
+// Disable Webservices for unknown file types
+RegWrite,HKLM,0x4,Tmp_software\Microsoft\Windows\CurrentVersion\Policies\Explorer,NoInternetOpenWith,1
+// ComputerName
+System,ERROROFF,3
+RegWrite,HKLM,0x1,"Tmp_software\Microsoft\Windows NT\CurrentVersion",RegisteredOwner,%ProjectName%
+RegWrite,HKLM,0x4,"Tmp_software\Microsoft\Windows NT\CurrentVersion\WinPE",SkipWaitForNetwork,0
+RegWrite,HKLM,0x4,"Tmp_software\Microsoft\Windows NT\CurrentVersion\WinPE",SetComputerName,0
+// Logo
+//RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\OEMInformation,Manufacturer,"WinPE Intro"
+//RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\OEMInformation,SupportURL,https://docs.microsoft.com/en-US/windows-hardware/manufacture/desktop/winpe-intro
+//RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\OEMInformation,Logo,X:\Windows\System32\oobe\Logo\Logo.bmp
+// Open with Notepad context Menu option
+RegWrite,HKLM,0x1,"Tmp_Software\Classes\*\shell\Open with Notepad",Icon,Notepad.exe
+RegWrite,HKLM,0x1,"Tmp_Software\Classes\*\shell\Open with Notepad\Command",,"Notepad.exe #$q#$p1#$q"
+Run,%scriptfile%,OpenCmdHere
+Run,%scriptfile%,Remove3D
+
+[OpenCmdHere]
+// cmd instead of powershell
+RegWrite,HKLM,0x1,Tmp_Software\Classes\*\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x1,Tmp_Software\Classes\*\shell\cmd,,"@shell32.dll,-8506"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\*\shell\cmd\Command,,cmd.exe
+// cmd in context Menu
+//ACLRegKey,Tmp_software\Classes\Directory\background\shell
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,Extended,RegDelete,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,Extended
+RegWrite,HKLM,0x1,Tmp_Software\Classes\Directory\background\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\background\shell\cmd,ShowBasedOnVelocityId,6527944
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,HideBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,HideBasedOnVelocityId
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\background\shell\Powershell,ShowBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\background\shell\Powershell,ShowBasedOnVelocityId
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\background\shell\Powershell,HideBasedOnVelocityId,6527944
+//-
+//ACLRegKey,Tmp_Software\Classes\Directory\shell
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\shell\cmd,Extended,RegDelete,HKLM,Tmp_Software\Classes\Directory\shell\cmd,Extended
+RegWrite,HKLM,0x1,Tmp_Software\Classes\Directory\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\shell\cmd,ShowBasedOnVelocityId,6527944
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\shell\cmd,HideBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\shell\cmd,HideBasedOnVelocityId
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\shell\Powershell,ShowBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\shell\Powershell,ShowBasedOnVelocityId
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\shell\Powershell,HideBasedOnVelocityId,6527944
+//-
+//ACLRegKey,Tmp_Software\Classes\Drive\shell
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Drive\shell\cmd,Extended,RegDelete,HKLM,Tmp_Software\Classes\Drive\shell\cmd,Extended
+RegWrite,HKLM,0x1,Tmp_Software\Classes\Drive\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Drive\shell\cmd,ShowBasedOnVelocityId,6527944
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Drive\shell\cmd,HideBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Drive\shell\cmd,HideBasedOnVelocityId
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Drive\shell\Powershell,ShowBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Drive\shell\Powershell,ShowBasedOnVelocityId
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Drive\shell\Powershell,HideBasedOnVelocityId,6527944
+
+[Remove3D]
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3ds\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3ds\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3mf\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3mf\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.bmp\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.bmp\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dae\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dae\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dxf\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dxf\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.fbx\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.fbx\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.gif\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.gif\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.glb\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.glb\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jfif\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jfif\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpe\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpe\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpeg\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpeg\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpg\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpg\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.png\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.png\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.stl\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.stl\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tif\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tif\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tiff\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tiff\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.wrl\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.wrl\Shell\3D Print"

@@ -1,0 +1,76 @@
+[Main]
+Title=WoW64 basic
+Type=XPEPlugin
+Description=WoW64 basic
+Author=ChriSR
+Date=2018.10.11
+Version=001
+Selected=None
+Mandatory=None
+NoWarning=False
+Level=0
+Download_Level=0
+Credits=
+Contact=
+
+[Process]
+If,%Architecture%,Equal,x64,Begin
+  Echo,"Processing %ScriptTitle%..."
+  Set,%WoW64Support%,True,Permanent
+  Run,%ScriptFile%,AddFiles
+  //-
+  If,%FullSoftware%,Equal,False,Begin
+    If,Not,#1,Equal,HiveLoaded,Begin
+      RegHiveLoad,Tmp_Software,%RegSoftware%
+      RegHiveLoad,Tmp_Install_Software,%Gtemp%\Install.hives\SOFTWARE
+    End
+    Run,%ScriptFile%,Reg_WoW64
+    If,Not,#1,Equal,HiveLoaded,Begin
+      RegHiveunLoad,Tmp_Install_Software
+      RegHiveunLoad,Tmp_Software
+    End
+  End
+End
+
+[AddFiles]
+If,ExistFile,%ScriptDir%\WoW64_AddFiles.txt,Begin
+  FileCopy,%ScriptDir%\WoW64_AddFiles.txt,%GTemp%\WoW64_AddFiles.txt
+  TXTReplace,%GTemp%\WoW64_AddFiles.txt,\xx-xx\,\%Language%\
+  TXTReplace,%GTemp%\WoW64_AddFiles.txt,_xx-xx_,_%Language%_
+  If,%SourceBuild%,Bigger,17700,TXTDelLine,%GTemp%\WoW64_AddFiles.txt,\Windows\SysWOW64\shellstyle.dll
+  ExtractListFiles,%GTemp%\WoW64_AddFiles.txt
+  FileDelete,%GTemp%\WoW64_AddFiles.txt
+End
+If,ExistFile,%GTarget_Sys%\imageres.dll,FileCopy,%GTarget_Sys%\imageres.dll,%GTarget_Win%\syswow64\
+
+[Reg_WoW64]
+//RegImportFile,%ScriptDir%\WoW64_RegSoftware.txt
+RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node\CLSID
+RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node\Interface
+//-
+RegCopyKey,HKLM,Tmp_Software\Classes\WOW6432Node\DirectShow
+RegCopyKey,HKLM,"Tmp_Software\Classes\WOW6432Node\Media Type"
+RegCopyKey,HKLM,Tmp_Software\Classes\WOW6432Node\MediaFoundation
+//-
+RegCopyKey,HKLM,Tmp_Software\Wow6432Node
+//-
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SMI
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.windows.c..-controls.resources_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.windows.common-controls_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,wow64_microsoft.windows.gdiplus.systemcopy_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.windows.gdiplus_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.windows.i..utomation.proxystub_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.windows.isolationautomation_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.windows.systemcompatible_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft-windows-m..tion-isolationlayer_*
+
+[Reg_WoW64_Bigger_Classes]
+RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node
+
+[Reg_WoW64_Mini_Software]
+RegCopyKey,HKLM,Tmp_Software\Wow6432Node\Microsoft\CTF
+RegCopyKey,HKLM,Tmp_Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Authentication
+RegCopyKey,HKLM,Tmp_Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer
+RegCopyKey,HKLM,Tmp_Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Themes
+RegCopyKey,HKLM,"Tmp_Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Svchost"
+RegCopyKey,HKLM,"Tmp_Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Winlogon"

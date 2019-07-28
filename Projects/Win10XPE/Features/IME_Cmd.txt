@@ -1,0 +1,18 @@
+:: Register IME dll and Load CTF Command Script for Korean IME, Chinese (CN|TW|HK) IME or Japanese IME
+
+@Echo OFF
+Set SYS=%SystemRoot%\System32
+%SYS%\Regsvr32.exe /S %SYS%\Msutb.dll
+%SYS%\Regsvr32.exe /S %SYS%\MsCtfMonitor.dll
+For /F %%F In ('"Dir "%SYS%\IME\*.dll" /B/O:N/S"') Do %SYS%\Regsvr32.exe /S "%%F"
+
+If Not %PROCESSOR_ARCHITECTURE%==AMD64 Goto Load_CTF
+Set WOW=%SystemRoot%\SysWOW64
+:: If WoW64 enabled
+If Not Exist %WOW%\Msutb.dll Goto Load_CTF
+%WOW%\Regsvr32.exe /S %WOW%\Msutb.dll
+%WOW%\Regsvr32.exe /S %WOW%\MsCtfMonitor.dll
+For /F %%F In ('"Dir "%WOW%\IME\*.dll" /B/O:N/S"') Do %WOW%\Regsvr32.exe /S "%%F"
+
+:Load_CTF
+Start Ctfmon.exe

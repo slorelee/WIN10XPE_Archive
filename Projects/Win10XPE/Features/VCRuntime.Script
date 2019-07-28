@@ -1,0 +1,72 @@
+[Main]
+Title=VCRuntime
+Type=XPEPlugin
+Description=VCRuntime
+Author=ChriSR
+Date=2018.05.30
+Version=001
+Selected=None
+Mandatory=None
+NoWarning=False
+Level=0
+Download_Level=0
+Credits=
+Contact=
+
+[Variables]
+%SxSArch%=x86
+%WoW64VCRuntime%=False
+
+[Process]
+Echo,"Processing %ScriptTitle%..."
+If,%Architecture%,Equal,x64,Begin
+  Set,%SxSArch%,amd64
+  IniRead,%ProjectDir%\Script.Project,Features,WoW64basic,%WoW64basic%
+  If,%WoW64basic%,Equal,True,Begin
+    Set,%WoW64VCRuntime%,True
+    Run,%ScriptFile%,AddFilesx64
+  End
+End
+Run,%ScriptFile%,AddFiles
+//-
+If,%FullSoftware%,Equal,False,Begin
+  If,Not,#1,Equal,HiveLoaded,Begin
+    RegHiveLoad,Tmp_Software,%RegSoftware%
+    RegHiveLoad,Tmp_Install_Software,%Gtemp%\Install.hives\SOFTWARE
+  End
+  Run,%ScriptFile%,Registry
+  If,%WoW64VCRuntime%,Equal,True,Run,%ScriptFile%,Registryx64
+  If,Not,#1,Equal,HiveLoaded,Begin
+    RegHiveunLoad,Tmp_Install_Software
+    RegHiveunLoad,Tmp_Software
+  End
+End
+
+[AddFiles]
+If,ExistFile,%ScriptDir%\VCRuntime_AddFiles.txt,Begin
+  FileCopy,%ScriptDir%\VCRuntime_AddFiles.txt,%GTemp%\VCRuntime_AddFiles.txt
+  TXTReplace,%GTemp%\VCRuntime_AddFiles.txt,SxSArch,%SxSArch%
+  ExtractListFiles,%GTemp%\VCRuntime_AddFiles.txt
+  FileDelete,%GTemp%\VCRuntime_AddFiles.txt
+End
+
+[AddFilesx64]
+If,ExistFile,%ScriptDir%\VCRuntimex64_AddFiles.txt,ExtractListFiles,%ScriptDir%\VCRuntimex64_AddFiles.txt
+
+[Registry]
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,%SxSArch%_microsoft.vc80.crt_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,%SxSArch%_microsoft.vc90.crt_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,%SxSArch%_policy.8.0.microsoft.vc80.crt_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,%SxSArch%_policy.9.0.microsoft.vc90.crt_*
+
+[Registryx64]
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.vc80.crt_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_microsoft.vc90.crt_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_policy.8.0.microsoft.vc80.crt_*
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\SideBySide\Winners,x86_policy.9.0.microsoft.vc90.crt_*
+
+[CopyRegKey_Usage]
+:: Copy Registry Key between for ex: install.wim registry and Target registry.
+::   Usage: MainKey Key (* accepted in key). Use quotes #$q if there are any spaces in the main key or in the searched key.
+::   The main key must start with Tmp_Software, Tmp_System or Tmp_Drivers. And, the related hives Tmp_Install_Software, Tmp_Install_System are used as original key.
+::   Both hives, Origin and target must be mounted before calling CopyRegKey.cmd and can be Unloaded then.

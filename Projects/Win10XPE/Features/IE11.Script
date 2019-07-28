@@ -1,0 +1,104 @@
+[Main]
+Title=Internet Explorer
+Description=Internet Explorer 11 for Windows 10
+Author=windowsforum
+Date=2018.10.11
+Version=001
+Selected=None
+Mandatory=None
+NoWarning=False
+Level=0
+Download_Level=0
+Credits=
+Contact=
+
+[Process]
+Echo,"Processing %ScriptTitle%..."
+Run,%ScriptFile%,IE11_AddFiles
+If,Not,#1,Equal,HiveLoaded,Begin
+  RegHiveLoad,Tmp_Default,%RegDefault%
+  RegHiveLoad,Tmp_Software,%RegSoftware%
+End
+Run,%ScriptFile%,IE11_Registry
+If,Not,#1,Equal,HiveLoaded,Begin
+  RegHiveunLoad,Tmp_Default
+  RegHiveunLoad,Tmp_Software
+End
+
+[IE11_AddFiles]
+If,ExistFile,%ScriptDir%\IE11_AddFiles.txt,ExtractListFiles,%ScriptDir%\IE11_AddFiles.txt
+If,%Architecture%,Equal,x86,Begin
+  If,ExistFile,%ScriptDir%\IE11x86_AddFiles.txt,ExtractListFiles,%ScriptDir%\IE11x86_AddFiles.txt
+End
+If,%Architecture%_%WoW64Support%,Equal,x64_True,Begin
+  If,ExistFile,%ScriptDir%\IE11x64_AddFiles.txt,Begin
+    FileCopy,%ScriptDir%\IE11x64_AddFiles.txt,%GTemp%\IE11x64_AddFiles.txt
+    TXTReplace,%GTemp%\IE11x64_AddFiles.txt,\xx-xx\,\%Language%\
+    ExtractListFiles,%GTemp%\IE11x64_AddFiles.txt
+    FileDelete,%GTemp%\IE11x64_AddFiles.txt
+  End
+End
+
+[IE11_Registry]
+If,%FullSoftware%,Equal,False,Begin
+  RegCopyKey,HKLM,Tmp_Software\Classes\MediaFoundation
+  RegCopyKey,HKLM,Tmp_Software\Macromedia
+  RegCopyKey,HKLM,"Tmp_Software\Microsoft\Internet Explorer"
+  RegCopyKey,HKLM,"Tmp_Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+End
+// IE11_AddReg.txt if needed
+If,ExistFile,%ScriptDir%\IE11_AddReg.txt,RegImportFile,%ScriptDir%\IE11_AddReg.txt
+RegWrite,HKLM,0x4,"Tmp_Software\Policies\Microsoft\Internet Explorer\Main",DisableFirstRunCustomize,1
+RegWrite,HKLM,0x4,"Tmp_Software\Microsoft\Internet Explorer\Main",EnableAutoUpgrade,0
+RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Internet Explorer\Main",Default_Page_URL,https://www.google.com/
+RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Internet Explorer\Main",Default_Search_URL,https://www.google.com
+RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Internet Explorer\Main","Search Page",https://www.google.com
+RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Internet Explorer\Main","Start Page",https://www.google.com/
+//-
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Main","Search Page",https://www.google.com
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Main","Start Page",https://www.google.com/
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\Main",AlwaysShowMenus,0
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\Main",CompatibilityFlags,0
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Main","Enable Browser Extensions",yes
+RegWrite,HKLM,0x3,"Tmp_Default\Software\Microsoft\Internet Explorer\Main",Window_Placement,2c,00,00,00,02,00,00,00,03,00,00,00,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,00,00,00,00,00,00,00,00,00,04,00,00,d8,02,00,00
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\BrowserEmulation",AllSitesCompatibilityMode,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\DomainSuggestion",NextUpdateDate,230571383
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_LOCALMACHINE_LOCKDOWN",iexplore.exe,0
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\Privacy",ClearBrowsingHistoryOnExit,1
+//-
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",WarnOnClose,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",OpenAllHomePages,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",OpenInForeground,0
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",Groups,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",ThumbnailBehavior,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",NewTabPageShow,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",PopupsUseNewWindow,0
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",ShortcutBehavior,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",NTPMigrationVer,1
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\TabbedBrowsing",NTPFirstRun,1
+//-
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Policies\Microsoft\Internet Explorer\Restrictions",NoHelpItemSendFeedback,1
+//-
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes",DefaultScope,{977F4D41-E110-4942-A68B-B4BD47C460DD}
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",DisplayName,Google
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",OSDFileURL,https://www.microsoft.com/cms/api/am/binary/RWiNsg
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",FaviconPath,"#$pUSERPROFILE#$p\AppData\LocalLow\Microsoft\Internet Explorer\Services\search_{977F4D41-E110-4942-A68B-B4BD47C460DD}.ico"
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",FaviconURL,http://www.google.com/favicon.ico
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",ShowSearchSuggestions,1
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",URL,https://www.google.com/search?q={searchTerms}&sourceid=ie7&rls=com.microsoft:{language}:{referrer:source}&ie={inputEncoding?}&oe={outputEncoding?}
+RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",SortIndex,1
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\SearchScopes\{977F4D41-E110-4942-A68B-B4BD47C460DD}",SuggestionsURL,https://www.google.com/complete/search?q={searchTerms}&client=ie8&mw={ie:maxWidth}&sh={ie:sectionHeight}&rh={ie:rowHeight}&inputencoding={inputEncoding}&outputencoding={outputEncoding}
+//-
+RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu,{871C5380-42A0-1069-A2EA-08002B30309D},0
+RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel,{871C5380-42A0-1069-A2EA-08002B30309D},0
+//-
+If,%Architecture%_%WoW64Support%,Equal,x64_True,Begin
+  If,%FullSoftware%,Equal,False,Begin
+    RegCopyKey,HKLM,Tmp_Software\Classes\WOW6432Node\MediaFoundation
+    RegCopyKey,HKLM,Tmp_Software\WOW6432Node\Macromedia
+    RegCopyKey,HKLM,"Tmp_Software\WOW6432Node\Microsoft\Internet Explorer"
+    RegCopyKey,HKLM,"Tmp_Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Internet Settings"
+  End
+  // IE11x64_AddReg.txt if needed
+  If,ExistFile,%ScriptDir%\IE11x64_AddReg.txt,RegImportFile,%ScriptDir%\IE11x64_AddReg.txt
+End

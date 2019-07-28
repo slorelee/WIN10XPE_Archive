@@ -1,0 +1,371 @@
+[Main]
+Title=Config
+Type=XPEPlugin
+Description=Configure the base for Explorer
+Author=ChriSR
+Date=2018.10.11
+Version=002
+Selected=None
+Mandatory=None
+NoWarning=False
+Level=0
+Download_Level=0
+Credits=
+Contact=
+
+[Variables]
+%CacheVersion%=3
+
+[Process]
+Echo,"Processing %ScriptTitle%..."
+Run,%ScriptFile%,RegConfig
+Run,%ScriptFile%,ChangeReg
+
+[RegConfig]
+If,%UseCache%,Equal,True,Begin
+  If,ExistFile,%HiveCache%\HiveCache.ini,Begin
+    IniRead,%HiveCache%\HiveCache.ini,Cache,Version,%CacheVersionIni%
+    If,Not,%CacheVersion%,Equal,%CacheVersionIni%,DirDeleteQ,%HiveCache%
+    Else,Run,%ScriptFile%,CheckHiveCacheINI
+  End
+  Else,Begin
+    If,ExistDir,%HiveCache%,DirDeleteQ,%HiveCache%
+  End
+  //--
+  If,ExistFile,%HiveCache%\HiveCache.ini,Run,%ScriptFile%,RestoreOrPrepareRegConfig
+  Else,Begin
+    If,Not,ExistDir,%HiveCache%,DirMake,%HiveCache%
+    Run,%ScriptFile%,IniCacheInformation
+    Run,%ScriptFile%,PrepareRegConfigALL
+  End
+End
+Else,Begin
+  If,Not,ExistDir,%HiveCache%,DirMake,%HiveCache%
+  Run,%ScriptFile%,PrepareRegConfigALL
+End
+
+[CheckHiveCacheINI]
+If,Not,ExistFile,%HiveCache%\SOFTWARE,IniWrite,%HiveCache%\HiveCache.ini,Cache,Software,False
+If,Not,ExistFile,%HiveCache%\FullSOFTWARE,IniWrite,%HiveCache%\HiveCache.ini,Cache,FullSoftware,False
+If,Not,ExistFile,%HiveCache%\SYSTEM,IniWrite,%HiveCache%\HiveCache.ini,Cache,System,False
+If,Not,ExistFile,%HiveCache%\DEFAULT,IniWrite,%HiveCache%\HiveCache.ini,Cache,Default,False
+If,Not,ExistFile,%HiveCache%\DRIVERS,IniWrite,%HiveCache%\HiveCache.ini,Cache,Drivers,False
+//--
+IniRead,%HiveCache%\HiveCache.ini,Cache,Software,%SoftwareIni%
+IniRead,%HiveCache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
+IniRead,%HiveCache%\HiveCache.ini,Cache,System,%SystemIni%
+IniRead,%HiveCache%\HiveCache.ini,Cache,Default,%DefaultIni%
+IniRead,%HiveCache%\HiveCache.ini,Cache,Drivers,%DriversIni%
+
+[PrepareRegConfigALL]
+Run,%ScriptFile%,PrepareRegConfigSoftware
+Run,%ScriptFile%,PrepareRegConfigSystem
+Run,%ScriptFile%,PrepareRegConfigDefault
+Run,%ScriptFile%,PrepareRegConfigDrivers
+
+[RestoreOrPrepareRegConfig]
+//-- Check Software or FullSoftware
+If,%FullSoftware%,Equal,True,Begin
+  If,%FullSoftwareIni%,Equal,True,Begin
+    Echo,"Restore the Full Software registry from cache..."
+    FileCopy,%HiveCache%\FullSOFTWARE,%GTarget_Sys%\Config\SOFTWARE,NoWarn
+  End
+  Else,Run,%ScriptFile%,PrepareRegConfigSoftware
+End
+Else,Begin
+  If,%SoftwareIni%,Equal,True,Begin
+    Echo,"Restore the Software registry from cache..."
+    FileCopy,%HiveCache%\SOFTWARE,%GTarget_Sys%\Config\,NoWarn
+  End
+  Else,Run,%ScriptFile%,PrepareRegConfigSoftware
+End
+//-- Check System
+If,%SystemIni%,Equal,True,Begin
+  Echo,"Restore the System registry from cache..."
+  FileCopy,%HiveCache%\SYSTEM,%GTarget_Sys%\Config\,NoWarn
+End
+Else,Run,%ScriptFile%,PrepareRegConfigSystem
+//-- Check Default
+If,%DefaultIni%,Equal,True,Begin
+  Echo,"Restore the Default registry from cache..."
+  FileCopy,%HiveCache%\DEFAULT,%GTarget_Sys%\Config\,NoWarn
+End
+Else,Run,%ScriptFile%,PrepareRegConfigDefault
+//-- Check Drivers
+If,%DriversIni%,Equal,True,Begin
+  Echo,"Restore the Drivers registry from cache..."
+  FileCopy,%HiveCache%\DRIVERS,%GTarget_Sys%\Config\,NoWarn
+End
+Else,Run,%ScriptFile%,PrepareRegConfigDrivers
+Echo,"The registry cache has been restored"
+
+[PrepareRegConfigSoftware]
+If,%FullSoftware%,Equal,True,Echo,"Prepare the Full Software registry..."
+Else,Echo,"Prepare the Software registry..."
+RegHiveLoad,Tmp_Software,%RegSoftware%
+ACLRegKey,Tmp_Software
+//-
+System,FileRedirect,OFF
+ShellExecute,Hide,cmd.exe,"/C For /F #$pA IN ('Reg Query HKLM\Tmp_Software\Classes\AppID /s /f #$qInteractive User#$q ^|Findstr Tmp_Software') Do Reg Add #$q#$pA#$q /v RunAs /d #$q#$q /F >nul 2>nul"
+ShellExecute,Hide,cmd.exe,"/C For /F #$pA IN ('Reg Query HKLM\Tmp_Software\Classes /K /F OpenWithProgIds /S') Do Reg Delete #$q#$pA#$q /F >nul 2>nul"
+System,FileRedirect,ON
+//-
+Run,%ScriptFile%,EditReg_Software
+RegHiveUnLoad,Tmp_Software
+//-
+If,%UseCache%,Equal,True,Begin
+  If,%FullSoftware%,Equal,True,Begin
+    Echo,"Save the Full Software registry in cache..."
+    FileCopy,%GTarget_Sys%\Config\SOFTWARE,%HiveCache%\FullSOFTWARE
+    IniWrite,%HiveCache%\HiveCache.ini,Cache,FullSoftware,True
+  End
+  Else,Begin
+    Echo,"Save the Software registry in cache..."
+    FileCopy,%GTarget_Sys%\Config\SOFTWARE,%HiveCache%
+    IniWrite,%HiveCache%\HiveCache.ini,Cache,Software,True
+  End
+End
+
+[PrepareRegConfigSystem]
+Echo,"Prepare the System registry..."
+RegHiveLoad,Tmp_System,%RegSystem%
+ACLRegKey,Tmp_System
+Run,%ScriptFile%,EditReg_System
+RegHiveUnLoad,Tmp_System
+//-
+If,%UseCache%,Equal,True,Begin
+  Echo,"Save the System registry in cache..."
+  FileCopy,%GTarget_Sys%\Config\SYSTEM,%HiveCache%
+  IniWrite,%HiveCache%\HiveCache.ini,Cache,System,True
+End
+
+[PrepareRegConfigDefault]
+Echo,"Prepare the Default registry..."
+RegHiveLoad,Tmp_Default,%RegDefault%
+ACLRegKey,Tmp_Default
+Run,%ScriptFile%,EditReg_Default
+RegHiveUnLoad,Tmp_Default
+//-
+If,%UseCache%,Equal,True,Begin
+  Echo,"Save the Default registry in cache..."
+  FileCopy,%GTarget_Sys%\Config\DEFAULT,%HiveCache%
+  IniWrite,%HiveCache%\HiveCache.ini,Cache,Default,True
+End
+
+[PrepareRegConfigDrivers]
+Echo,"Prepare the Drivers registry..."
+RegHiveLoad,Tmp_Drivers,%RegDrivers%
+ACLRegKey,Tmp_Drivers
+RegHiveUnLoad,Tmp_Drivers
+//-
+If,%UseCache%,Equal,True,Begin
+  Echo,"Save the Drivers registry in cache..."
+  FileCopy,%GTarget_Sys%\Config\DRIVERS,%HiveCache%
+  IniWrite,%HiveCache%\HiveCache.ini,Cache,Drivers,True
+End
+
+[IniCacheInformation]
+IniWrite,%HiveCache%\HiveCache.ini,Cache,Version,%CacheVersion%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,BuildDate,%Year%.%Month%.%Day%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,Image,%Image%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,DisplayName,%DisplayName%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,EditionID,%EditionID%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,SourceVersion,%SourceVersion%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,SourceBuild,%SourceBuild%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,Architecture,%Architecture%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,Language,%Language%
+StrFormat,REPLACE,%FallBackLanguage%,%Language%|,"",%FallBackLanguageVar%
+IniWrite,%HiveCache%\HiveCache.ini,Cache,FallBackLanguage,%FallBackLanguageVar%
+
+[EditReg_Default]
+RegWrite,HKLM,0x4,"Tmp_Default\Control Panel\Desktop",AutoColorization,1
+RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",DesktopDPIOverride,-2
+RegWrite,HKLM,0x4,"Tmp_Default\Control Panel\Desktop",LogPixels,96
+RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",Win8DpiScaling,1
+RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",Wallpaper,X:\Windows\Web\Wallpaper\Windows\img0.jpg
+RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,0
+RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,10
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperSource,X:\Windows\Web\Wallpaper\Windows\img0.jpg
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",TileWallpaper,0
+RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperStyle,10
+
+[EditReg_System]
+RegImportFile,%ScriptDir%\ProductOptions.txt
+// Environment
+RegWrite,HKLM,0x2,"Tmp_System\ControlSet001\Control\Session Manager\Environment",AppData,#$pSystemDrive#$p\Users\Default\AppData\Roaming
+RegHiveLoad,Tmp_Install_System,%Gtemp%\Install.hives\SYSTEM
+// Taking Ownership, Appinfo and ProfSvc services. ProfSvc already here
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Appinfo
+//RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\ProfSvc
+RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\ProfSvc
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Lsa
+// Power Options
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Power
+RegHiveunLoad,Tmp_Install_System
+//-
+RegImportFile,%ScriptDir%\ProductOptions.txt
+// Disable Auto chkdsk at bootup autochk
+//System,ERROROFF
+//RegWrite,HKLM,0x7,"Tmp_System\ControlSet001\Control\Session Manager",BootExecute,"autocheck autochk /k:C /k:D /k:D /k:E /k:F /k:G /k:H /k:I /k:J /k:K /k:L /k:M /k:N /k:O /k:P /k:Q /k:R /k:S /k:T /k:U /k:V /k:W /k:Y /k:Z *"
+// Disable Hibernate
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power,HibernateEnabled,0
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power,CustomizeDuringSetup,0
+// Disable Fast Startup
+RegWrite,HKLM,0x4,"Tmp_System\ControlSet001\Control\Session Manager\Power",HiberbootEnabled,0
+// Do not update the last-access timestamp for Ntfs and Refs
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\FileSystem,NtfsDisableLastAccessUpdate,1
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\FileSystem,RefsDisableLastAccessUpdate,1
+// For samba servers
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LmCompatibilityLevel,2
+// Allow network users to access without password > Also display Share with in Context Menu!
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LimitBlankPasswordUse,0
+// ComputerName
+System,ERROROFF,5
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\ComputerName\ComputerName,ComputerName,%ProjectName%
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\ComputerName\ActiveComputerName,ComputerName,%ProjectName%
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,"NV Hostname",%ProjectName%
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,Hostname,%ProjectName%
+RegWrite,HKLM,0x1,"Tmp_System\ControlSet001\Control\Session Manager\Environment",ComputerName,%ProjectName%
+
+[ChangeReg]
+// Start Services in RS5!
+If,%SourceBuild%,Bigger,17700,If,%SourceBuild%,Smaller,18000,Begin
+  RegHiveLoad,Tmp_System,%RegSystem%
+  System,ERROROFF
+  RegWrite,HKLM,0x2,Tmp_System\ControlSet001\Services\BFE,ImagePath,"#$psystemroot#$p\system32\svchost.exe -k LocalServiceNoNetworkFirewall -p"
+  RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\BFE,SvcHostSplitDisable,1
+  RegWrite,HKLM,0x3,Tmp_System\ControlSet001\Services\BFE\Security,Security,01,00,14,80,90,00,00,00,9c,00,00,00,14,00,00,00,30,00,00,00,02,00,1c,00,01,00,00,00,02,80,14,00,ff,00,0f,00,01,01,00,00,00,00,00,01,00,00,00,00,02,00,60,00,04,00,00,00,00,00,14,00,85,00,02,00,01,01,00,00,00,00,00,05,0b,00,00,00,00,00,14,00,9f,00,0e,00,01,01,00,00,00,00,00,05,12,00,00,00,00,00,18,00,9d,00,0e,00,01,02,00,00,00,00,00,05,20,00,00,00,20,02,00,00,00,00,18,00,85,00,00,00,01,02,00,00,00,00,00,05,20,00,00,00,21,02,00,00,01,01,00,00,00,00,00,05,12,00,00,00,01,01,00,00,00,00,00,05,12,00,00,00
+  // in pecmd.ini EXEC @!%WinDir%\System32\Net.exe Start Wlansvc - EXEC @!%WinDir%\System32\Net.exe Start WinHttpAutoProxySvc
+  // LanmanWorkstation,DNSCache,NlaSvc does not start alone with windows 10 1809
+  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\LanmanWorkstation
+  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\DNSCache
+  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\NlaSvc
+  RegHiveUnLoad,Tmp_System
+End
+
+[EditReg_Software]
+If,%FullSoftware%,Equal,True,Begin
+  RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE",Version,10.0.16299.15
+  RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE",InstRoot,X:\
+  RegWrite,HKLM,0x2,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE",CustomBackground,X:\Windows\Web\Wallpaper\Windows\img0.jpg
+  RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\OC\Microsoft-WinPE-HTA","1. Fix path of MSHTA.EXE","reg add HKEY_CLASSES_ROOT\htafile\Shell\Open\Command /t REG_EXPAND_SZ /f /ve /d #$q#$pSystemRoot#$p\System32\mshta.exe \#$q#$p1\#$q #$p*#$q"
+  RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\OC\Microsoft-WinPE-WMI","1. Register CIMWIM32",#$psystemroot#$p\system32\wbem\cimwin32.dll
+  RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\OC\Microsoft-WinPE-WSH","1. Register WSHOM",#$psystemroot#$p\system32\wshom.ocx
+  RegWrite,HKLM,0x7,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\UGC",Microsoft-Windows-TCPIP,"netiougc.exe -online"
+End
+Else,Begin
+  RegHiveLoad,Tmp_Install_Software,%Gtemp%\Install.hives\SOFTWARE
+  RegCopyKey,HKLM,Tmp_Software\Classes\AppID
+  ACLRegKey,Tmp_Software\Classes\AppID
+  ShellExecute,Hide,cmd.exe,"/C For /F #$pA IN ('Reg Query HKLM\Tmp_Software\Classes\AppID /s /f #$qInteractive User#$q ^|Findstr Tmp_Software') Do Reg Add #$q#$pA#$q /v RunAs /d #$q#$q /F >nul 2>nul"
+  RegCopyKey,HKLM,Tmp_Software\Classes\CLSID
+  RegCopyKey,HKLM,Tmp_Software\Classes\Interface
+  RegCopyKey,HKLM,Tmp_Software\Classes\TypeLib
+  //-
+  RegCopyKey,HKLM,Tmp_Software\Classes\Folder
+  RegCopyKey,HKLM,Tmp_Software\Classes\themefile
+  RegCopyKey,HKLM,Tmp_Software\Classes\SystemFileAssociations
+  //-
+  RegCopyKey,HKLM,Tmp_Software\Classes\DirectShow
+  RegCopyKey,HKLM,"Tmp_Software\Classes\Media Type"
+  RegCopyKey,HKLM,Tmp_Software\Classes\MediaFoundation
+  //-
+  RegCopyKey,HKLM,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Svchost"
+  RegCopyKey,HKLM,Tmp_Software\Microsoft\SecurityManager
+  RegCopyKey,HKLM,Tmp_Software\Microsoft\Ole
+  // policymanager.dll need:
+  RegCopyKey,HKLM,Tmp_Software\Microsoft\PolicyManager
+  //RegCopyKey,HKLM,Tmp_Software\Classes\Unknown
+  //-
+  // For dwm.exe or StateRepository
+  //RegCopyKey,HKLM,Tmp_Software\Microsoft\WindowsRuntime\Server\StateRepository
+  //RegCopyKey,HKLM,Tmp_Software\Microsoft\WindowsRuntime\ActivatableClassId
+  RegCopyKey,HKLM,Tmp_Software\Microsoft\WindowsRuntime
+  RegCopyKey,HKLM,"Tmp_Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel"
+  RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\AppModel
+  RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\AppX
+  RegHiveunLoad,Tmp_Install_Software
+End
+//-
+System,ERROROFF
+RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\ProfileList\S-1-5-18",ProfileImagePath,X:\Users\Default
+// Manage Computer
+RegWrite,HKLM,0x2,Tmp_software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\Manage\command,,"#$pSystemRoot#$p\System32\mmc.exe /b compmgmt.msc",NoWarn
+// Enable SIHost
+RegWrite,HKLM,0x4,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Winlogon",EnableSIHostIntegration,1
+// Disable First Logon Animation
+RegWrite,HKLM,0x4,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Winlogon",EnableFirstLogonAnimation,0
+// Disable Webservices for unknown file types
+RegWrite,HKLM,0x4,Tmp_software\Microsoft\Windows\CurrentVersion\Policies\Explorer,NoInternetOpenWith,1
+// Allow Personalization
+RegWrite,HKLM,0x4,Tmp_Software\Microsoft\Windows\CurrentVersion\Personalization,AllowChangeDesktopBackground,1
+RegWrite,HKLM,0x4,Tmp_Software\Microsoft\Windows\CurrentVersion\Personalization,AllowPersonalization,1
+// ComputerName
+System,ERROROFF,3
+RegWrite,HKLM,0x1,"Tmp_software\Microsoft\Windows NT\CurrentVersion",RegisteredOwner,%ProjectName%
+RegWrite,HKLM,0x4,"Tmp_software\Microsoft\Windows NT\CurrentVersion\WinPE",SkipWaitForNetwork,0
+RegWrite,HKLM,0x4,"Tmp_software\Microsoft\Windows NT\CurrentVersion\WinPE",SetComputerName,0
+// Logo
+RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\OEMInformation,Manufacturer,WinXPE
+RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\OEMInformation,SupportURL,http://win10se.cwcodes.net/Compressed/index.php
+//RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\OEMInformation,Logo,X:\Windows\System32\oobe\Logo\Logo.bmp
+// Open with Notepad context Menu option. Associate .script,.cfg (txtfile) in addition of .inf,.ini,.log,.scp,.txt,.wtx
+RegWrite,HKLM,0x1,"Tmp_Software\Classes\*\shell\Open with Notepad",Icon,Notepad.exe
+RegWrite,HKLM,0x1,"Tmp_Software\Classes\*\shell\Open with Notepad\Command",,"Notepad.exe #$q#$p1#$q"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.script,,txtfile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.cfg,,txtfile
+Run,%scriptfile%,OpenCmdHere
+Run,%scriptfile%,Remove3D
+
+[OpenCmdHere]
+// cmd instead of powershell
+RegWrite,HKLM,0x1,Tmp_Software\Classes\*\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x1,Tmp_Software\Classes\*\shell\cmd,,"@shell32.dll,-8506"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\*\shell\cmd\Command,,cmd.exe
+// cmd in context Menu
+//ACLRegKey,Tmp_software\Classes\Directory\background\shell
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,Extended,RegDelete,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,Extended
+RegWrite,HKLM,0x1,Tmp_Software\Classes\Directory\background\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\background\shell\cmd,ShowBasedOnVelocityId,6527944
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,HideBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\background\shell\cmd,HideBasedOnVelocityId
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\background\shell\Powershell,ShowBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\background\shell\Powershell,ShowBasedOnVelocityId
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\background\shell\Powershell,HideBasedOnVelocityId,6527944
+//-
+//ACLRegKey,Tmp_Software\Classes\Directory\shell
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\shell\cmd,Extended,RegDelete,HKLM,Tmp_Software\Classes\Directory\shell\cmd,Extended
+RegWrite,HKLM,0x1,Tmp_Software\Classes\Directory\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\shell\cmd,ShowBasedOnVelocityId,6527944
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\shell\cmd,HideBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\shell\cmd,HideBasedOnVelocityId
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Directory\shell\Powershell,ShowBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Directory\shell\Powershell,ShowBasedOnVelocityId
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Directory\shell\Powershell,HideBasedOnVelocityId,6527944
+//-
+//ACLRegKey,Tmp_Software\Classes\Drive\shell
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Drive\shell\cmd,Extended,RegDelete,HKLM,Tmp_Software\Classes\Drive\shell\cmd,Extended
+RegWrite,HKLM,0x1,Tmp_Software\Classes\Drive\shell\cmd,Icon,cmd.exe
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Drive\shell\cmd,ShowBasedOnVelocityId,6527944
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Drive\shell\cmd,HideBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Drive\shell\cmd,HideBasedOnVelocityId
+If,ExistRegKey,HKLM,Tmp_Software\Classes\Drive\shell\Powershell,ShowBasedOnVelocityId,RegDelete,HKLM,Tmp_Software\Classes\Drive\shell\Powershell,ShowBasedOnVelocityId
+RegWrite,HKLM,0x4,Tmp_Software\Classes\Drive\shell\Powershell,HideBasedOnVelocityId,6527944
+
+[Remove3D]
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3ds\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3ds\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3mf\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.3mf\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.bmp\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.bmp\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dae\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dae\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dxf\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.dxf\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.fbx\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.fbx\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.gif\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.gif\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.glb\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.glb\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jfif\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jfif\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpe\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpe\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpeg\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpeg\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpg\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.jpg\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.obj\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.ply\Shell\3D Print"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.png\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.png\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.stl\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.stl\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tif\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tif\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tiff\Shell\3D Edit",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.tiff\Shell\3D Edit"
+If,ExistRegSection,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.wrl\Shell\3D Print",RegDelete,HKLM,"Tmp_Software\Classes\SystemFileAssociations\.wrl\Shell\3D Print"

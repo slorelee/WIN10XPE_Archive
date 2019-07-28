@@ -1,0 +1,50 @@
+[Main]
+Title=WinApps
+Type=XPEPlugin
+Description=WinApps: OSK,mspaint,ImagingDevices,SnippingTool,WordPad
+Author=ChriSR
+Date=2018.09.13
+Version=001
+Selected=None
+Mandatory=None
+NoWarning=False
+Level=0
+Download_Level=0
+Credits=
+Contact=
+
+[Process]
+Echo,"Processing %ScriptTitle%..."
+Run,%ScriptFile%,AddFiles
+//-
+If,Not,#1,Equal,HiveLoaded,RegHiveLoad,Tmp_Software,%RegSoftware%
+Run,%ScriptFile%,Registry
+If,Not,#1,Equal,HiveLoaded,RegHiveunLoad,Tmp_Software
+
+[AddFiles]
+If,%Shell%,Equal,WinXShell,Begin
+  // To stay light, PhotoViewer, SnippingTool are not included with WinXShell. Otherwise we need to find files dependencies and registries
+  FileCopy,%ScriptDir%\WinAppsPW_AddFiles.txt,%GTemp%\WinApps_AddFiles.txt
+  TXTReplace,%GTarget_Sys%\pecmd.ini,"LINK %Programs%\Accessories\PhotoViewer","//LINK %Programs%\Accessories\PhotoViewer"
+  TXTReplace,%GTarget_Sys%\pecmd.ini,"LINK %Programs%\Accessories\SnippingTool","//LINK %Programs%\Accessories\SnippingTool"
+End
+Else,Begin
+  System,FILEREDIRECT,OFF
+  Shellexecute,Hide,cmd.exe,"/C Copy #$q%ScriptDir%\WinAppsPW_AddFiles.txt#$q + #$q%ScriptDir%\WinAppsSV_AddFiles.txt#$q #$q%GTemp%\WinApps_AddFiles.txt#$q /Y"
+  // Additions to the list of files for Win10 1803
+  If,%SourceBuild%,Bigger,17000,Begin
+    TXTAddLine,%GTemp%\WinApps_AddFiles.txt,\Windows\System32\coloradapterclient.dll,Append
+  End
+  System,FILEREDIRECT,ON
+End
+//-
+If,ExistFile,%GTemp%\WinApps_AddFiles.txt,Begin
+  TXTReplace,%GTemp%\WinApps_AddFiles.txt,\xx-xx\,\%Language%\
+  ExtractListFiles,%GTemp%\WinApps_AddFiles.txt
+  FileDelete,%GTemp%\WinApps_AddFiles.txt
+End
+
+[Registry]
+// WordPad association (TextFile) and PhotoViewer.FileAssoc.Tiff
+RegImportFile,%ScriptDir%\WinApps_RegSoftware.txt
+
