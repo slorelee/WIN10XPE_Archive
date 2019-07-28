@@ -14,7 +14,7 @@ Credits=
 Contact=
 
 [Variables]
-%CacheVersion%=3
+%CacheVersion%=4
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -199,6 +199,8 @@ RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Appinfo
 //RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\ProfSvc
 RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\ProfSvc
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Lsa
+RegWrite,HKLM,0x7,Tmp_System\ControlSet001\Control\Lsa,"Security Packages",tspkg
+RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\SecurityProviders,SecurityProviders,credssp.dll
 // Power Options
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Power
 RegHiveunLoad,Tmp_Install_System

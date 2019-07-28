@@ -48,10 +48,11 @@ If,%FullSoftware%,Equal,False,Begin
   //RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{D20BEEC4-5CA8-4905-AE3B-BF251EA09B53},ParsingName,::{208D2C60-3AEA-1069-A2D7-08002B30309D}
 End
 //-
-//RegCopyKey,HKLM,Tmp_System\ControlSet001\control\lsa\CredSSP
-//RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\SecurityProviders,SecurityProviders,credssp.dll
-RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LimitBlankPasswordUse,0
-//RegWrite,HKLM,0x7,Tmp_System\ControlSet001\Control\Lsa\OSConfig,"Security Packages",tspkg
+//Done in Config.script: RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Lsa
+//Done in Config.script: RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LmCompatibilityLevel,2
+//Done in Config.script: RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LimitBlankPasswordUse,0
+//Done in Config.script: RegWrite,HKLM,0x7,Tmp_System\ControlSet001\Control\Lsa,"Security Packages",tspkg
+//Done in Config.script: RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\SecurityProviders,SecurityProviders,credssp.dll
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\LanmanWorkstation
 RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\LanmanWorkstation\Parameters,AllowInsecureGuestAuth,1
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\NetTrace\Scenarios\WLAN
@@ -108,11 +109,14 @@ RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Wcmsvc
 //In Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\wdiwifi
 //Partial in Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\WinSock
 //Partial in Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\WinSock2
-// SMB v1.0 service. Extract and expand mrxsmb10.sys from WinSxS
+// SMB v1.0 service. Extract mrxsmb10.sys from WinSxS Image 1 which seems Uncompressed. Expand Works for Uncompressed Files but Fails for Compressed Files on Win7 HostOS
 If,Not,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
-  ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% #$q\Windows\WinSxS\*_microsoft-windows-smb10-minirdr_*\mrxsmb10.sys#$q --dest-dir=#$q%GTemp%#$q --no-acls"
+  ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q 1 #$q\Windows\System32\drivers\mrxsmb10.sys#$q --dest-dir=#$q%GTarget_Sys%\drivers#$q --no-acls"
+End
+If,Not,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
+  ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q 1 #$q\Windows\WinSxS\*_microsoft-windows-smb10-minirdr_*\mrxsmb10.sys#$q --dest-dir=#$q%GTemp%#$q --no-acls"
   If,ExistFile,%GTemp%\mrxsmb10.sys,ShellExecute,Hide,%GTools%\sxsexp32.exe,"#$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q"
-  //If,ExistFile,%GTemp%\mrxsmb10.sys,ShellExecute,Open,cmd.exe,"/K Echo sxsexp32.exe#$q #$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q&#$q%GTools%\sxsexp32.exe#$q #$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q"
+  //If,ExistFile,%GTemp%\mrxsmb10.sys,ShellExecute,Open,cmd.exe,"/K Echo sxsexp32.exe #$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q&#$q%GTools%\sxsexp32.exe#$q #$q%GTemp%\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q"
   If,Not,%ExitCode%,Equal,0,Begin
     EchoExtended,"SMB v1.0 Service will Not be Available. the WinSxS mrxsmb10.sys Driver could Not be Expanded.",,5
     If,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,FileDeleteQ,%GTarget_Sys%\drivers\mrxsmb10.sys
