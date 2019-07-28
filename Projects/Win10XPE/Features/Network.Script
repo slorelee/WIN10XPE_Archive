@@ -109,6 +109,9 @@ RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Wcmsvc
 //Partial in Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\WinSock
 //Partial in Winre.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\WinSock2
 // mrxsmb10
+If,Not,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
+  ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% #$q\Windows\WinSxS\*_microsoft-windows-smb10-minirdr_*\mrxsmb10.sys#$q --dest-dir=#$q%GTarget_Sys%\drivers#$q --no-acls"
+End
 If,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
   RegWrite,HKLM,0x7,Tmp_System\ControlSet001\Services\mrxsmb10,DependOnService,mrxsmb
   RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Services\mrxsmb10,Description,"@#$psystemroot#$p\system32\wkssvc.dll,-1005"

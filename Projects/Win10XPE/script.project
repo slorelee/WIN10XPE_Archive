@@ -63,15 +63,18 @@ AttachDir=
 %TargetProgramData%=%GTarget%\ProgramData
 
 [Features]
+TargetArch
 AllInRam=
 AllCatalogs=
 SetupFiles=
 VCRuntime=
+DisplayDrivers=
 WoW64basic=
 Msi=
 ImDisk=
 Network=
 NetDrivers=
+PENetwork=
 Audio=
 SoundEvents=
 Accessibility=
@@ -79,6 +82,7 @@ WinApps=
 Admin=
 IE11=
 DotNET=
+TargetArch=
 
 [InterfaceDefaultValue]
 Image_ValuePos2=,1,4,16,158,264,21,
@@ -175,21 +179,27 @@ EchoExtended,"Error: Wim file information missing. A problem occurred to Get Ima
 [Load_Image_Value]
 Run,%ScriptFile%,Run_WimInfo
 IniRead,%ScriptFile%,InterfaceDefaultValue,Image_ValuePos2,%Image_ValuePos2%
+Set,%Image_ValuePos3%,""
 IniRead,%ScriptFile%,InterfaceDefaultValue,Image_ValuePos4,%Image_ValuePos4%
-IniRead,%GTemp%\WimInfo.ini,1,DISPLAYNAME,%DisplayNameVar%
-Set,%Image_ValuePos1%,"#$q1 - %DisplayNameVar%#$q"
 //-
-Set,%Image_ValuePos3%,%Image_ValuePos1%
+Set,%ImageTmp%,1
 IniRead,%GTemp%\WimInfo.ini,Attributes,ImageCount,%ImageCountVar%
-Loop,%ScriptFile%,Load_Image_Value_Loop,2,%ImageCountVar%
+Loop,%ScriptFile%,Load_Image_Value_Loop,1,%ImageCountVar%
+Set,%Image%,%ImageTmp%,Permanent
 //-
+IniRead,%GTemp%\WimInfo.ini,%Image%,DISPLAYNAME,%DisplayNameVar%
+Set,%Image_ValuePos1%,"#$q%Image% - %DisplayNameVar%#$q"
 IniWrite,%ScriptFile%,Interface,Image_Value,"%Image_ValuePos1%%Image_ValuePos2%%Image_ValuePos3%%Image_ValuePos4%"
-Set,%Image%,1,Permanent
+//-
 Run,%ScriptFile%,Image_Value_Info,%Image%
 
 [Load_Image_Value_Loop]
 IniRead,%GTemp%\WimInfo.ini,#c,DISPLAYNAME,%DisplayNameVar%
-Set,%Image_ValuePos3%,"%Image_ValuePos3%,#$q#c - %DisplayNameVar%#$q"
+If,%Image_ValuePos3%-,Equal,-,Set,%Image_ValuePos3%,"#$q#c - %DisplayNameVar%#$q"
+Else,Set,%Image_ValuePos3%,"%Image_ValuePos3%,#$q#c - %DisplayNameVar%#$q"
+// Auto select Professional Edition
+IniRead,%GTemp%\WimInfo.ini,#c,EDITIONID,%EditionIDVar%
+If,%EditionIDVar%,Equal,Professional,Set,%ImageTmp%,#c
 
 [Image_Value_Info]
 IniRead,%GTemp%\WimInfo.ini,#1,DISPLAYNAME,%DisplayNameVar%
@@ -213,8 +223,6 @@ StrFormat,REPLACE,%FallBackLanguageVar%,#$c,|,%FallBackLanguageVar%
 Set,%FallBackLanguage%,%Language%|%FallBackLanguageVar%|,Permanent
 End
 Else,Set,%FallBackLanguage%,%Language%|,Permanent
-Set,%GTarget%,%BaseDir%\Target_%Architecture%,Permanent
-Set,%GISO%,%BaseDir%\ISO_%Architecture%,Permanent
 Set,%HiveCache%,%ProgCache%\%SourceVersion%_%EditionID%_%Architecture%_%Language%,Permanent
 //-
 Set,%EditionID_Value%,%EditionIDVar%,Permanent
@@ -245,15 +253,18 @@ Set,%Language%,"",Permanent
 Set,%FallBackLanguage%,"",Permanent
 Set,%HostOSArch%,"",Permanent
 IniWrite,%ProjectDir%\Script.Project,Main,AttachDir,""
+IniWrite,%ProjectDir%\Script.Project,Features,TargetArch,""
 IniWrite,%ProjectDir%\Script.Project,Features,AllInRam,""
 IniWrite,%ProjectDir%\Script.Project,Features,AllCatalogs,""
 IniWrite,%ProjectDir%\Script.Project,Features,SetupFiles,""
 IniWrite,%ProjectDir%\Script.Project,Features,VCRuntime,""
+IniWrite,%ProjectDir%\Script.Project,Features,DisplayDrivers,""
 IniWrite,%ProjectDir%\Script.Project,Features,WoW64basic,""
 IniWrite,%ProjectDir%\Script.Project,Features,Msi,""
 IniWrite,%ProjectDir%\Script.Project,Features,ImDisk,""
 IniWrite,%ProjectDir%\Script.Project,Features,Network,""
 IniWrite,%ProjectDir%\Script.Project,Features,NetDrivers,""
+IniWrite,%ProjectDir%\Script.Project,Features,PENetwork,""
 IniWrite,%ProjectDir%\Script.Project,Features,Audio,""
 IniWrite,%ProjectDir%\Script.Project,Features,SoundEvents,""
 IniWrite,%ProjectDir%\Script.Project,Features,Accessibility,""

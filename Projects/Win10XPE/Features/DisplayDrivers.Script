@@ -33,6 +33,10 @@ If,Not,#1,Equal,HiveLoaded,Begin
   RegHiveunLoad,Tmp_Install_Drivers
   RegHiveunLoad,Tmp_Drivers
 End
+Run,%ScriptFile%,Load_At_Startup
+
+[Load_At_Startup]
+TXTReplace,%GTarget_Sys%\pecmd.ini,"//EXEC =@!#$pWinDir#$p\System32\Drvload.exe #$pWinDir#$p\inf\basicdisplay.inf","EXEC =@!#$pWinDir#$p\System32\Drvload.exe #$pWinDir#$p\inf\basicdisplay.inf"
 
 [AddFiles_Display]
 \Windows\INF\display.inf

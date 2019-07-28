@@ -15,6 +15,10 @@ Contact=
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
+RunFromRAM
+If,ExistFile,%ScriptDir%\WinXShell_%Architecture%.7z,ShellExecute,Hide,%GTools%\7z.exe,"x #$q%ScriptDir%\WinXShell_%Architecture%.7z#$q -y -o#$q%Target_Prog%#$q"
+Else,EchoExtended,"WinXShell_%Architecture%.7z should be in the original package",Warn,,Message,,Halt
+//-
 Run,%ScriptFile%,AddFiles
 //-
 If,Not,#1,Equal,HiveLoaded,Begin

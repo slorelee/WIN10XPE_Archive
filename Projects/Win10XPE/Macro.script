@@ -494,5 +494,5 @@ If,Not,#4-,Equal,-,Begin
   End
 End
 System,FileRedirect,OFF
-ShellExecuteex,#1,#2,#3,#4
+ShellExecuteEx,#1,#2,#3,#4
 System,FileRedirect,ON

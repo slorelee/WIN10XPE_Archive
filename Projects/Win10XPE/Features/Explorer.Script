@@ -15,6 +15,9 @@ Contact=
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
+RunFromRAM
+Run,%ScriptFile%,AddStartIsBack
+Run,%ScriptFile%,AddWinXShell
 Run,%ScriptFile%,AddFiles
 //-
 If,Not,#1,Equal,HiveLoaded,HiveLoadALL
@@ -26,6 +29,13 @@ Run,%ScriptFile%,Reg_ShellHWDetection
 Run,%ScriptFile%,Reg_BitLocker
 Run,%ScriptFile%,Reg_StartIsBack
 If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
+
+[AddStartIsBack]
+If,ExistFile,%ScriptDir%\StartIsBack_%Architecture%.7z,ShellExecute,Hide,%GTools%\7z.exe,"x #$q%ScriptDir%\StartIsBack_%Architecture%.7z#$q -y -o#$q%Target_Prog%#$q"
+Else,EchoExtended,"StartIsBack_%Architecture%.7z should be in the original package",Warn,,Message,,Halt
+
+[AddWinXShell]
+If,ExistFile,%ScriptDir%\WinXShell_%Architecture%.7z,ShellExecute,Hide,%GTools%\7z.exe,"x #$q%ScriptDir%\WinXShell_%Architecture%.7z#$q -y -o#$q%Target_Prog%#$q"
 
 [AddFiles]
 If,ExistFile,%ScriptDir%\Explorer_AddFiles.txt,Begin

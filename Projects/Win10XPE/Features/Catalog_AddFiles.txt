@@ -107,6 +107,8 @@
 \Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-RestrictedCodecsCore-Package~*.cat
 \Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-RestrictedCodecsExt-Package~*.cat
 \Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\WindowsSearchEngineSKU-Group-Package~*.cat
+; For updates
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Package_*
 
 [Catalog_AddFiles_All]
 \Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}

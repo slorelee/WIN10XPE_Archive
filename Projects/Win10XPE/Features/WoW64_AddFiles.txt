@@ -96,7 +96,6 @@
 \Windows\SysWOW64\msasn1.dll
 \Windows\SysWOW64\mscms.dll
 \Windows\SysWOW64\mscories.dll
-\Windows\SysWOW64\ncryptsslp.dll
 \Windows\SysWOW64\msctf.dll
 \Windows\SysWOW64\msi.dll
 \Windows\SysWOW64\msimg32.dll
@@ -117,6 +116,8 @@
 \Windows\SysWOW64\msxml6.dll
 \Windows\SysWOW64\msxml6r.dll
 \Windows\SysWOW64\ncrypt.dll
+\Windows\SysWOW64\ncryptprov.dll
+\Windows\SysWOW64\ncryptsslp.dll
 \Windows\SysWOW64\netapi32.dll
 \Windows\SysWOW64\netutils.dll
 \Windows\SysWOW64\normaliz.dll
@@ -270,7 +271,6 @@
 \Windows\SysWOW64\??-??\mswsock.dll.mui
 \Windows\SysWOW64\??-??\msxml3r.dll.mui
 \Windows\SysWOW64\??-??\msxml6r.dll.mui
-\Windows\SysWOW64\??-??\ncrypt.dll.mui
 \Windows\SysWOW64\??-??\ntasn1.dll.mui
 \Windows\SysWOW64\??-??\ntdll.dll.mui
 \Windows\SysWOW64\??-??\ntlanman.dll.mui

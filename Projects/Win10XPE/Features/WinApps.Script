@@ -16,6 +16,7 @@ Contact=
 [Process]
 Echo,"Processing %ScriptTitle%..."
 Run,%ScriptFile%,AddFiles
+Run,%ScriptFile%,Enable_Shorcuts
 //-
 If,Not,#1,Equal,HiveLoaded,RegHiveLoad,Tmp_Software,%RegSoftware%
 Run,%ScriptFile%,Registry
@@ -25,23 +26,30 @@ If,Not,#1,Equal,HiveLoaded,RegHiveunLoad,Tmp_Software
 If,%Shell%,Equal,WinXShell,Begin
   // To stay light, PhotoViewer, SnippingTool are not included with WinXShell. Otherwise we need to find files dependencies and registries
   FileCopy,%ScriptDir%\WinAppsPW_AddFiles.txt,%GTemp%\WinApps_AddFiles.txt
-  TXTReplace,%GTarget_Sys%\pecmd.ini,"LINK %Programs%\Accessories\PhotoViewer","//LINK %Programs%\Accessories\PhotoViewer"
-  TXTReplace,%GTarget_Sys%\pecmd.ini,"LINK %Programs%\Accessories\SnippingTool","//LINK %Programs%\Accessories\SnippingTool"
 End
 Else,Begin
   System,FILEREDIRECT,OFF
   Shellexecute,Hide,cmd.exe,"/C Copy #$q%ScriptDir%\WinAppsPW_AddFiles.txt#$q + #$q%ScriptDir%\WinAppsSV_AddFiles.txt#$q #$q%GTemp%\WinApps_AddFiles.txt#$q /Y"
+  System,FILEREDIRECT,ON
   // Additions to the list of files for Win10 1803
   If,%SourceBuild%,Bigger,17000,Begin
     TXTAddLine,%GTemp%\WinApps_AddFiles.txt,\Windows\System32\coloradapterclient.dll,Append
   End
-  System,FILEREDIRECT,ON
 End
 //-
 If,ExistFile,%GTemp%\WinApps_AddFiles.txt,Begin
   TXTReplace,%GTemp%\WinApps_AddFiles.txt,\xx-xx\,\%Language%\
   ExtractListFiles,%GTemp%\WinApps_AddFiles.txt
   FileDelete,%GTemp%\WinApps_AddFiles.txt
+End
+
+[Enable_Shorcuts]
+TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessibility\OSK","LINK #$pPrograms#$p\Accessibility\OSK"
+TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\mspaint","LINK #$pPrograms#$p\Accessories\mspaint"
+TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\WordPad","LINK #$pPrograms#$p\Accessories\WordPad"
+If,%Shell%,Equal,Explorer,Begin
+  TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK %Programs%\Accessories\PhotoViewer","LINK %Programs%\Accessories\PhotoViewer"
+  TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK %Programs%\Accessories\SnippingTool","LINK %Programs%\Accessories\SnippingTool"
 End
 
 [Registry]

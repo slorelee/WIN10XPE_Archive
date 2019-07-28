@@ -3,7 +3,7 @@ Title=NET Framework
 Type=XPEPlugin
 Description=Plugin Adds NET Framework
 Author=KYHI
-Date=2018.10.07
+Date=2018.10.13
 Credits=
 Contact=
 Version=001
@@ -25,14 +25,16 @@ pTextLabel1="XPE Feature Plugin",1,1,19,18,230,18,8,Bold
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
-ExtractSectionFiles,%ScriptFile%,DotNET_AddFiles
-If,%Architecture%,Equal,x64,ExtractSectionFiles,%ScriptFile%,DotNET_AddFiles6432
+If,%Architecture%,Equal,x86,ExtractSectionFiles,%ScriptFile%,DotNET_AddFiles
+If,%Architecture%,Equal,x64,ExtractSectionFiles,%ScriptFile%,DotNET_AddFiles64
+If,%Architecture%%WoW64Support%,Equal,x64True,ExtractSectionFiles,%ScriptFile%,DotNET_AddFilesWoW64
 //--
 ExtractFile,%ScriptFile%,Folder,%ProgramEXE%,%GTarget_Win%\%ProgramFolder%
 AddShortcut,StartMenu,System Tools,#$pSystemRoot#$p\%ProgramFolder%\%ProgramEXE%
 
 [DotNET_AddFiles]
 \Windows\Microsoft.NET
+\Program Files\Microsoft.NET
 \Windows\system32\??-??\PresentationHost.exe.mui
 \Windows\system32\MUI\0409\mscorees.dll
 \Windows\system32\mscoree.dll
@@ -50,8 +52,33 @@ AddShortcut,StartMenu,System Tools,#$pSystemRoot#$p\%ProgramFolder%\%ProgramEXE%
 \Windows\system32\WindowsCodecsExt.dll
 \Windows\system32\??-??\sxstrace.exe.mui
 \Windows\system32\sxstrace.exe
+\Windows\system32\FntCache.dll
+\Windows\system32\??-??\FntCache.dll.mui
 
-[DotNET_AddFiles6432]
+[DotNET_AddFiles64]
+\Windows\Microsoft.NET
+\Program Files (x86)\Microsoft.NET
+\Windows\system32\??-??\PresentationHost.exe.mui
+\Windows\system32\MUI\0409\mscorees.dll
+\Windows\system32\mscoree.dll
+\Windows\system32\mscorier.dll
+\Windows\system32\mscories.dll
+\Windows\system32\msvcp120_clr0400.dll
+\Windows\system32\msvcr100_clr0400.dll
+\Windows\system32\msvcr120_clr0400.dll
+\Windows\system32\netfxperf.dll
+\Windows\system32\PresentationCFFRasterizerNative_v0300.dll
+\Windows\system32\PresentationHost.exe
+\Windows\system32\PresentationHostProxy.dll
+\Windows\system32\PresentationNative_v0300.dll
+\Windows\system32\WindowsCodecs.dll
+\Windows\system32\WindowsCodecsExt.dll
+\Windows\system32\??-??\sxstrace.exe.mui
+\Windows\system32\sxstrace.exe
+\Windows\system32\FntCache.dll
+\Windows\system32\??-??\FntCache.dll.mui
+
+[DotNET_AddFilesWoW64]
 \Windows\syswow64\??-??\PresentationHost.exe.mui
 \Windows\syswow64\MUI\0409\mscorees.dll
 \Windows\syswow64\mscoree.dll
@@ -69,6 +96,14 @@ AddShortcut,StartMenu,System Tools,#$pSystemRoot#$p\%ProgramFolder%\%ProgramEXE%
 \Windows\syswow64\WindowsCodecsExt.dll
 \Windows\syswow64\??-??\sxstrace.exe.mui
 \Windows\syswow64\sxstrace.exe
+
+[DummyRegistry]
+RegCopyKey,HKLM,Tmp_Software\Microsoft\Fusion
+RegCopyKey,HKLM,Tmp_Software\Microsoft\.NETFramework
+RegCopyKey,HKLM,Tmp_Software\Microsoft\NET Framework Setup
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\FontCache*
+RegCopyKey,HKLM,Tmp_Software\WOW6432Node\Microsoft\.NETFramework
+RegCopyKey,HKLM,Tmp_Software\WOW6432Node\Microsoft\NET Framework Setup
 
 [Extract]
 If,ExistDir,%GTemp%\%ProgramFolder%,DirDeleteQ,%GTemp%\%ProgramFolder%

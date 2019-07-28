@@ -3,7 +3,7 @@ Title=Themes Color
 Type=XPEPlugin
 Description=Themes Color
 Author=ChriSR
-Date=2018.05.30
+Date=2018.11.03
 Version=001
 Selected=None
 Mandatory=None
@@ -117,7 +117,7 @@ End
 If,%Colors_ScrollBox%,Equal,8,Begin
   Set,%AccentColor%,14120960
   Set,%Colorization%,-1006602025
-  Set,%AccentPalette%,",a6,d8,ff,00,76,b9,ed,00,42,9c,e3,00,00,78,d7,00,00,5a,9e,00,00,42,75,00,00,26,42,00,f7,63,0c,00"
+  Set,%AccentPalette%,"a6,d8,ff,00,76,b9,ed,00,42,9c,e3,00,00,78,d7,00,00,5a,9e,00,00,42,75,00,00,26,42,00,f7,63,0c,00"
   Set,%StartColorMenu%,-6399488
   Set,%AccentColorMenu%,-2656256
 End

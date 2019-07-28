@@ -1,0 +1,6 @@
+\Windows\System32\osk.exe
+\Windows\System32\OskSupport.dll
+\Windows\System32\utilman.exe
+\Windows\System32\??-??\osk.exe.mui
+\Windows\System32\??-??\utilman.exe.mui
+\Windows\System32\WindowsCodecsExt.dll

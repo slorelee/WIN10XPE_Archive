@@ -63,12 +63,12 @@ End
 
 [Edit_PecmdINI]
 If,%FullSoftware%,Equal,True,Begin
-  TXTReplace,%GTarget_Sys%\Pecmd.ini,"//EXEC #$pWinDir#$p\System32\CTFMON.EXE","EXEC #$pWinDir#$p\System32\CTFMON.EXE"
+  TXTReplace,%GTarget_Sys%\Pecmd.ini,"//EXEC #$pWinDir#$p\System32\ctfmon.exe","EXEC #$pWinDir#$p\System32\ctfmon.exe"
 End
 Else,Begin
   If,ExistFile,%ScriptDir%\IME_Cmd.txt,Begin
     FileCopy,%ScriptDir%\IME_Cmd.txt,%GTarget_Sys%\IME.cmd
-    TXTReplace,%GTarget_Sys%\Pecmd.ini,"//EXEC #$pWinDir#$p\System32\CTFMON.EXE","EXEC !#$pWinDir#$p\System32\IME.cmd"
+    TXTReplace,%GTarget_Sys%\Pecmd.ini,"//EXEC #$pWinDir#$p\System32\ctfmon.exe","EXEC !#$pWinDir#$p\System32\IME.cmd"
   End
 End
 

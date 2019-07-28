@@ -15,6 +15,7 @@
 \Windows\System32\threadpoolwinrt.dll
 \Windows\System32\tsdiscon.exe
 \Windows\System32\whoami.exe
+\Windows\System32\Windows.Globalization.Fontgroups.dll
 \Windows\System32\Windows.UI.dll
 \Windows\System32\Windows.UI.Immersive.dll
 \Windows\System32\Windows.UI.Logon.dll
