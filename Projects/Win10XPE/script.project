@@ -17,7 +17,6 @@ AttachDir=
 [Variables]
 %ProjectName%=Win10XPE
 %GSource%=
-%UseCache%=True
 %GTools%=%BaseDir%\Projects\Tools
 %GTarget%=
 %GTemp%=%BaseDir%\Temp
@@ -89,11 +88,11 @@ Image_ValuePos2=,1,4,16,158,264,21,
 Image_ValuePos4=,_Select_Image_Value_,False
 
 [Interface]
-Init_Button=I,1,8,532,10,18,18,InitValue,0,False,"__Initialize global variables and interfaces values"
-TechBench_TextLabel="Download Windows 10 Original ISO (Final) from ",1,1,10,10,280,18,8,Bold
+Init_Button=I,1,8,532,10,18,18,InitValue,0,False,"__Initialize Global Variables and Interfaces Values"
+TechBench_TextLabel="Download Windows 10 Original ISO (Final) From ",1,1,10,10,280,18,8,Bold
 TechBench_WebLabel="TechBench by WZT - RG Adguard",1,10,291,10,160,18,https://tb.rg-adguard.net/public.php
-Mount_TextLabel="Mount Windows 10 ISO or extract the ISO files in a folder",1,1,10,37,345,18,8,Bold
-SelectISO_Button=" Select the Windows 10 Source folder",1,8,10,65,220,50,SelectISO,opendir.bmp,False,"__Select the root of the mounted or extracted Windows 10 Source folder"
+Mount_TextLabel="Mount Windows 10 ISO or Extract the ISO in a Folder",1,1,10,37,345,18,8,Bold
+SelectISO_Button=" Select the Windows 10 Source Folder",1,8,10,65,220,50,SelectISO,opendir.bmp,False,"__Select the Root of the Mounted or Extracted Windows 10 Source Folder"
 SourceTab_TextLabel="* No Need To Use The Source Tab, Source Directory",1,1,10,115,276,18,8,Normal
 Source_Value=,1,1,236,83,315,18,10,Bold
 Image_TextLabel="Choose Image",0,1,16,137,80,18,8,Normal
@@ -113,7 +112,7 @@ Language_Value=,0,1,116,257,164,18,8,Bold
 FBLanguage_Value=,0,1,116,275,164,18,8,Bold
 Play_TextLabel="Start Building By Using The Big Blue Arrow 'Play' Button On Top",0,1,10,305,375,18,8,Bold
 Donate_Bevel=Donate_Bevel,0,12,421,220,128,75
-Donate_TextLabel="Support Win10XPE dev",0,1,427,225,120,18,8,Normal
+Donate_TextLabel="Support Win10XPE Dev",0,1,427,225,120,18,8,Normal
 Image_Donate=btn_donate.gif,0,5,443,244,86,25,https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9WZ5EDAMPH6SE
 Homepage_WebLabel="Win10XPE Home Page",0,10,432,275,105,18,http://theoven.org/index.php?topic=2421.0
 
@@ -166,7 +165,6 @@ End
 
 [Select_Image_Value]
 Run,%ScriptFile%,Check_Image_Exist
-//If,Not,ExistFile,%GTemp%\WimInfo.ini,Run,%ScriptFile%,Run_WimInfo
 System,Cursor,Wait
 StrFormat,SPLIT,%Image_Value%," - ",1,%Save_Image_Value%
 If,Not,ExistFile,%GTemp%\WimInfo.ini,Run,%ScriptFile%,Load_Image_Value
@@ -361,7 +359,7 @@ If,#1,Equal,EXCEPTION,Begin
 Echo,"Build Stopped by Exception.",Warn
 //Message,"Build Stopped by Exception.",Information,2
 End
-If,#1,Equal,DONE,Message,"Build Successful.",Information,2
+If,#1,Equal,DONE,Message,"Success of the Project Building. Enjoy :)",Information,2
 
 [HiveUnload]
 If,Not,#1-,Equal,-,Begin

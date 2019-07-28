@@ -2,9 +2,9 @@
 Title=Network Drivers
 Type=XPEPlugin
 Description=Network Drivers
-Author=ChriSR
-Date=2019.01.18
-Version=003
+Author=ChrisR
+Date=2019.02.10
+Version=004
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -14,18 +14,23 @@ Credits=
 Contact=
 
 [Variables]
+%ProgramFolder%=NetDrivers
+%NetDriversReg%=NetDrivers.reg.txt
+%NetDriversCacheVersion%=1
 RegAddDriver=Run,%ScriptFile%,MRegAddDriver
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
 Run,%ScriptFile%,AddFiles
-//-
+//--
 If,Not,#1,Equal,HiveLoaded,Begin
   RegHiveLoad,Tmp_Drivers,%RegDrivers%
   RegHiveLoad,Tmp_Install_Drivers,%Gtemp%\Install.hives\DRIVERS
 End
+//--
 If,%Shell%,Equal,WinXShell,ACLRegKey,Tmp_Drivers
-Run,%ScriptFile%,Reg_NetDrivers%Architecture%
+Run,%ScriptFile%,Reg_NetDrivers
+//--
 If,Not,#1,Equal,HiveLoaded,Begin
   RegHiveunLoad,Tmp_Install_Drivers
   RegHiveunLoad,Tmp_Drivers
@@ -108,6 +113,58 @@ If,%SourceBuild%,Bigger,17700,ExtractSectionFiles,%ScriptFile%,NetDrivers%Archit
 [NetDriversx86_AddFiles1809]
 \Windows\INF\netwtn02.inf
 \Windows\System32\DriverStore\FileRepository\netwtn02.inf*
+
+[Reg_NetDrivers]
+If,ExistFile,%HiveCache%\HiveCache.ini,Run,%ScriptFile%,CheckHiveCacheINI
+Else,Begin
+  If,ExistFile,%HiveCache%\%NetDriversReg%,FileDeleteQ,%HiveCache%\%NetDriversReg%
+End
+//--
+If,ExistFile,%HiveCache%\%NetDriversReg%,RegImportFile,%HiveCache%\%NetDriversReg%
+Else,Begin
+  If,Not,ExistDir,%HiveCache%,DirMake,%HiveCache%
+  Run,%ScriptFile%,PrepareNetDriversReg
+  Run,%ScriptFile%,WriteIniCacheInformation
+End
+
+[CheckHiveCacheINI]
+If,Not,ExistFile,%HiveCache%\%NetDriversReg%,IniWrite,%HiveCache%\HiveCache.ini,NetDriversCache,Version,0
+IniRead,%HiveCache%\HiveCache.ini,NetDriversCache,Version,%NetDriversCacheVersionIni%
+If,Not,%NetDriversCacheVersion%,Equal,%NetDriversCacheVersionIni%,Begin
+  If,ExistFile,%HiveCache%\%NetDriversReg%,FileDeleteQ,%HiveCache%\%NetDriversReg%
+End
+
+[WriteIniCacheInformation]
+IniWrite,%HiveCache%\HiveCache.ini,NetDriversCache,Version,%NetDriversCacheVersion%
+
+[PrepareNetDriversReg]
+Echo,"Prepare %ScriptTitle% Registry..."
+If,ExistDir,%GTemp%\%ProgramFolder%,DirDeleteQ,%GTemp%\%ProgramFolder%
+DirMake,%GTemp%\%ProgramFolder%
+//-
+// Unload Project Drivers Registry Hive
+RegHiveunLoad,Tmp_Drivers
+//-
+// Create an Empty Drivers Registry Hive. Add Registry NetDriver and Export Registry NetDriver in Cache
+FileCreateBlank,%GTemp%\%ProgramFolder%\DRIVERS
+RegHiveLoad,Tmp_Drivers,%GTemp%\%ProgramFolder%\DRIVERS
+RegWrite,HKLM,0x0,Tmp_Drivers\DriverDatabase\DeviceIds
+RegWrite,HKLM,0x0,Tmp_Drivers\DriverDatabase\DriverFiles
+RegWrite,HKLM,0x0,Tmp_Drivers\DriverDatabase\DriverInfFiles
+RegWrite,HKLM,0x0,Tmp_Drivers\DriverDatabase\DriverPackages
+//-
+Run,%ScriptFile%,Reg_NetDrivers%Architecture%
+//-
+System,FileRedirect,OFF
+ShellExecute,Hide,regedit.exe,"/e #$q%HiveCache%\%NetDriversReg%#$q #$qHKEY_LOCAL_MACHINE\Tmp_Drivers\DriverDatabase#$q"
+System,FileRedirect,ON
+If,%ExitCode%,Equal,0,Echo,"Export Registry File %NetDriversReg% return: %ExitCode%"
+Else,EchoExtended,"Error: Export Registry File %NetDriversReg% return: %ExitCode%",Warn,,MessageError
+RegHiveunLoad,Tmp_Drivers
+//-
+// ReLoad Project Drivers Registry Hive and Import Registry NetDriver from Cache
+RegHiveLoad,Tmp_Drivers,%RegDrivers%
+RegImportFile,%HiveCache%\%NetDriversReg%
 
 [Reg_NetDriversx86]
 RegAddDriver,athw8.inf

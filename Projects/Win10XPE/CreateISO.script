@@ -81,6 +81,8 @@ Run,%ScriptFile%,PreCheck_Hives_Exist
 StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
 DirDeleteQ,%GISO%\sources
 DirMake,%GISO%\sources
+// To be sure, Unload Hive to avoid error 47 (sharing violation eg registry hive loaded) when capturing
+Run,%ScriptFile%,HiveUnload,%GTarget%
 Run,%ScriptFile%,CleanupFiles
 //-
 Echo,"Packing boot.wim image file, Be patient..."
@@ -89,8 +91,8 @@ If,%CompressMax_CheckBox%,Equal,True,ShellExecute,Open,cmd.exe,"/C Echo Packing 
 Else,ShellExecute,Open,cmd.exe,"/C Echo Packing boot.wim image file, Be patient...&Echo.&wimlib-imagex.exe capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=XPRESS --verbose",%GTools%
 If,%ExitCode%,Equal,0,Echo,"Wimlib Packing boot.wim image file return : %ExitCode%"
 Else,Begin
-Echo,"Wimlib Packing boot.wim image file return : %ExitCode%",Warn
-EchoExtended,"Error: boot.wim image file was not properly packaged.",Warn,,MessageError,,Halt
+  Echo,"Wimlib Packing boot.wim image file return : %ExitCode%",Warn
+  EchoExtended,"Error: boot.wim image file was not properly packaged.",Warn,,MessageError,,Halt
 End
 //-
 Run,%ScriptFile%,CreateISO
@@ -102,15 +104,15 @@ StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
 //-
 If,%IsoRoot_CheckBox%,Equal,True,Run,%ScriptFile%,IsoRootAdd
 If,Not,ExistFile,%GISO%\CDUsb.y,Begin
-FileCreateBlank,%GISO%\CDUsb.y
-TXTAddLine,%GISO%\CDUsb.y,"Flag File to mount CD/USB on drive Y:",Append
+  FileCreateBlank,%GISO%\CDUsb.y
+  TXTAddLine,%GISO%\CDUsb.y,"Flag File to mount CD/USB on drive Y:",Append
 End
 //-
 Run,%ScriptFile%,CheckISOBootFiles
 If,%ISOBootFilesOK%,Equal,No,Begin
-Run,%ScriptFile%,CheckTargetBootFiles
-If,%TargetBootFilesOK%,Equal,Yes,Run,%ScriptFile%,CopyBootFiles,%GTarget%
-Else,Run,%ScriptFile%,ExtractBootFiles
+  Run,%ScriptFile%,CheckTargetBootFiles
+  If,%TargetBootFilesOK%,Equal,Yes,Run,%ScriptFile%,CopyBootFiles,%GTarget%
+  Else,Run,%ScriptFile%,ExtractBootFiles
 End
 If,%Bcdedit_CheckBox%,Equal,True,Run,%ScriptFile%,BcdMenu
 //-
@@ -120,8 +122,8 @@ Run,%ScriptFile%,MakeISO
 [IsoRootAdd]
 Retrieve,FolderSize,%GCustom%\%Architecture%\IsoRoot,%IsoRootSize%
 If,%IsoRootSize%,Bigger,0,Begin
-Echo,"Copy Iso Root Files..."
-DirCopy,%GCustom%\%Architecture%\IsoRoot\*,%GISO%
+  Echo,"Copy Iso Root Files..."
+  DirCopy,%GCustom%\%Architecture%\IsoRoot\*,%GISO%
 End
 
 [IsoRootOpen]
@@ -132,43 +134,43 @@ Set,%ISOBootFilesOK%,Yes
 If,Not,ExistDir,%GISO%\boot,Set,%ISOBootFilesOK%,No
 If,Not,ExistDir,%GISO%\efi,Set,%ISOBootFilesOK%,No
 If,%ISOBootFilesOK%,Equal,Yes,Begin
-// In case of change of PressAnyKey_CheckBox
-If,%PressAnyKey_CheckBox%,Equal,True,Begin
-If,Not,ExistFile,%GISO%\boot\bootfix.bin,Set,%ISOBootFilesOK%,No
-End
-Else,Begin
-If,ExistFile,%GISO%\boot\bootfix.bin,Begin
-FileDelete,%GISO%\boot\bootfix.bin
-If,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,FileDelete,%GISO%\efi\microsoft\boot\efisys.bin
-End
-End
-If,Not,ExistFile,%GISO%\BOOTMGR,Set,%ISOBootFilesOK%,No
-If,Not,ExistFile,%GISO%\bootmgr.efi,Set,%ISOBootFilesOK%,No
-If,Not,ExistFile,%GISO%\boot\BCD,Set,%ISOBootFilesOK%,No
-If,Not,ExistFile,%GISO%\boot\boot.sdi,Set,%ISOBootFilesOK%,No
-If,Not,ExistFile,%GISO%\boot\etfsboot.com,Set,%ISOBootFilesOK%,No
-If,Not,ExistFile,%GISO%\efi\microsoft\boot\BCD,Set,%ISOBootFilesOK%,No
-If,Not,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,Set,%ISOBootFilesOK%,No
-If,%Architecture%,Equal,x64,Begin
-If,Not,ExistFile,%GISO%\efi\boot\bootx64.efi,Set,%ISOBootFilesOK%,No
-End
-Else,Begin
-If,Not,ExistFile,%GISO%\efi\boot\bootia32.efi,Set,%ISOBootFilesOK%,No
-End
+  // In case of change of PressAnyKey_CheckBox
+  If,%PressAnyKey_CheckBox%,Equal,True,Begin
+    If,Not,ExistFile,%GISO%\boot\bootfix.bin,Set,%ISOBootFilesOK%,No
+  End
+  Else,Begin
+    If,ExistFile,%GISO%\boot\bootfix.bin,Begin
+      FileDelete,%GISO%\boot\bootfix.bin
+      If,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,FileDelete,%GISO%\efi\microsoft\boot\efisys.bin
+    End
+  End
+  If,Not,ExistFile,%GISO%\BOOTMGR,Set,%ISOBootFilesOK%,No
+  If,Not,ExistFile,%GISO%\bootmgr.efi,Set,%ISOBootFilesOK%,No
+  If,Not,ExistFile,%GISO%\boot\BCD,Set,%ISOBootFilesOK%,No
+  If,Not,ExistFile,%GISO%\boot\boot.sdi,Set,%ISOBootFilesOK%,No
+  If,Not,ExistFile,%GISO%\boot\etfsboot.com,Set,%ISOBootFilesOK%,No
+  If,Not,ExistFile,%GISO%\efi\microsoft\boot\BCD,Set,%ISOBootFilesOK%,No
+  If,Not,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,Set,%ISOBootFilesOK%,No
+  If,%Architecture%,Equal,x64,Begin
+    If,Not,ExistFile,%GISO%\efi\boot\bootx64.efi,Set,%ISOBootFilesOK%,No
+  End
+  Else,Begin
+    If,Not,ExistFile,%GISO%\efi\boot\bootia32.efi,Set,%ISOBootFilesOK%,No
+  End
 End
 
 [CheckTargetBootFiles]
 Set,%TargetBootFilesOK%,Yes
 If,Not,ExistDir,%GTarget_Win%\Boot,Set,%TargetBootFilesOK%,No
 If,%TargetBootFilesOK%,Equal,Yes,Begin
-If,Not,ExistFile,%GTarget_Win%\Boot\PCAT\bootmgr,Set,%TargetBootFilesOK%,No
-If,Not,ExistFile,%GTarget_Win%\Boot\EFI\bootmgr.efi,Set,%TargetBootFilesOK%,No
-If,Not,ExistFile,%GTarget_Win%\Boot\DVD\PCAT\bcd,Set,%TargetBootFilesOK%,No
-If,Not,ExistFile,%GTarget_Win%\Boot\DVD\PCAT\boot.sdi,Set,%TargetBootFilesOK%,No
-If,Not,ExistFile,%GTarget_Win%\Boot\DVD\PCAT\etfsboot.com,Set,%TargetBootFilesOK%,No
-If,Not,ExistFile,%GTarget_Win%\Boot\DVD\EFI\bcd,Set,%TargetBootFilesOK%,No
-//If,Not,ExistFile,%GTarget_Win%\Boot\DVD\EFI\en-US\efisys.bin,%TargetBootFilesOK%,No
-If,Not,ExistFile,%GTarget_Win%\Boot\EFI\bootmgfw.efi,Set,%TargetBootFilesOK%,No
+  If,Not,ExistFile,%GTarget_Win%\Boot\PCAT\bootmgr,Set,%TargetBootFilesOK%,No
+  If,Not,ExistFile,%GTarget_Win%\Boot\EFI\bootmgr.efi,Set,%TargetBootFilesOK%,No
+  If,Not,ExistFile,%GTarget_Win%\Boot\DVD\PCAT\bcd,Set,%TargetBootFilesOK%,No
+  If,Not,ExistFile,%GTarget_Win%\Boot\DVD\PCAT\boot.sdi,Set,%TargetBootFilesOK%,No
+  If,Not,ExistFile,%GTarget_Win%\Boot\DVD\PCAT\etfsboot.com,Set,%TargetBootFilesOK%,No
+  If,Not,ExistFile,%GTarget_Win%\Boot\DVD\EFI\bcd,Set,%TargetBootFilesOK%,No
+  //If,Not,ExistFile,%GTarget_Win%\Boot\DVD\EFI\en-US\efisys.bin,%TargetBootFilesOK%,No
+  If,Not,ExistFile,%GTarget_Win%\Boot\EFI\bootmgfw.efi,Set,%TargetBootFilesOK%,No
 End
 
 [ExtractBootFiles]
@@ -200,11 +202,11 @@ TxtAddline,%w%,\Windows\Boot\EFI\memtest.efi,Append
 TxtAddline,%w%,\Windows\Boot\EFI\??-??\memtest.efi.mui,Append
 //-
 If,%PressAnyKey_CheckBox%,Equal,True,Begin
-TxtAddline,%w%,\Windows\Boot\DVD\PCAT\??-??\bootfix.bin,Append
-TxtAddline,%w%,\Windows\Boot\DVD\EFI\??-??\efisys.bin,Append
+  TxtAddline,%w%,\Windows\Boot\DVD\PCAT\??-??\bootfix.bin,Append
+  TxtAddline,%w%,\Windows\Boot\DVD\EFI\??-??\efisys.bin,Append
 End
 Else,Begin
-TxtAddline,%w%,\Windows\Boot\DVD\EFI\??-??\efisys_noprompt.bin,Append
+  TxtAddline,%w%,\Windows\Boot\DVD\EFI\??-??\efisys_noprompt.bin,Append
 End
 ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GISO%\sources\boot.wim#$q 1 @#$q%w%#$q --dest-dir=#$q%Gtemp%\ISOBootFiles#$q --no-acls --nullglob"
 If,%ExitCode%,Equal,0,Echo,"Wimlib extract Bios and EFI boot Files return: %ExitCode%"
@@ -221,9 +223,9 @@ If,Not,ExistDir,%GISO%\boot\Fonts,DirMake,%GISO%\boot\Fonts
 Copy,#1\Windows\Boot\PCAT,bootmgr,%GISO%,BOOTMGR
 CopyMui,#1\Windows\Boot\PXE,bootmgr.exe,%GISO%\boot
 If,ExistFile,%GISO%\boot\bootmgr.exe,Begin
-FileCopy,%GISO%\boot\bootmgr.exe,%GISO%\bootmgr.exe
-FileDelete,%GISO%\boot\bootmgr.exe
-If,ExistFile,%GISO%\boot\bootmgr.exe,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q%GISO%\boot\bootmgr.exe#$q"
+  FileCopy,%GISO%\boot\bootmgr.exe,%GISO%\bootmgr.exe
+  FileDelete,%GISO%\boot\bootmgr.exe
+  If,ExistFile,%GISO%\boot\bootmgr.exe,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q%GISO%\boot\bootmgr.exe#$q"
 End
 Copy,#1\Windows\Boot\DVD\PCAT,bcd,%GISO%\boot
 Copy,#1\Windows\Boot\DVD\PCAT,boot.sdi,%GISO%\boot
@@ -242,9 +244,9 @@ If,Not,ExistDir,%GISO%\efi\microsoft\boot\fonts,DirMake,%GISO%\efi\microsoft\boo
 //-
 CopyMui,#1\Windows\Boot\EFI,bootmgr.efi,%GISO%\efi\microsoft\boot
 If,ExistFile,%GISO%\efi\microsoft\boot\bootmgr.efi,Begin
-FileCopy,%GISO%\efi\microsoft\boot\bootmgr.efi,%GISO%\bootmgr.efi
-FileDelete,%GISO%\efi\microsoft\boot\bootmgr.efi
-If,ExistFile,%GISO%\efi\microsoft\boot\bootmgr.efi,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q%GISO%\efi\microsoft\boot\bootmgr.efi#$q"
+  FileCopy,%GISO%\efi\microsoft\boot\bootmgr.efi,%GISO%\bootmgr.efi
+  FileDelete,%GISO%\efi\microsoft\boot\bootmgr.efi
+  If,ExistFile,%GISO%\efi\microsoft\boot\bootmgr.efi,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q%GISO%\efi\microsoft\boot\bootmgr.efi#$q"
 End
 If,%Architecture%,Equal,x64,CopyMui,#1\Windows\Boot\EFI,bootmgfw.efi,%GISO%\efi\boot,bootx64.efi
 Else,CopyMui,#1\Windows\Boot\EFI,bootmgfw.efi,%GISO%\efi\boot,bootia32.efi
@@ -258,43 +260,43 @@ Loop,%ScriptFile%,CleanupDirMui_Loop,1,%NbLang%,%GISO%\efi\microsoft\boot
 // Add Press any key to boot...
 //-----------------------------------------------
 If,%PressAnyKey_CheckBox%,Equal,True,Begin
-Loop,%ScriptFile%,CopyFromMuiDir_Loop,1,%NbLang%,#1\Windows\Boot\DVD\PCAT,bootfix.bin,%GISO%\boot
-If,ExistFile,%GISO%\efi\microsoft\boot\efisys_noprompt.bin,FileDelete,%GISO%\efi\microsoft\boot\efisys_noprompt.bin
-Loop,%ScriptFile%,CopyFromMuiDir_Loop,1,%NbLang%,#1\Windows\Boot\DVD\EFI,efisys.bin,%GISO%\efi\microsoft\boot
+  Loop,%ScriptFile%,CopyFromMuiDir_Loop,1,%NbLang%,#1\Windows\Boot\DVD\PCAT,bootfix.bin,%GISO%\boot
+  If,ExistFile,%GISO%\efi\microsoft\boot\efisys_noprompt.bin,FileDelete,%GISO%\efi\microsoft\boot\efisys_noprompt.bin
+  Loop,%ScriptFile%,CopyFromMuiDir_Loop,1,%NbLang%,#1\Windows\Boot\DVD\EFI,efisys.bin,%GISO%\efi\microsoft\boot
 End
 Else,Begin
-If,ExistFile,%GISO%\boot\bootfix.bin,FileDelete,%GISO%\boot\bootfix.bin
-If,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,FileDelete,%GISO%\efi\microsoft\boot\efisys.bin
-Loop,%ScriptFile%,CopyFromMuiDir_Loop,1,%NbLang%,#1\Windows\Boot\DVD\EFI,efisys_noprompt.bin,%GISO%\efi\microsoft\boot,efisys.bin
+  If,ExistFile,%GISO%\boot\bootfix.bin,FileDelete,%GISO%\boot\bootfix.bin
+  If,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,FileDelete,%GISO%\efi\microsoft\boot\efisys.bin
+  Loop,%ScriptFile%,CopyFromMuiDir_Loop,1,%NbLang%,#1\Windows\Boot\DVD\EFI,efisys_noprompt.bin,%GISO%\efi\microsoft\boot,efisys.bin
 End
 
 [BcdMenu]
 Echo,"Set boot configuration data localization"
 If,%HostOSArch%,Equal,x86,Set,%BcdEditExe%,%GTools%\x86\BCDBoot\bcdedit.exe
 If,ExistFile,%BcdEditExe%,Begin
-StrFormat,PATH,%BcdEditExe%,%BcdEditExePath%
-If,ExistFile,%GISO%\Boot\bcd,Begin
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {default} locale %Language%",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {default} description #$q%ProjectName% %Architecture%#$q",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {bootmgr} locale %Language%",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {memdiag} locale %Language%",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {bootmgr} timeout %tmout%",%BcdEditExePath%
-// Show progress bars "windows is loading"
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {default} bootmenupolicy legacy",%BcdEditExePath%
-End
-//-
-If,ExistFile,%GISO%\efi\microsoft\boot\bcd,Begin
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} locale %Language%",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} description #$q%ProjectName% %Architecture% UEFI#$q",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {bootmgr} locale %Language%",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {memdiag} locale %Language%",%BcdEditExePath%
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\Boot\bcd#$q /set {bootmgr} timeout %tmout%",%BcdEditExePath%
-// Show progress bars "windows is loading"
-ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} bootmenupolicy legacy",%BcdEditExePath%
-End
-//-
-If,ExistFile,%GISO%\boot\bcd.LOG*,FileDelete,%GISO%\boot\bcd.LOG*
-If,ExistFile,%GISO%\efi\microsoft\boot\bcd.LOG*,FileDelete,%GISO%\efi\microsoft\boot\bcd.LOG*
+  StrFormat,PATH,%BcdEditExe%,%BcdEditExePath%
+  If,ExistFile,%GISO%\Boot\bcd,Begin
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {default} locale %Language%",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {default} description #$q%ProjectName% %Architecture%#$q",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {bootmgr} locale %Language%",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {memdiag} locale %Language%",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {bootmgr} timeout %tmout%",%BcdEditExePath%
+    // Show progress bars "windows is loading"
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {default} bootmenupolicy legacy",%BcdEditExePath%
+  End
+  //-
+  If,ExistFile,%GISO%\efi\microsoft\boot\bcd,Begin
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} locale %Language%",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} description #$q%ProjectName% %Architecture% UEFI#$q",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {bootmgr} locale %Language%",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {memdiag} locale %Language%",%BcdEditExePath%
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\Boot\bcd#$q /set {bootmgr} timeout %tmout%",%BcdEditExePath%
+    // Show progress bars "windows is loading"
+    ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} bootmenupolicy legacy",%BcdEditExePath%
+  End
+  //-
+  If,ExistFile,%GISO%\boot\bcd.LOG*,FileDelete,%GISO%\boot\bcd.LOG*
+  If,ExistFile,%GISO%\efi\microsoft\boot\bcd.LOG*,FileDelete,%GISO%\efi\microsoft\boot\bcd.LOG*
 End
 
 [MakeISO]
@@ -307,32 +309,32 @@ If,%ExitCode%,Equal,0,Echo,"mkisofs make ISO return : %ExitCode%"
 Else,Echo,"mkisofs make ISO  return : %ExitCode%",Warn
 Wait,1
 If,ExistFile,%ISOFileName%,Begin
-Retrieve,FileSize,%ISOFileName%,%SizeISO%
-StrFormat,BYTES,%SizeISO%
-Echo,"ISO build size: %SizeISO%"
+  Retrieve,FileSize,%ISOFileName%,%SizeISO%
+  StrFormat,BYTES,%SizeISO%
+  Echo,"ISO build size: %SizeISO%"
 End
 
 [Copy2USB]
 If,ExistFile,%Usb7iceExe%,Begin
-If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%Usb7iceExe%,%ISOFileName%,%GTools%
-Else,ShellExecuteEx,Open,%Usb7iceExe%,,%GTools%
+  If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%Usb7iceExe%,%ISOFileName%,%GTools%
+  Else,ShellExecuteEx,Open,%Usb7iceExe%,,%GTools%
 End
 
 [LoadRufus]
 If,ExistFile,%RufusExe%,Begin
-If,ExistFile,%RufusIni%,Begin
-TXTDelLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=1"
-TXTDelLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=0"
-End
-Else,Begin
-FileCreateBlank,%RufusIni%
-TXTAddLine,%RufusIni%,"UpdateCheckInterval=-1",Append
-End
-If,%RufusDualBoot_CheckBox%,Equal,True,TXTAddLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=1",Prepend
-Else,TXTAddLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=0",Prepend
-//-
-If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%RufusExe%,"-g -i %ISOFileName%",%GTools%
-Else,ShellExecuteEx,Open,%RufusExe%,,%GTools%
+  If,ExistFile,%RufusIni%,Begin
+    TXTDelLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=1"
+    TXTDelLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=0"
+  End
+  Else,Begin
+    FileCreateBlank,%RufusIni%
+    TXTAddLine,%RufusIni%,"UpdateCheckInterval=-1",Append
+  End
+  If,%RufusDualBoot_CheckBox%,Equal,True,TXTAddLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=1",Prepend
+  Else,TXTAddLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=0",Prepend
+  //-
+  If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%RufusExe%,"-g -i %ISOFileName%",%GTools%
+  Else,ShellExecuteEx,Open,%RufusExe%,,%GTools%
 End
 
 [CleanupFiles]
@@ -363,7 +365,7 @@ If,%FolderSizeVar%,Equal,0,DirDelete,#1\#9
 // Copy,SourceFolder,File,TargetFolder,[TargetFile]
 If,#4-,Equal,-,Set,#4,#2
 If,ExistFile,#1\#2,Begin
-If,Not,ExistFile,#3\#4,FileCopy,#1\#2,#3\#4
+  If,Not,ExistFile,#3\#4,FileCopy,#1\#2,#3\#4
 End
 
 [PCopyMui]
@@ -375,8 +377,8 @@ If,ExistFile,#3\#4,Loop,%ScriptFile%,PCopyMui_Loop,1,%NbLang%,#1,#2,#3,#4
 [PCopyMui_Loop]
 StrFormat,SPLIT,%FallBackLanguage%,|,#c,#9
 If,ExistFile,#1\#9\#2.mui,Begin
-If,Not,ExistFile,#3\#9\#4.mui,FileCopy,#1\#9\#2.mui,#3\#9\#4.mui
-Loop,BREAK
+  If,Not,ExistFile,#3\#9\#4.mui,FileCopy,#1\#9\#2.mui,#3\#9\#4.mui
+  Loop,BREAK
 End
 
 [CopyFromMuiDir_Loop]
@@ -384,8 +386,8 @@ End
 If,#4-,Equal,-,Set,#4,#2
 StrFormat,SPLIT,%FallBackLanguage%,|,#c,#9
 If,ExistFile,#1\#9\#2,Begin
-If,Not,ExistFile,#3\#4,FileCopy,#1\#9\#2,#3\#4
-Loop,BREAK
+  If,Not,ExistFile,#3\#4,FileCopy,#1\#9\#2,#3\#4
+  Loop,BREAK
 End
 
 [Tools_Process_above]
@@ -419,15 +421,15 @@ If,ExistDir,%GTemp%,Run,%ScriptFile%,HiveUnload,%GTemp%
 
 [HiveUnload]
 If,Not,#1-,Equal,-,Begin
-ShellExecute,Hide,%GTools%\HiveUnload.exe," /HKLM /Target:#$q#1#$q"
-If,%ExitCode%,Equal,1,Begin
-EchoExtended,"Error on Unloading hives from#$x#$x%1\Windows\System32\config#$x#$xCommon Reason: Loaded Hives is being used by ex: regedit.exe#$xClose the program which locks the hives.",Warn,,MessageError,10
-End
+  ShellExecute,Hide,%GTools%\HiveUnload.exe," /HKLM /Target:#$q#1#$q"
+  If,%ExitCode%,Equal,1,Begin
+    EchoExtended,"Error on Unloading hives from#$x#$x%1\Windows\System32\config#$x#$xCommon Reason: Loaded Hives is being used by ex: regedit.exe#$xClose the program which locks the hives.",Warn,,MessageError,10
+  End
 End
 
 [RegConvertPE]
 If,ExistFile,%GTools%\RegCPE.exe,Begin
-ShellExecuteEx,Open,%GTools%\RegCPE.exe,,%GTools%
+  ShellExecuteEx,Open,%GTools%\RegCPE.exe,,%GTools%
 End
 
 [TargetOpen]

@@ -40,7 +40,7 @@ TimeZone_ScrollBox=HostOS,1,4,76,115,150,21,HostOS,Default,"(UTC-12:00) Dateline
 Fbwf_TextLabel1="WinPE Cache Size",1,1,6,145,96,18,8,Normal
 Fbwf_ScrollBox=1024,1,4,103,141,58,21,512,1024,2048,"__WinPE Cache Threshold or FBWF Cache Size. Limited to 1024 Mb with x86"
 Fbwf_TextLabel2=MB,1,1,166,145,26,18,8,Normal
-AllInRam_CheckBox="Run ALL Programs From RAM",1,3,6,164,156,18,False,"__Run All Programs From Ram requires more memory. It is recommended for PXE server"
+AllInRam_CheckBox="Run ALL Programs From RAM",1,3,6,164,170,18,False,"__Run All Programs From Ram requires more memory. It is recommended for PXE server"
 Custom_Bevel=Custom_Bevel,1,12,6,183,220,53
 Custom_CheckBox="Add Your Custom Folder",1,3,12,187,150,18,False,"__Add Your Custom Files and Folders"
 CustomOpen_Button="Open Custom Folder",1,8,10,206,212,26,CustomOpen,opendir.bmp,True,"__Copy your Custom Files and Folders here"
@@ -100,7 +100,7 @@ Position_ScrollBox=Fill,1,4,102,174,84,21,Stretch,Fill,Tile,Span,"__Choose a Fit
 Colors_Bevel=Colors_Bevel,1,12,6,200,270,112
 Colors_TextLabel="Window Title Bars Color:",1,1,12,208,135,18,8,Normal
 Colors_ScrollBox=1,1,4,148,205,38,21,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,"__Choose Window Title Bars and Taskbar color Theme"
-Colors_Image=ThemeColors.jpg,1,5,11,228,260,80,
+Colors_Image=ThemeColors.jpg,1,5,11,228,260,80
 //-
 Admin_Bevel=Admin_Bevel,1,12,301,135,250,57
 AdminName_TextLabel="Administrator Name",1,1,308,142,105,18,8,Normal
@@ -185,7 +185,7 @@ PENMOptions2_TextLabel="Advanced Options",0,1,473,364,116,18,8,Bold
 PENMAutoRun_CheckBox="Run PENetwork at Startup",0,3,10,338,169,18,True,"__Run PENetwork at Startup"
 PENMPromptAtStartup_CheckBox="Prompt for Starting Network",0,3,10,356,169,18,True,"__Prompt for Starting Network Support"
 PENMStartCountdown_CheckBox="Startup Countdown:",0,3,10,375,120,20,False,"__Use a Countdown on 1st Startup (Only if AutoStart is Disabled). Time in Seconds for the Countdown"
-PENMStartCountdown_NumberBox=StartCountdown_NumberBox,0,2,130,374,44,22,5,0,600,
+PENMStartCountdown_NumberBox=StartCountdown_NumberBox,0,2,130,374,44,22,5,0,600,1
 PENMUseProfilesStartup_CheckBox="Use Network Profiles at Startup",0,3,10,396,200,20,True,"__Read and Use Profiles From PENetwork ini File at Startup"
 PENMForceScanOnStartup_CheckBox="Force Detection of Network Cards",0,3,10,415,200,20,False,"__Force Device Detection of Network Cards"
 PENMAfterStart_TextLabel="After Starting Network:",0,1,220,344,124,18,8,Normal
@@ -230,36 +230,36 @@ System,RefreshInterface
 [PENMShowOptions]
 System,CURSOR,Wait
 Run,%ScriptFile%,PENMOptions,True
-Visible,%PENMShowOptions_Button%,False,PERMANENT
-Visible,%PENMHideOptions_Button%,True,PERMANENT
+Visible,%PENMShowOptions_Button%,False,Permanent
+Visible,%PENMHideOptions_Button%,True,Permanent
 System,RefreshInterface
 System,CURSOR,Normal
 
 [PENMHideOptions]
 System,CURSOR,Wait
 Run,%ScriptFile%,PENMOptions,False
-Visible,%PENMShowOptions_Button%,True,PERMANENT
-Visible,%PENMHideOptions_Button%,False,PERMANENT
+Visible,%PENMShowOptions_Button%,True,Permanent
+Visible,%PENMHideOptions_Button%,False,Permanent
 System,RefreshInterface
 System,CURSOR,Normal
 
 [PENMOptions]
-Visible,%Splitter2_Bevel%,#1,PERMANENT
-Visible,%PENMAddPENetwork_CheckBox%,#1,PERMANENT
-Visible,%PENMAutoRun_CheckBox%,#1,PERMANENT
-Visible,%PENMPromptAtStartup_CheckBox%,#1,PERMANENT
-Visible,%PENMStartCountdown_CheckBox%,#1,PERMANENT
-Visible,%PENMStartCountdown_NumberBox%,#1,PERMANENT
-Visible,%PENMUseProfilesStartup_CheckBox%,#1,PERMANENT
-Visible,%PENMForceScanOnStartup_CheckBox%,#1,PERMANENT
-Visible,%PENMAfterStart_TextLabel%,#1,PERMANENT
-Visible,%PENMAfterStart_ScrollBox%,#1,PERMANENT
-Visible,%PENMMinToTray_CheckBox%,#1,PERMANENT
-Visible,%PENMCloseToTray_CheckBox%,#1,PERMANENT
-Visible,%PENMShowTrayActivity_CheckBox%,#1,PERMANENT
-Visible,%PENMUpdate_Button%,#1,PERMANENT
-Visible,%PENMOptions_TextLabel%,#1,PERMANENT
-Visible,%PENMOptions2_TextLabel%,#1,PERMANENT
+Visible,%Splitter2_Bevel%,#1,Permanent
+Visible,%PENMAddPENetwork_CheckBox%,#1,Permanent
+Visible,%PENMAutoRun_CheckBox%,#1,Permanent
+Visible,%PENMPromptAtStartup_CheckBox%,#1,Permanent
+Visible,%PENMStartCountdown_CheckBox%,#1,Permanent
+Visible,%PENMStartCountdown_NumberBox%,#1,Permanent
+Visible,%PENMUseProfilesStartup_CheckBox%,#1,Permanent
+Visible,%PENMForceScanOnStartup_CheckBox%,#1,Permanent
+Visible,%PENMAfterStart_TextLabel%,#1,Permanent
+Visible,%PENMAfterStart_ScrollBox%,#1,Permanent
+Visible,%PENMMinToTray_CheckBox%,#1,Permanent
+Visible,%PENMCloseToTray_CheckBox%,#1,Permanent
+Visible,%PENMShowTrayActivity_CheckBox%,#1,Permanent
+Visible,%PENMUpdate_Button%,#1,Permanent
+Visible,%PENMOptions_TextLabel%,#1,Permanent
+Visible,%PENMOptions2_TextLabel%,#1,Permanent
 
 [DotNet_Info]
 If,%DotNET_CheckBox%,Equal,True,Begin
@@ -488,8 +488,8 @@ If,ExistFile,%GCustom%\Wallpaper\img0.jpg,Begin
   Filecopy,%GCustom%\Wallpaper\img0.jpg,%GTarget_Win%\Web\Wallpaper\Windows,NoWarn
 End
 If,ExistFile,%GCustom%\UserAccountPicture\user-200.png,Begin
-  If,Not,ExistDir,%GTarget%\ProgramData\Microsoft\User Account Pictures,DirMake,%GTarget%\ProgramData\Microsoft\User Account Pictures
-  Filecopy,%GCustom%\UserAccountPicture\user-200.png,%GTarget%\ProgramData\Microsoft\User Account Pictures,NoWarn
+  If,Not,ExistDir,"%GTarget%\ProgramData\Microsoft\User Account Pictures",DirMake,"%GTarget%\ProgramData\Microsoft\User Account Pictures"
+  Filecopy,%GCustom%\UserAccountPicture\user-200.png,"%GTarget%\ProgramData\Microsoft\User Account Pictures",NoWarn
 End
 If,%Audio_CheckBox%,Equal,True,Begin
   If,ExistFile,%GCustom%\StartupMP3\startup.mp3,Begin

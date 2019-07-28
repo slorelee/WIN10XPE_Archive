@@ -3,8 +3,8 @@ Title=Macro
 Type=XPEPlugin
 Description=Macro File
 Author=ChriSR
-Date=2018.05.30
-Version=001
+Date=2019.02.12
+Version=002
 Level=0
 Download_Level=0
 Selected=None
@@ -150,6 +150,7 @@ Example="Start,,%ProgramEXE%,,%GTemp%\%ProgramFolder%\%ProgramFolder%"
 Echo,"Nothing to process here. Macro is called internally."
 
 [MAddShortcut]
+//----------  BEGIN AddShortcut Macro  ------------------------------
 If,#1-,Equal,-,Set,#1,StartMenu
 If,Not,#1,Equal,Desktop,If,Not,#1,Equal,StartMenu,EchoExtended,"Error: AddShortcut can only create Shorcut to Desktop or StartMenu",Warn,,MessageError,,Halt
 Echo,"Create #1 ShortCut"
@@ -180,8 +181,10 @@ End
 If,#1,Equal,StartMenu,TXTReplace,%GTarget_Sys%\pecmd.ini,_SUB Shortcuts,"_SUB Shortcuts#$xLINK #$pPrograms#$p#2\#4#$c#3#5#6"
 If,#1,Equal,Desktop,TXTReplace,%GTarget_Sys%\pecmd.ini,_SUB Shortcuts,"_SUB Shortcuts#$xLINK #$pDesktop#$p\#4#$c#3#5#6"
 If,Not,#6-,Equal,-,TXTReplace,%GTarget_Sys%\pecmd.ini,#$h,#
+//----------  END AddShortcut Macro  ------------------------------
 
 [MAddPin]
+//----------  BEGIN AddPin Macro  ------------------------------
 If,#1-,Equal,-,Set,#1,StartMenu
 If,Not,#1,Equal,TaskBar,If,Not,#1,Equal,StartMenu,EchoExtended,"Error: AddPin can only Pin to TaskBar or StartMenu",Warn,,MessageError,,Halt
 Echo,"Pin Program to #1"
@@ -207,6 +210,7 @@ Set,%AddPin_Read%,
 IniRead,%GTarget_Sys%\pecmd.ini,PINTOOL,#1#2,%AddPin_Read%
 If,Not,%AddPin_Read%-,Equal,-,Echo,"Pin #1#2 already exist. Pin #1#2=#3|||||||| can not be added",Warn
 Else,IniWriteTextLine,%GTarget_Sys%\pecmd.ini,PINTOOL,#1#2=#3||||||||
+//----------  END AddPin Macro  ------------------------------
 
 [MAddPin_FindPlace]
 IniRead,%GTarget_Sys%\pecmd.ini,PINTOOL,#1#c,%AddPin_Read%
@@ -216,71 +220,72 @@ If,%AddPin_Read%-,Equal,-,begin
 End
 
 [MAssociate]
-If,Not,#1-,Equal,-,Begin
-  StrFormat,LEFT,#1,1,#9
-  If,#9,Equal,.,StrFormat,LTRIM,#1,1,#1
-  Echo,"Associate #1 files"
-  If,#2-,Equal,-,Set,#2,%PE_Programs%\%ProgramFolder%\%ProgramEXE%
-  StrFormat,FILENAME,#2,#9
-  StrFormat,EXT,#9,#8
-  StrFormat,LEN,#8,#7
-  If,Not,#7,Equal,4,Echo,"Error: #9 program extension is not allowed for associations (Use a program with: exe,cmd,bat,com,js,vbs or wsf extension)",warn
+//----------  BEGIN Associate Macro  ------------------------------
+If,#1-,Equal,-,EchoExtended,"Error: Associate - missing parameter: Extension",Warn,,MessageError,,Halt
+StrFormat,LEFT,#1,1,#9
+If,#9,Equal,.,StrFormat,LTRIM,#1,1,#1
+Echo,"Associate #1 files"
+If,#2-,Equal,-,Set,#2,%PE_Programs%\%ProgramFolder%\%ProgramEXE%
+StrFormat,FILENAME,#2,#9
+StrFormat,EXT,#9,#8
+StrFormat,LEN,#8,#7
+If,Not,#7,Equal,4,Echo,"Error: #9 program extension is not allowed for associations (Use a program with: exe,cmd,bat,com,js,vbs or wsf extension)",warn
+Else,Begin
+  StrFormat,REPLACE,.exe|.cmd|.bat|.com|.js|.vbs|.wsf,#8,-,#7
+  If,#7,Equal,.exe|.cmd|.bat|.com|.js|.vbs|.wsf,Echo,"Error: #9 program extension is not allowed for associations (Use a program with: exe,cmd,bat,com,js,vbs or wsf extension)",warn
   Else,Begin
-    StrFormat,REPLACE,.exe|.cmd|.bat|.com|.js|.vbs|.wsf,#8,-,#7
-    If,#7,Equal,.exe|.cmd|.bat|.com|.js|.vbs|.wsf,Echo,"Error: #9 program extension is not allowed for associations (Use a program with: exe,cmd,bat,com,js,vbs or wsf extension)",warn
-    Else,Begin
-      StrFormat,UCASE,#1,#9
-      RegHiveLoad,Tmp_Software,%RegSoftware%
-      System,ErrorOFF,4
-      RegWrite,HKLM,0x1,Tmp_Software\Classes\.#1,,#1file
-      RegWrite,HKLM,0x1,Tmp_Software\Classes\#1file,,"#9 File"
-      RegWrite,HKLM,0x2,Tmp_Software\Classes\#1file\DefaultIcon,,#$q#2#$q
-      RegWrite,HKLM,0x2,Tmp_Software\Classes\#1file\shell\open\command,,"#$q#2#$q #$q#$p1#$q"
-      RegHiveUnLoad,Tmp_Software
-    End
+    StrFormat,UCASE,#1,#9
+    RegHiveLoad,Tmp_Software,%RegSoftware%
+    System,ErrorOFF,4
+    RegWrite,HKLM,0x1,Tmp_Software\Classes\.#1,,#1file
+    RegWrite,HKLM,0x1,Tmp_Software\Classes\#1file,,"#9 File"
+    RegWrite,HKLM,0x2,Tmp_Software\Classes\#1file\DefaultIcon,,#$q#2#$q
+    RegWrite,HKLM,0x2,Tmp_Software\Classes\#1file\shell\open\command,,"#$q#2#$q #$q#$p1#$q"
+    RegHiveUnLoad,Tmp_Software
   End
 End
-Else,EchoExtended,"Error: Associate - missing parameter: Extension",Warn,,MessageError,,Halt
+//----------  END Associate Macro  ------------------------------
 
 [MDirDeleteQ]
-If,Not,#1-,Equal,-,Begin
-  System,ErrorOff
-  If,ExistDir,#1,DirDelete,#1
-  If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q#1#$q"
-  If,ExistDir,#1,Begin
-    Set,%answer%,No
-    If,Question,"The folder could not be deleted. #$x#$x#1#$x#$x A file is maybe opened ? The folder is maybe opened in explorer ?#$xRetry ?",Set,%answer%,Yes
-    If,%answer%,Equal,Yes,Begin
-      System,ErrorOff
-      If,ExistDir,#1,DirDelete,#1
-      If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q#1#$q"
-      If,ExistDir,#1,EchoExtended,"Error: The folder could not be deleted. #$x#$x#1#$x#$x A file is maybe opened ? the folder is maybe opened in explorer ?#$xExit",Warn,,MessageError,,Halt
-    End
-    Else,EchoExtended,"Error: The folder could not be deleted. #$x#$x#1#$x#$x A file is maybe opened ? the folder is maybe opened in explorer ?#$xExit",Warn,,MessageError,,Halt
+//----------  BEGIN DirDeleteQ Macro  ------------------------------
+If,#1-,Equal,-,EchoExtended,"Error: DirDeleteQ - missing parameter: Directory",Warn,,MessageError,,Halt
+System,ErrorOff
+If,ExistDir,#1,DirDelete,#1
+If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q#1#$q"
+If,ExistDir,#1,Begin
+  Set,%answer%,No
+  If,Question,"The folder could not be deleted. #$x#$x#1#$x#$x A file is maybe opened ? The folder is maybe opened in explorer ?#$xRetry ?",Set,%answer%,Yes
+  If,%answer%,Equal,Yes,Begin
+    System,ErrorOff
+    If,ExistDir,#1,DirDelete,#1
+    If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q#1#$q"
+    If,ExistDir,#1,EchoExtended,"Error: The folder could not be deleted. #$x#$x#1#$x#$x A file is maybe opened ? the folder is maybe opened in explorer ?#$xExit",Warn,,MessageError,,Halt
   End
+  Else,EchoExtended,"Error: The folder could not be deleted. #$x#$x#1#$x#$x A file is maybe opened ? the folder is maybe opened in explorer ?#$xExit",Warn,,MessageError,,Halt
 End
-Else,EchoExtended,"Error: DirDeleteQ - missing parameter: Directory",Warn,,MessageError,,Halt
+//----------  END DirDeleteQ Macro  ------------------------------
 
 [MFileDeleteQ]
-If,Not,#1-,Equal,-,Begin
-  System,ErrorOff
-  If,ExistFile,#1,FileDelete,#1
-  If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
-  If,ExistFile,#1,Begin
-    Set,%answer%,No
-    If,Question,"The file could not be deleted.#$x#$x#1#$x#$xThe file is maybe opened ?#$xRetry ?",Set,%answer%,Yes
-    If,%answer%,Equal,Yes,Begin
-      System,ErrorOff
-      If,ExistFile,#1,FileDelete,#1
-      If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
-      If,ExistFile,#1,EchoExtended,"Error: The file could not be deleted. #$x#$x#1#$x#$x The file is maybe opened ?#$xExit",Warn,,MessageError,,Halt
-    End
-    Else,EchoExtended,"Error: The file could not be deleted. #$x#$x#1#$x#$x The file is maybe opened ?#$xExit",Warn,,MessageError,,Halt
+//----------  BEGIN FileDeleteQ Macro  ------------------------------
+If,#1-,Equal,-,EchoExtended,"Error: FileDeleteQ - missing parameter: File",Warn,,MessageError,,Halt
+System,ErrorOff
+If,ExistFile,#1,FileDelete,#1
+If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
+If,ExistFile,#1,Begin
+  Set,%answer%,No
+  If,Question,"The file could not be deleted.#$x#$x#1#$x#$xThe file is maybe opened ?#$xRetry ?",Set,%answer%,Yes
+  If,%answer%,Equal,Yes,Begin
+    System,ErrorOff
+    If,ExistFile,#1,FileDelete,#1
+    If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
+    If,ExistFile,#1,EchoExtended,"Error: The file could not be deleted. #$x#$x#1#$x#$x The file is maybe opened ?#$xExit",Warn,,MessageError,,Halt
   End
+  Else,EchoExtended,"Error: The file could not be deleted. #$x#$x#1#$x#$x The file is maybe opened ?#$xExit",Warn,,MessageError,,Halt
 End
-Else,EchoExtended,"Error: FileDeleteQ - missing parameter: File",Warn,,MessageError,,Halt
+//----------  END FileDeleteQ Macro  ------------------------------
 
 [MDownload]
+//----------  BEGIN Download Macro  ------------------------------
 If,#1-,Equal,-,EchoExtended,"Error: Download - missing parameter: path\FileName",Warn,,MessageError,,Halt
 If,#2-,Equal,-,EchoExtended,"Error: Download - missing parameter: URL",Warn,,MessageError,,Halt
 StrFormat,FILENAME,#1,#9
@@ -307,6 +312,7 @@ End
 Else,Begin
   If,Not,ExistFile,#1,EchoExtended,"Failed downloading #2 #$xAria2c return: %ExitCode%",Warn,,MessageError,10,%Exit%
 End
+//----------  END Download Macro  ------------------------------
 
 [MDownload_ErrorMessage]
 // https://aria2.github.io/manual/en/html/aria2c.html#exit-status
@@ -345,50 +351,50 @@ End
 32=Checksum validation failed.
 
 [MExtractListFiles]
-If,ExistFile,#1,Begin
-  If,Not,#2,Equal,Open,Set,#2,Hide
-  StrFormat,FILENAME,#1,%FilesName%
-  Echo,"Extract %FilesName% List Files"
-  ShellExecute,#2,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% @#$q#1#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob"
-  If,%ExitCode%,Equal,0,Echo,"Wimlib extract %FilesName% from install.wim return: %ExitCode%"
-  Else,Begin
-	If,%ExitCode%,Equal,37,Begin
-	  Set,%answer%,No
-      If,Question,"Wimlib extract %FilesName% from install.wim return: %ExitCode%#$x#$xFailed to create a file or directory.#$xA file in Target directory is maybe open ?#$xRetry ?",Set,%answer%,Yes
-      If,%answer%,Equal,Yes,Begin
-	    ShellExecute,#2,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% @#$q#1#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob"
-        If,%ExitCode%,Equal,0,Echo,"Wimlib extract %FilesName% from install.wim return: %ExitCode%"
-	  End
-	End
-    If,Not,%ExitCode%,Equal,0,EchoExtended,"Error: Wimlib extract %FilesName% from install.wim return: %ExitCode%",Warn,,MessageError,,Halt
+//----------  BEGIN ExtractListFiles Macro  ------------------------------
+If,Not,ExistFile,#1,EchoExtended,"Error: The List File was not found for extraction. #$x#$x#1",Warn,,MessageError,,Halt
+If,Not,#2,Equal,Open,Set,#2,Hide
+StrFormat,FILENAME,#1,%FilesName%
+Echo,"Extract %FilesName% List Files"
+ShellExecute,#2,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% @#$q#1#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob"
+If,%ExitCode%,Equal,0,Echo,"Wimlib extract %FilesName% from install.wim return: %ExitCode%"
+Else,Begin
+  If,%ExitCode%,Equal,37,Begin
+    Set,%answer%,No
+    If,Question,"Wimlib extract %FilesName% from install.wim return: %ExitCode%#$x#$xFailed to create a file or directory.#$xA file in Target directory is maybe open ?#$xRetry ?",Set,%answer%,Yes
+    If,%answer%,Equal,Yes,Begin
+      ShellExecute,#2,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% @#$q#1#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob"
+      If,%ExitCode%,Equal,0,Echo,"Wimlib extract %FilesName% from install.wim return: %ExitCode%"
+    End
   End
+  If,Not,%ExitCode%,Equal,0,EchoExtended,"Error: Wimlib extract %FilesName% from install.wim return: %ExitCode%",Warn,,MessageError,,Halt
 End
-Else,EchoExtended,"Error: The List File was not found for extraction. #$x#$x#1",Warn,,MessageError,,Halt
+//----------  END ExtractListFiles Macro  ------------------------------
 
 [MExtractSectionFiles]
-If,ExistFile,#1,Begin
-  If,ExistSection,#1,#2,Begin
-    If,Not,#3,Equal,Open,Set,#3,Hide
-    StrFormat,FILENAME,#1,%FilesName%
-    If,ExistFile,%GTemp%\#2.txt,FileDeleteQ,%GTemp%\#2.txt
-    ShellExecute,Hide,%GTools%\ExtractSection.exe,"#$q#1#$q #2 #$q%GTemp%\#2.txt#$q /NoSectionName"
-    If,%ExitCode%,Equal,0,Begin
-      ExtractListFiles,%GTemp%\#2.txt,#3
-      FileDelete,%GTemp%\#2.txt
-    End
-    Else,EchoExtended,"Error: ExtractSection [#2] of %FilesName% return: %ExitCode%",Warn,,MessageError,,Halt
-  End
-  Else,EchoExtended,"Error: The section name of the script file was not found to extract files from a section. #$x#$x[#2]#$x#1",Warn,,MessageError,,Halt
+//----------  BEGIN ExtractSectionFiles Macro  ------------------------------
+If,Not,ExistFile,#1,EchoExtended,"Error: The script file was not found to extract files from a section. #$x#$x#1",Warn,,MessageError,,Halt
+If,Not,ExistSection,#1,#2,EchoExtended,"Error: The section name of the script file was not found to extract files from a section. #$x#$x[#2]#$x#1",Warn,,MessageError,,Halt
+If,Not,#3,Equal,Open,Set,#3,Hide
+StrFormat,FILENAME,#1,%FilesName%
+If,ExistFile,%GTemp%\#2.txt,FileDeleteQ,%GTemp%\#2.txt
+ShellExecute,Hide,%GTools%\ExtractSection.exe,"#$q#1#$q #2 #$q%GTemp%\#2.txt#$q /NoSectionName"
+If,%ExitCode%,Equal,0,Begin
+  ExtractListFiles,%GTemp%\#2.txt,#3
+  FileDelete,%GTemp%\#2.txt
 End
-Else,EchoExtended,"Error: The script file was not found to extract files from a section. #$x#$x#1",Warn,,MessageError,,Halt
+Else,EchoExtended,"Error: ExtractSection [#2] of %FilesName% return: %ExitCode%",Warn,,MessageError,,Halt
+//----------  END ExtractSectionFiles Macro  ------------------------------
 
 [MEchoExtended]
+//----------  BEGIN EchoExtended Macro  ------------------------------
 If,#3-,Equal,-,Set,#3,1
 If,#2-,Equal,-,Loop,%API%,MEchoExtended_Echo_Loop,1,#3,#1,#2,#3,#4,#5,#6,#7,#8,#9
 Else,Loop,%API%,MEchoExtended_Echo_LoopWarn,1,#3,#1,#2,#3,#4,#5,#6,#7,#8,#9
 If,Not,#4-,Equal,-,Run,%API%,MEchoExtended_Message,#1,#2,#3,#4,#5,#6,#7,#8,#9
 If,#6,Equal,Exit,Exit,#1
 If,#6,Equal,Halt,Halt,#1
+//----------  END EchoExtended Macro  ------------------------------
 
 [MEchoExtended_Echo_Loop]
 Echo,#1
@@ -411,6 +417,7 @@ If,#4,Equal,MessageError,Begin
 End
 
 [MHiveLoadALL]
+//----------  BEGIN HiveLoadALL Macro  ------------------------------
 RegHiveLoad,Tmp_Install_System,%Gtemp%\Install.hives\SYSTEM
 RegHiveLoad,Tmp_Install_Software,%Gtemp%\Install.hives\SOFTWARE
 RegHiveLoad,Tmp_Install_Default,%Gtemp%\Install.hives\DEFAULT
@@ -419,37 +426,41 @@ RegHiveLoad,Tmp_System,%RegSystem%
 RegHiveLoad,Tmp_Software,%RegSoftware%
 RegHiveLoad,Tmp_Default,%RegDefault%
 RegHiveLoad,Tmp_Drivers,%RegDrivers%
+//----------  END HiveLoadALL Macro  ------------------------------
 
 [MRegCopyKey]
+//----------  BEGIN RegCopyKey Macro  ------------------------------
 If,Not,#1,Equal,HKLM,EchoExtended,"Error: RegCopyKey, the Hive Key must be HKLM #$x#$x#1",Warn,,MessageError,,Halt
 StrFormat,LEFT,#2,4,%RegSection4Left%
 If,Not,%RegSection4Left%,Equal,Tmp_,EchoExtended,"Error: RegCopyKey, the Main Key must start with Tmp_ #$x#$x#2",Warn,,MessageError,,Halt
 System,FileRedirect,OFF
 ShellExecute,Hide,cmd.exe,"/C CopyRegKey.cmd #$q#2#$q #$q#3#$q",%GTools%
 System,FileRedirect,ON
+//----------  END RegCopyKey Macro  ------------------------------
 
 [MRegImportFile]
-If,ExistFile,#1,Begin
-  StrFormat,FILENAME,#1,%RegFilesName%
-  System,FileRedirect,OFF
-  ShellExecute,Hide,regedit.exe,"/s #$q#1#$q"
-  System,FileRedirect,ON
-  If,%ExitCode%,Equal,0,Echo,"Import Registry File %RegFilesName% return: %ExitCode%"
-  Else,EchoExtended,"Error: Import Registry File %RegFilesName% return: %ExitCode%",Warn,,MessageError
-End
-Else,EchoExtended,"Error: The Registry File to Import was not found. #$x#$x#1",Warn,,MessageError,,Halt
+//----------  BEGIN RegImportFile Macro  ------------------------------
+If,Not,ExistFile,#1,EchoExtended,"Error: The Registry File to Import was not found. #$x#$x#1",Warn,,MessageError,,Halt
+StrFormat,FILENAME,#1,%RegFilesName%
+System,FileRedirect,OFF
+ShellExecute,Hide,regedit.exe,"/s #$q#1#$q"
+System,FileRedirect,ON
+If,%ExitCode%,Equal,0,Echo,"Import Registry File %RegFilesName% return: %ExitCode%"
+Else,EchoExtended,"Error: Import Registry File %RegFilesName% return: %ExitCode%",Warn,,MessageError
+//----------  END RegImportFile Macro  ------------------------------
 
 [MACLRegKey]
-If,Not,#1-,Equal,-,Begin
-  Echo,"Take Ownership and full access on #1"
-  ShellExecute,Hide,%GTools%\SetAcl.exe,"-on #$qHKLM\#1#$q -ot reg -rec yes -actn setowner -ownr #$qn:S-1-1-0;s:y#$q -silent"
-  If,Not,%ExitCode%,Equal,0,EchoExtended,"Error: take ownership on #$x#$x#1#$x#$x return: %ExitCode%",Warn,,MessageError,,Halt
-  ShellExecute,Hide,%GTools%\SetAcl.exe,"-on #$qHKLM\#1#$q -ot reg -rec yes -actn ace -ace #$qn:S-1-1-0;p:full;s:y#$q -silent"
-  If,Not,%ExitCode%,Equal,0,EchoExtended,"Error: full permission on #$x#$x#1#$x#$x return: %ExitCode%",Warn,,MessageError,,Halt
-End
-Else,EchoExtended,"Error: ACLRegKey - missing parameter: Key",Warn,,MessageError,,Halt
+//----------  BEGIN ACLRegKey Macro  ------------------------------
+If,#1-,Equal,-,EchoExtended,"Error: ACLRegKey - missing parameter: Key",Warn,,MessageError,,Halt
+Echo,"Take Ownership and full access on #1"
+ShellExecute,Hide,%GTools%\SetAcl.exe,"-on #$qHKLM\#1#$q -ot reg -rec yes -actn setowner -ownr #$qn:S-1-1-0;s:y#$q -silent"
+If,Not,%ExitCode%,Equal,0,EchoExtended,"Error: take ownership on #$x#$x#1#$x#$x return: %ExitCode%",Warn,,MessageError,,Halt
+ShellExecute,Hide,%GTools%\SetAcl.exe,"-on #$qHKLM\#1#$q -ot reg -rec yes -actn ace -ace #$qn:S-1-1-0;p:full;s:y#$q -silent"
+If,Not,%ExitCode%,Equal,0,EchoExtended,"Error: full permission on #$x#$x#1#$x#$x return: %ExitCode%",Warn,,MessageError,,Halt
+//----------  END ACLRegKey Macro  ------------------------------
 
 [MHiveUnLoadALL]
+//----------  BEGIN HiveUnLoadALL Macro  ------------------------------
 RegHiveUnLoad,Tmp_Install_System
 RegHiveUnLoad,Tmp_Install_Software
 RegHiveUnLoad,Tmp_Install_Default
@@ -458,21 +469,25 @@ RegHiveUnLoad,Tmp_System
 RegHiveUnLoad,Tmp_Software
 RegHiveUnLoad,Tmp_Default
 RegHiveUnLoad,Tmp_Drivers
+//----------  END HiveUnLoadALL Macro  ------------------------------
 
 [MOpenDir]
-If,Not,#1-,Equal,-,Begin
-  If,Not,ExistDir,#1,DirMake,#1
-  System,FileRedirect,OFF
-  If,ExistDir,#1,ShellExecuteex,Open,explorer.exe,/e#$c#$q#1#$q,#1
-  System,FileRedirect,ON
-End
-Else,EchoExtended,"Error: OpenDir - missing parameter: Directory",Warn,,MessageError,,Halt
+//----------  BEGIN OpenDir Macro  ------------------------------
+If,#1-,Equal,-,EchoExtended,"Error: OpenDir - missing parameter: Directory",Warn,,MessageError,,Halt
+If,Not,ExistDir,#1,DirMake,#1
+System,FileRedirect,OFF
+If,ExistDir,#1,ShellExecuteex,Open,explorer.exe,/e#$c#$q#1#$q,#1
+System,FileRedirect,ON
+//----------  END OpenDir Macro  ------------------------------
 
 [MRunFromRAM]
+//----------  BEGIN RunFromRAM Macro  ------------------------------
 Set,%Target_Prog%,"%GTarget%\Program Files"
 Set,%PE_Programs%,"X:\Program Files"
+//----------  END RunFromRAM Macro  ------------------------------
 
 [MStart]
+//----------  BEGIN Start Macro  ------------------------------
 If,#1-,Equal,-,Set,#1,Open
 If,Not,#4-,Equal,-,Begin
   StrFormat,LEFT,#2,2,#9
@@ -496,3 +511,4 @@ End
 System,FileRedirect,OFF
 ShellExecuteEx,#1,#2,#3,#4
 System,FileRedirect,ON
+//----------  END Start Macro  ------------------------------
