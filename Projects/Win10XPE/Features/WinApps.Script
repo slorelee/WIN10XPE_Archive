@@ -45,7 +45,7 @@ End
 
 [Enable_Shorcuts]
 TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessibility\OSK","LINK #$pPrograms#$p\Accessibility\OSK"
-TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\mspaint","LINK #$pPrograms#$p\Accessories\mspaint"
+TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\MSPaint","LINK #$pPrograms#$p\Accessories\MSPaint"
 TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\WordPad","LINK #$pPrograms#$p\Accessories\WordPad"
 If,%Shell%,Equal,Explorer,Begin
   TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\PhotoViewer","LINK #$pPrograms#$p\Accessories\PhotoViewer"

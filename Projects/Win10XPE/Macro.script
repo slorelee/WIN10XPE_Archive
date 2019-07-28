@@ -15,7 +15,7 @@ Contact=
 
 [APIDEF]
 %APIVAR%=ApiVar
-%APIDEF%=MacroLibrary
+%APIDEF%=XPEMacroLibrary
 %APISUBDEF%=AddShortcut,AddPin,Associate,DirDeleteQ,FileDeleteQ,Download,ExtractListFiles,ExtractSectionFiles,EchoExtended,HiveLoadALL,RegCopyKey,RegImportFile,ACLRegKey,HiveUnLoadALL,OpenDir,RunFromRAM,Start
 
 [ApiVar]

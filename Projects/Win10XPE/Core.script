@@ -519,7 +519,10 @@ End
 If,%SetupFiles_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\SetupFiles.Script,Process
 If,%VCRuntime_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\VCRuntime.Script,Process,HiveLoaded
 //-
-If,%Shell%,Equal,Explorer,Exec,%ProjectDir%\Features\Explorer.Script,Process,HiveLoaded
+If,%Shell%,Equal,Explorer,Begin
+  Exec,%ProjectDir%\Features\Explorer.Script,Process,HiveLoaded
+  Exec,%ProjectDir%\Features\StartIsBack.Script,Process,HiveLoaded
+End
 Else,Exec,%ProjectDir%\Features\WinXShell.Script,Process,HiveLoaded
 //-
 If,%DisplayDrivers_CheckBox%,Equal,True,Begin

@@ -52,7 +52,7 @@ AttachDir=
 %HostOSArch%=
 //-
 %API%=%ProjectDir%\Macro.script
-%APIDEF%=MacroLibrary
+%APIDEF%=XPEMacroLibrary
 %APIVAR%=ApiVar
 %APISUBDEF%=AddShortcut,AddPin,Associate,DirDeleteQ,FileDeleteQ,Download,ExtractListFiles,ExtractSectionFiles,EchoExtended,HiveLoadALL,RegCopyKey,RegImportFile,ACLRegKey,HiveUnLoadALL,OpenDir,RunFromRAM,Start
 

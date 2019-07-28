@@ -3,7 +3,7 @@ Title=Admin
 Type=XPEPlugin
 Description=Admin Login
 Author=ChriSR
-Date=2018.09.20
+Date=2019.01.23
 Version=001
 Selected=None
 Mandatory=None
@@ -30,6 +30,8 @@ ShellExecute,Hide,%GTools%\7z.exe,"x #$q%GTemp%\Admin\Security.7z#$q -y -o#$q%GT
 If,ExistDir,%GTemp%\Admin,DirDelete,%GTemp%\Admin
 //-
 If,Not,%AdminName_TextBox%,Equal,Administrator,Run,%ScriptFile%,ChangeAdminName
+//-
+If,ExistFile,%GTarget_Sys%\autorun.cmd,Run,%ScriptFile%,Autorun_RemoveGoogleChromeLnk
 
 [AddFiles]
 If,ExistFile,%ScriptDir%\Admin_AddFiles.txt,Begin
@@ -69,6 +71,14 @@ If,Not,%AdminName_TextBox%-,Equal,-,Begin
   TXTReplace,%GTarget_Sys%\PecmdAdmin.ini,Administrator,%AdminName_TextBox%
   IniWrite,%GTarget_Win%\Security\Templates\unattend.inf,"System Access",NewAdministratorName,#$q%AdminName_TextBox%#$q
 End
+
+[Autorun_RemoveGoogleChromeLnk]
+If,%AdminName_TextBox%-,Equal,-,Set,%AdminName_TextBox%,Administrator
+TXTDelLine,%GTarget_Sys%\autorun.cmd,Exit
+TXTAddLine,%GTarget_Sys%\autorun.cmd,":: Remove Google Chrome.lnk for %AdminName_TextBox% account",Append
+TXTAddLine,%GTarget_Sys%\autorun.cmd,"If Exist #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\Desktop\Google Chrome.lnk#$q Attrib -S -H #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\Desktop\Google Chrome.lnk#$q & del /q /f #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\Desktop\Google Chrome.lnk#$q & del /q /f /A:R /A:H /A:S /A:A #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\Desktop\Google Chrome.lnk#$q",Append
+TXTAddLine,%GTarget_Sys%\autorun.cmd,"If Exist #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk#$q Attrib -S -H #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk#$q & del /q /f #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk#$q & del /q /f /A:R /A:H /A:S /A:A #$q#$pSystemDrive#$p\Users\%AdminName_TextBox%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk#$q",Append
+TXTAddLine,%GTarget_Sys%\autorun.cmd,Exit,Append
 
 [EncodedFolders]
 Admin

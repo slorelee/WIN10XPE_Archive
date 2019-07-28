@@ -14,9 +14,6 @@ Credits=
 Contact=
 
 [Variables]
-%ISOFileName%=%BaseDir%\%ProjectName%_%Architecture%.ISO
-Copy=Run,%ScriptFile%,PCopy
-CopyMui=Run,%ScriptFile%,PCopyMui
 
 [Interface]
 AddFiles_CheckBox=,1,3,4,9,18,18,False,"__Check the box to enable this feature during building"
