@@ -37,6 +37,7 @@
 \Windows\SysWOW64\comdlg32.dll
 \Windows\SysWoW64\Coremessaging.dll
 \Windows\SysWOW64\CoreUIComponents.dll
+\Windows\SysWOW64\credssp.dll
 \Windows\SysWOW64\crtdll.dll
 \Windows\SysWOW64\crypt32.dll
 \Windows\SysWOW64\cryptbase.dll
@@ -125,6 +126,9 @@
 \Windows\SysWOW64\ncrypt.dll
 \Windows\SysWOW64\ncryptprov.dll
 \Windows\SysWOW64\ncryptsslp.dll
+\windows\SysWOW64\net.exe
+\windows\SysWOW64\net1.exe
+\Windows\SysWOW64\netmsg.dll
 \Windows\SysWOW64\netapi32.dll
 \Windows\SysWOW64\netutils.dll
 \Windows\SysWOW64\normaliz.dll
@@ -188,6 +192,7 @@
 \Windows\SysWOW64\sxsstore.dll
 \Windows\SysWOW64\sxstrace.exe
 \Windows\SysWoW64\TextInputFramework.dll
+\Windows\SysWoW64\TextShaping.dll
 \Windows\SysWOW64\thumbcache.dll
 \Windows\SysWOW64\twinapi.dll
 \Windows\SysWOW64\twinapi.appcore.dll
@@ -227,6 +232,7 @@
 \Windows\SysWOW64\wsock32.dll
 \Windows\SysWOW64\wtsapi32.dll
 \Windows\SysWOW64\xmllite.dll
+
 ; Multimedia
 \Windows\SysWOW64\AudioSes.dll
 \Windows\SysWOW64\devenum.dll
@@ -234,6 +240,7 @@
 \Windows\SysWOW64\MMDevAPI.dll
 \Windows\SysWOW64\msdmo.dll
 \Windows\SysWOW64\quartz.dll
+
 ; Network
 \Windows\SysWOW64\winhttp.dll
 ; 32 bit Web-Based Enterprise Management \Windows\SysWOW64\wbem (Optional). wmi.dll is in winre.wim
@@ -242,9 +249,11 @@
 \Windows\SysWOW64\framedynos.dll
 \Windows\SysWOW64\ncobjapi.dll
 \Windows\SysWOW64\wmiclnt.dll
+
 ; WB Dependencies addition
 \Windows\SysWOW64\ieframe.dll
 \Windows\SysWOW64\mshtml.dll
+
 ; WinSXS - ExtractWimFile,\Windows\WinSxS\x86_microsoft.windows.c..-controls.resources_*_%Language%_* . wimlib-imagex.exe (v1.13 and older) Extract Path with Wildward Does Not Work on Windows 7 32/64 bits but Works on Windows 10
 \Windows\WinSxS\x86_microsoft.windows.c..-controls.resources_*_xx-xx_*
 \Windows\WinSxS\x86_microsoft.windows.common-controls*\*.*

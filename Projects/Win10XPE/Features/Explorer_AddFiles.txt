@@ -16,6 +16,7 @@
 \Windows\System32\control.exe
 \Windows\System32\CoreMessaging.dll
 \Windows\System32\CoreUIComponents.dll
+\windows\system32\credssp.dll
 \Windows\System32\cscapi.dll
 \Windows\System32\ctfmon.exe
 \Windows\System32\desk.cpl
@@ -25,6 +26,7 @@
 \Windows\System32\imageres.dll
 \Windows\System32\InfDefaultInstall.exe
 \Windows\System32\InputSwitch.dll
+\windows\system32\mblctr.exe
 \Windows\System32\mfperfhelper.dll
 \Windows\System32\MrmCoreR.dll
 \Windows\System32\mscories.dll
@@ -55,6 +57,7 @@
 \Windows\System32\systemcpl.dll
 \Windows\System32\TDLMigration.dll
 \Windows\System32\TextInputFramework.dll
+\Windows\System32\TextShaping.dll
 \Windows\System32\thumbcache.dll
 \Windows\System32\twinapi.appcore.dll
 \Windows\System32\twinapi.dll
@@ -64,13 +67,19 @@
 \Windows\System32\UIRibbon.dll
 \Windows\System32\UIRibbonRes.dll
 ; Do not use windows.immersiveshell.serviceprovider.dll
+\Windows\System32\Windows.Globalization.dll
 \Windows\System32\Windows.Internal.Shell.Broker.dll
 \Windows\System32\Windows.Networking.Connectivity.dll
+\Windows\System32\Windows.UI.dll
 \Windows\System32\WorkFoldersShell.dll
 \Windows\System32\zipfldr.dll
 ;
 ; Windows.CloudStore.dll.mui is required for Pintool (mui file only)
 \Windows\System32\??-??\Windows.CloudStore.dll.mui
+;
+; Windows Management for Source Build > 18500
+\Windows\System32\WindowManagement.dll
+\Windows\System32\WindowManagementAPI.dll
 ;
 ; Advanced system setting
 \windows\System32\sysdm.cpl
@@ -162,6 +171,8 @@
 \Windows\System32\mmcbase.dll
 \Windows\System32\mmcndmgr.dll
 \Windows\System32\mmcshext.dll
+\windows\system32\wbem\servdeps.dll
+\windows\system32\OnDemandConnRouteHelper.dll
 ;
 ; Disk Management
 \windows\system32\diskmgmt.msc

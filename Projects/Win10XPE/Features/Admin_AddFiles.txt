@@ -24,3 +24,6 @@
 \Windows\System32\Windows.UI.Xaml.Resources.dll
 \Windows\System32\Windows.UI.XamlHost.dll
 \Windows\SystemResources\Windows.UI.Logon
+;;
+\Windows\System32\WindowManagement.dll
+\Windows\System32\WindowManagementAPI.dll

@@ -3,7 +3,7 @@ Title=Network
 Type=XPEPlugin
 Description=Network
 Author=ChriSR
-Date=2019.04.09
+Date=2019.07.19
 Version=002
 Selected=None
 Mandatory=None
@@ -12,6 +12,7 @@ Level=0
 Download_Level=0
 Credits=
 Contact=
+History002=KYHI - Added Network and Sharing Center - Notes Below
 
 [Variables]
 // Network List Service need the Full Software
@@ -20,7 +21,8 @@ Contact=
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
-If,%FullSoftware%,Equal,False,Set,%EnableNetworkListService%,False
+If,%FullSoftware%,Equal,True,Set,%EnableNetworkListService%,True
+If,%FullSoftware%,Equal,True,Set,%EnableFunctionDiscoveryService%,True
 Run,%ScriptFile%,AddFiles
 //-
 If,Not,#1,Equal,HiveLoaded,HiveLoadALL
@@ -72,9 +74,9 @@ End
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\WFPLWFS
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Network\{4d36e974-e325-11ce-bfc1-08002be10318}\{3BFD7820-D65C-4C1B-9FEA-983A019639EA}
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Network\{4d36e974-e325-11ce-bfc1-08002be10318}\{B70D6460-3635-4D42-B866-B8AB1A24454C}
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Network\{4d36e974-e325-11ce-bfc1-08002be10318}\{E475CF9A-60CD-4439-A75F-0079CE0E18A1}
 If,%Architecture%,Equal,x64,RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Network\{4d36e974-e325-11ce-bfc1-08002be10318}\{E7C3B2F0-F3C5-48DF-AF2B-10FED6D72E7A}
 //
-RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Network\{4d36e974-e325-11ce-bfc1-08002be10318}\{E475CF9A-60CD-4439-A75F-0079CE0E18A1}
 // Holger: Fix WFPLWFS and both services nativewifip, wlanscv.
 RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\NetworkSetup2\Filters\{3BFD7820-D65C-4C1B-9FEA-983A019639EA}\Kernel,FilterClass,ms_medium_converter_top
 RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\NetworkSetup2\Filters\{B70D6460-3635-4D42-B866-B8AB1A24454C}\Kernel,FilterClass,ms_medium_converter_top
@@ -166,7 +168,9 @@ Run,%ScriptFile%,NetworkList_Registry
 TXTReplace,%GTarget_Sys%\Pecmd.ini,"_SUB NetInit","_SUB NetInit#$x#$xREGI #HKLM\SYSTEM\Setup\SystemSetupInProgress=0#$xEXEC !=#$pWinDir#$p\System32\Net.exe Start netprofm#$xREGI #HKLM\SYSTEM\Setup\SystemSetupInProgress=1"
 
 [NetworkList_AddFiles]
-; Seems Not required \Windows\System32\nlmgp.dll,nlmproxy.dll,nlmsprep.dll
+\Windows\System32\nlmgp.dll
+\Windows\System32\nlmproxy.dll
+\Windows\System32\nlmsprep.dll
 \Windows\System32\ImplatSetup.dll
 \Windows\System32\networklist
 \Windows\System32\netprofm.dll
@@ -209,6 +213,9 @@ If,Not,%ExitCode%,Equal,0,EchoExtended,"Error set permission on #$x#$xnetworklis
 //ShellExecute,Hide,%GTools%\SetAcl.exe,"-on #$qHKLM\Tmp_software\Microsoft\Windows NT\CurrentVersion\NetworkList\Permissions#$q -ot reg -actn ace -ace #$qn:Network Configuration Operators;p:full#$q"
 ShellExecute,Hide,%GTools%\SetAcl.exe,"-on #$qHKLM\Tmp_software\Microsoft\Windows NT\CurrentVersion\NetworkList\Permissions#$q -ot reg -actn ace -ace #$qn:S-1-5-92-1467204242-1103346305-4253404563-2848856930-0;p:full#$q"
 If,Not,%ExitCode%,Equal,0,EchoExtended,"Error set permission on #$x#$xnetworklist\Permissions#$q registry key#$x#$x return: %ExitCode%",Warn,,MessageError,,Halt
+//--
+//RegWrite,HKLM,0x4,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{27F69803-A090-4CA4-A555-A86F8A451F35}",Category,1
+//RegWrite,HKLM,0x4,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{27F69803-A090-4CA4-A555-A86F8A451F35}",CategoryType,0
 
 [FunctionDiscovery]
 // Function Discovery Provider Host and Publication and SSDP Discovery services
@@ -216,16 +223,59 @@ ExtractSectionFiles,%ScriptFile%,FunctionDiscovery_AddFiles
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\fdPHost
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\FDResPub
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\SSDPSRV
+//--
+//-- KYHI Added Network and Sharing Center Service
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\upnphost
+//-- Add Network Icon To File Explorer Navagation Pane
+RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},,"Computers and Devices"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},InfoTip,"@#$psystemroot#$p\system32\NetworkExplorer.dll,-2"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},LocalizedString,"@#$psystemroot#$p\system32\NetworkExplorer.dll,-1"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},ControlPanel,"/name Microsoft.NetworkAndSharingCenter"
+RegWrite,HKLM,0x4,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},SortOrderIndex,88
+RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\DefaultIcon,,"#$pSystemRoot#$p\System32\imageres.dll,-25"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\InProcServer32,,#$psystemroot#$p\system32\NetworkExplorer.dll
+RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\InProcServer32,LoadWithoutCOM,
+RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\InProcServer32,ThreadingModel,Both
+RegWrite,HKLM,0x4,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder,FolderValueFlags,1057344
+RegWrite,HKLM,0x4,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder,Attributes,-1341915036
 
 [FunctionDiscovery_AddFiles]
 ; Function Discovery Provider Host and Publication
-;\Windows\System32\fdBth.dll,fdBthProxy.dll,FdDevQuery.dll,fde.dll,fdeploy.dll,fdPnp.dll,fdprint.dll,fdWCN.dll,fdWNet.dll
+\Windows\System32\fdBth.dll
+\Windows\System32\fdBthProxy.dll
+\Windows\System32\FdDevQuery.dll
+\Windows\System32\fde.dll
+\Windows\System32\fdeploy.dll
 \Windows\System32\fdPHost.dll
+\Windows\System32\fdPnp.dll
+\Windows\System32\fdprint.dll
 \Windows\System32\fdProxy.dll
 \Windows\System32\FDResPub.dll
 \Windows\System32\fdSSDP.dll
+;Done in Network-AddFiles \Windows\System32\fdWCN.dll
+;Done in Network-AddFiles \Windows\System32\fdWNet.dll
 \Windows\System32\fdWSD.dll
 \Windows\System32\WSDApi.dll
 ; SSDP Discovery services
 \Windows\System32\ssdpapi.dll
 \Windows\System32\ssdpsrv.dll
+;
+; KYHI Added Network and Sharing Center 2019.06.27
+; UPnP Device Host
+\Windows\System32\upnphost.dll
+\Windows\System32\upnp.dll
+\Windows\System32\upnpcont.exe
+\Windows\System32\upnpui.dll
+; Control Panel Applets
+\Windows\System32\netcenter.dll
+\Windows\System32\netdiagfx.dll
+\Windows\System32\hgcpl.dll
+; Firewall
+\Windows\System32\hnetmon.dll
+\Windows\System32\nettrace.dll
+\Windows\System32\nshhttp.dll
+\Windows\System32\nshipsec.dll
+\Windows\System32\PeerDistSh.dll
+\Windows\System32\rpcnsh.dll
+\Windows\System32\whhelper.dll
+\Windows\System32\wwancfg.dll

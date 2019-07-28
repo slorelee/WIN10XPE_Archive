@@ -3,7 +3,7 @@ Title=Create ISO
 Type=XPEPlugin
 Description=Create or Recreate boot.wim and ISO.#$xCopy the ISO on a USB stick, disk, with both Bios and UEFI compatibility.#$xUse the Tools to Add files or Edit Win10XPE registry hives.
 Author=ChriSR
-Date=2019.04.01
+Date=2019.07.18
 Version=003
 Selected=True
 Mandatory=False
@@ -20,7 +20,7 @@ Contact=
 %BcdEditExe%=%GTools%\%Architecture%\BCDBoot\bcdedit.exe
 %tmout%=5
 %Usb7iceExe%=%GTools%\Usb7ice.exe
-%RufusExe%=%GTools%\rufus-3.5p.exe
+%RufusExe%=%GTools%\rufus-3.6p.exe
 %RufusIni%=%GTools%\rufus.ini
 //-
 %RegSoftware%=%GTarget_Sys%\config\SOFTWARE
@@ -65,6 +65,31 @@ CB_DriversHive=Drivers,1,3,460,88,70,18,False,"__Edit the Drivers registry hive 
 RegConvertPE_Button=" Reg Convert PE",1,8,298,115,236,44,RegConvertPE,Registry.bmp,False,"__Convert a Registry file to a script or a converted (Tmp_*) Reg file"
 TargetOpen_Button=" Open Target Folder",1,8,298,167,236,32,TargetOpen,opendir.bmp,False,"__Open Target Folder"
 pWebLabel1="Rufus Downloads",1,10,292,217,83,18,https://rufus.akeo.ie/downloads/
+//-
+HideAdvancedOptions_Button=,0,8,292,238,8,8,HideAdvancedOptions,0,False,"__Hide Advanced Options"
+ShowAdvancedOptions_Button=,1,8,292,238,8,8,ShowAdvancedOptions,0,False,"__Show Advanced Options"
+WimOnly_CheckBox="Create Boot.Wim Only without ISO",0,3,292,252,212,16,False,"__Pack and Create Boot.Wim Only without ISO Creation"
+NoCDUsbY_CheckBox="Do not Create CDUsb.y (All In Ram)",0,3,292,272,212,16,False,"__Do not Create CDUsb.y with Run ALL Programs From RAM selected for AIOBoot"
+
+[ShowAdvancedOptions]
+System,CURSOR,Wait
+Run,%ScriptFile%,AdvancedOptions,True
+Visible,%ShowAdvancedOptions_Button%,False,Permanent
+Visible,%HideAdvancedOptions_Button%,True,Permanent
+System,RefreshInterface
+System,CURSOR,Normal
+
+[HideAdvancedOptions]
+System,CURSOR,Wait
+Run,%ScriptFile%,AdvancedOptions,False
+Visible,%ShowAdvancedOptions_Button%,True,Permanent
+Visible,%HideAdvancedOptions_Button%,False,Permanent
+System,RefreshInterface
+System,CURSOR,Normal
+
+[AdvancedOptions]
+Visible,%WimOnly_CheckBox%,#1,Permanent
+Visible,%NoCDUsbY_CheckBox%,#1,Permanent
 
 [PreCheck_Image_Exist]
 If,Not,ExistFile,%GSource%\sources\install.wim,EchoExtended,"install.wim image was not found in the Windows 10 source folder.#$x#$xSelect the root of the Windows 10 source folder.",Warn,,Message,,Halt
@@ -101,7 +126,7 @@ Else,Begin
   EchoExtended,"Error: boot.wim image file was not properly packaged.",Warn,,MessageError,,Halt
 End
 //-
-Run,%ScriptFile%,CreateISO
+If,Not,%WimOnly_CheckBox%,Equal,True,Run,%ScriptFile%,CreateISO
 
 [Check_Extract_SysFiles]
 If,%Debug_Display_CheckSysFiles%,Equal,True,Set,%Action_After%,Display
@@ -118,9 +143,17 @@ If,Not,ExistFile,%GISO%\sources\boot.wim,EchoExtended,"boot.wim image was not fo
 StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
 //-
 If,%IsoRoot_CheckBox%,Equal,True,Run,%ScriptFile%,IsoRootAdd
-If,Not,ExistFile,%GISO%\CDUsb.y,Begin
-  FileCreateBlank,%GISO%\CDUsb.y
-  TXTAddLine,%GISO%\CDUsb.y,"Flag File to mount CD/USB on drive Y:",Append
+//-
+// For AIOBoot do not create CDUsb.y if Run All programs from RAM selected
+IniRead,%ProjectDir%\script.project,Features,AllInRam,%AllInRam%
+If,%NoCDUsbY_CheckBox%-%AllInRam%,Equal,True-True,Begin
+  If,ExistFile,%GISO%\CDUsb.y,FileDelete,%GISO%\CDUsb.y
+End
+Else,Begin
+  If,Not,ExistFile,%GISO%\CDUsb.y,Begin
+    FileCreateBlank,%GISO%\CDUsb.y
+    TXTAddLine,%GISO%\CDUsb.y,"Flag File to mount CD/USB on drive Y:",Append
+  End
 End
 //-
 Run,%ScriptFile%,CheckISOBootFiles

@@ -3,15 +3,16 @@ Title=Msi
 Type=XPEPlugin
 Description=Msi Windows Installer
 Author=ChriSR
-Date=2019.04.01
+Date=2019.05.10
+Credits=
+Contact=
 Version=002
+Level=0
+Download_Level=0
 Selected=None
 Mandatory=None
 NoWarning=False
-Level=0
-Download_Level=0
-Credits=
-Contact=
+History002=KYHI - Additional File Support - 2019.05.10
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -50,16 +51,22 @@ If,%Architecture%%WoW64Support%,Equal,x64True,TXTAddLine,%GTarget_Sys%\autorun.c
 TXTAddLine,%GTarget_Sys%\autorun.cmd,Exit,Append
 
 [Msi_AddFiles]
+\windows\AppPatch\msimain.sdb
+\windows\AppPatch\sysmain.sdb
 \Windows\Installer
+\Windows\System32\mscoree.dll
 \Windows\System32\msi.dll
 \Windows\System32\msiexec.exe
 \Windows\System32\msihnd.dll
 \Windows\System32\msiltcfg.dll
 \Windows\System32\msimsg.dll
 \Windows\System32\msisip.dll
+\Windows\System32\pcacli.dll
+\Windows\System32\RstrtMgr.dll
+\Windows\System32\srpapi.dll
+\Windows\System32\wbem\??-??\msi.mfl
 \Windows\System32\wbem\msi.mof
 \Windows\System32\wbem\msiprov.dll
-\Windows\System32\wbem\??-??\msi.mfl
 
 [Msix64_AddFiles]
 \Windows\SysWOW64\Msi.dll
@@ -68,4 +75,7 @@ TXTAddLine,%GTarget_Sys%\autorun.cmd,Exit,Append
 \Windows\SysWOW64\Msiltcfg.dll
 \Windows\SysWOW64\Msimsg.dll
 \Windows\SysWOW64\Msisip.dll
-
+\Windows\SysWOW64\mscoree.dll
+\Windows\SysWOW64\pcacli.dll
+\Windows\SysWOW64\RstrtMgr.dll
+\Windows\SysWOW64\srpapi.dll
