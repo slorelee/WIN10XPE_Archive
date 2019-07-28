@@ -3,8 +3,8 @@ Title=Explorer
 Type=XPEPlugin
 Description=Explorer
 Author=ChriSR
-Date=2019.01.20
-Version=001
+Date=2019.04.01
+Version=002
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -33,37 +33,31 @@ If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
 If,ExistFile,%ScriptDir%\WinXShell_%Architecture%.7z,ShellExecute,Hide,%GTools%\7z.exe,"x #$q%ScriptDir%\WinXShell_%Architecture%.7z#$q -y -o#$q%Target_Prog%#$q"
 
 [AddFiles]
-If,ExistFile,%ScriptDir%\Explorer_AddFiles.txt,Begin
-  FileCopy,%ScriptDir%\Explorer_AddFiles.txt,%GTemp%\Explorer_AddFiles.txt
-  TXTReplace,%GTemp%\Explorer_AddFiles.txt,\xx-xx\,\%Language%\
-  // Additions for Win10 1803. Could be done with an extra List files such as Explorer_AddFiles_17xxx.txt or 17xxx_AddFiles.txt
-  If,%SourceBuild%,Bigger,17000,Begin
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\cdp.dll,Append
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\??-??\cdp.dll.mui,Append
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\dsreg.dll,Append
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\??-??\dsreg.dll.mui,Append
-    TXTDelLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\VEEventDispatcher.dll
-  End
-  If,%SourceBuild%,Bigger,17700,Begin
-    // shellstyle.dll(.mui) is now in \Windows\resources\themes\aero\shell\normalcolor
-    TXTDelLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\shellstyle.dll
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\resources\Themes\aero\shell,Append
-    // dll for StateRepository (AppRepository). The StateRepository service is not registered in the Registry
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\StateRepository.core.dll,Append
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\Windows.StateRepository.dll,Append
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\??-??\Windows.StateRepository.dll.mui,Append
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\Windows.StateRepositoryBroker.dll,Append
-    TXTAddLine,%GTemp%\Explorer_AddFiles.txt,\Windows\System32\Windows.StateRepositoryClient.dll,Append
-  End
-  ExtractListFiles,%GTemp%\Explorer_AddFiles.txt
-  FileDelete,%GTemp%\Explorer_AddFiles.txt
-End
+If,ExistFile,%ScriptDir%\Explorer_AddFiles.txt,ExtractListFiles,%ScriptDir%\Explorer_AddFiles.txt
+//-
+If,%SourceBuild%,Bigger,17000,ExtractSectionFiles,%ScriptFile%,Explorer_1803_AddFiles
+If,%SourceBuild%,Bigger,17700,ExtractSectionFiles,%ScriptFile%,Explorer_1809_AddFiles
+//-
 IniRead,%ProjectDir%\Script.Project,Features,AllCatalogs,%AllCatalogs%
 If,%AllCatalogs%,Equal,True,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_All
 Else,Begin
   If,ExistSection,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_%SourceBuild%,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_%SourceBuild%
   Else,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_All
 End
+
+[Explorer_1803_AddFiles]
+\Windows\System32\cdp.dll
+\Windows\System32\coloradapterclient.dll
+\Windows\System32\dsreg.dll
+\Windows\System32\VEEventDispatcher.dll
+
+[Explorer_1809_AddFiles]
+\Windows\resources\Themes\aero\shell
+; Dlls for StateRepository (AppRepository). The StateRepository service is not registered
+\Windows\System32\StateRepository.core.dll
+\Windows\System32\Windows.StateRepository.dll
+\Windows\System32\Windows.StateRepositoryBroker.dll
+\Windows\System32\Windows.StateRepositoryClient.dll
 
 [Reg_Themes]
 RegImportFile,%ScriptDir%\Themes_RegDefault.txt
@@ -106,14 +100,17 @@ If,%FullSoftware%,Equal,False,Begin
   RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Winlogon",shell,explorer.exe
   // Registry cached version of the Start menu + Windows.CloudStore.dll seem require Else Pintool and others does not work
   RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\CloudStore
+  // Integrated zip files
+  RegCopyKey,HKLM,Tmp_Software\Classes\.zip
+  RegCopyKey,HKLM,Tmp_Software\Classes\CompressedFolder
   RegImportFile,%ScriptDir%\Explorer_RegSoftware.txt
   Run,%ScriptFile%,AdditionalFonts
 End
 If,ExistRegSection,HKLM,Tmp_Software\Classes\DesktopBackground\Shell\Display,RegDelete,HKLM,Tmp_Software\Classes\DesktopBackground\Shell\Display
 If,ExistRegSection,HKLM,Tmp_Software\Classes\DesktopBackground\Shell\Personalize,RegDelete,HKLM,Tmp_Software\Classes\DesktopBackground\Shell\Personalize
 If,ExistFile,"%GTarget%\Program Files\WinXShell\WinXShell.exe",Begin
-  RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings",Icon,"#$qX:\Program Files\WinXShell\wxsUI\UI_Resolution\display.ico#$q"
-  RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings\command",,"#$qX:\Program Files\WinXShell\WinXShell.exe#$q -ui -jcfg wxsUI\UI_Resolution\main.jcfg"
+  RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings",Icon,"#$qX:\Program Files\WinXShell\wxsUI\display.ico#$q"
+  RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings\command",,"#$qX:\Program Files\WinXShell\WinXShell.exe#$q -ui -jcfg wxsUI\UI_Resolution.zip"
 End
 // Redirect modern Settings (eg: ms-settings:dateandtime) to: Open With - Control Panel . To note that many control panel items, such as Displays, are replaced by new modern settings
 RegWrite,HKLM,0x2,Tmp_Software\Classes\ms-settings\Shell\Open\Command,,#$pSystemRoot#$p\system32\control.exe

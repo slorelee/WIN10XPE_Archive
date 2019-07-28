@@ -3,8 +3,8 @@ Title=Win10XPE
 Type=XPEPlugin
 Description=Build Win10XPE by using an Original Windows 10 ISO x86 or x64...#$xThe build is based on the Winre.wim recovery environment.
 Author=ChrisR
-Date=2019.01.20
-Version=001
+Date=2019.04.01
+Version=002
 Selected=True
 Mandatory=True
 NoWarning=False
@@ -25,7 +25,7 @@ AttachDir=
 %GTarget_Sys%=%GTarget%\Windows\System32
 %GCustom%=%BaseDir%\Custom
 %ProgCache%=%BaseDir%\ProgCache
-%HiveCache%=
+%XPECache%=
 %Target_Prog%=
 %PE_Programs%=
 //-
@@ -48,12 +48,12 @@ AttachDir=
 %Language%=
 %FallBackLanguage%=
 //-
-%HostOSArch%=
+%HostOSArch%=x86
 //-
 %API%=%ProjectDir%\Macro.script
-%APIDEF%=XPEMacroLibrary
+%APIDEF%=XPEMacro
 %APIVAR%=ApiVar
-%APISUBDEF%=AddShortcut,AddPin,Associate,DirDeleteQ,FileDeleteQ,Download,ExtractListFiles,ExtractSectionFiles,EchoExtended,HiveLoadALL,RegCopyKey,RegImportFile,ACLRegKey,HiveUnLoadALL,OpenDir,RunFromRAM,Start
+%APISUBDEF%=AddShortcut,AddPin,Associate,DirDeleteQ,FileDeleteQ,Download,ExtractListFiles,ExtractSectionFiles,ExtractWimFile,EchoExtended,HiveLoadALL,RegCopyKey,RegImportFile,ACLRegKey,HiveUnLoadALL,OpenDir,RunFromRAM,Start
 
 [TargetBasePath]
 // To Load TargetBasePath variables: AddVariables,%ProjectDir%\script.project,TargetBasePath
@@ -88,7 +88,7 @@ Image_ValuePos2=,1,4,16,158,264,21,
 Image_ValuePos4=,_Select_Image_Value_,False
 
 [Interface]
-Init_Button=I,1,8,532,10,18,18,InitValue,0,False,"__Initialize Global Variables and Interfaces Values"
+Reset_Button=Reset,1,8,513,10,38,18,ResetValue,0,False,"__Reset Global Variables and Interfaces Values"
 TechBench_TextLabel="Download Windows 10 Original ISO (Final) From ",1,1,10,10,280,18,8,Bold
 TechBench_WebLabel="TechBench by WZT - RG Adguard",1,10,291,10,160,18,https://tb.rg-adguard.net/public.php
 Mount_TextLabel="Mount Windows 10 ISO or Extract the ISO in a Folder",1,1,10,37,345,18,8,Bold
@@ -111,17 +111,26 @@ Architecture_Value=,0,1,116,239,164,18,8,Bold
 Language_Value=,0,1,116,257,164,18,8,Bold
 FBLanguage_Value=,0,1,116,275,164,18,8,Bold
 Play_TextLabel="Start Building By Using The Big Blue Arrow 'Play' Button On Top",0,1,10,305,375,18,8,Bold
-Donate_Bevel=Donate_Bevel,0,12,421,220,128,75
-Donate_TextLabel="Support Win10XPE Dev",0,1,427,225,120,18,8,Normal
-Image_Donate=btn_donate.gif,0,5,443,244,86,25,https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9WZ5EDAMPH6SE
-Homepage_WebLabel="Win10XPE Home Page",0,10,432,275,105,18,http://theoven.org/index.php?topic=2421.0
+Donate_Bevel=Donate_Bevel,0,12,421,223,128,95
+Donate_TextLabel="Support Win10XPE Dev",0,1,427,228,120,18,8,Normal
+Image_Donate=btn_donate.gif,0,5,443,247,86,25,https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9WZ5EDAMPH6SE
+Homepage_WebLabel="Win10XPE Home Page",0,10,432,278,105,18,http://theoven.org/index.php?topic=2421.0
+SupportLog_CheckBox="Enable Support Log",0,3,427,297,120,18,False,"__Enable extended Win10XPE Support Log: SupportLog_Win10XPE_YYMMDDHHMM00.7z"
 
-[InitValue]
-Run,%ScriptFile%,InitGlobalVar
-Run,%ScriptFile%,InitInterface
+[ResetValue]
+Run,%ScriptFile%,ResetGlobalVar
+Run,%ScriptFile%,ResetInterface
 Run,%ScriptFile%,Show_Basic_Gui
 
+[Check_Case_InSensitive]
+ShellExecute,Hide,cmd.exe,"/C If Defined WIMLIB_IMAGEX_IGNORE_CASE ( If #$pWIMLIB_IMAGEX_IGNORE_CASE#$p== 0 Exit 1 )"
+If,%ExitCode%,Equal,1,Begin
+Run,%ScriptFile%,ResetValue
+EchoExtended,"ERROR:#$xWIMLIB_IMAGEX_IGNORE_CASE Environment Variable is Defined and Set to 0 (Case-Sensitive) in your Environment.#$xWhy?#$x#$xTo Get the 'expected' behavior on Windows#$c it Must be Case-Insensitive#$c which is the Default value.#$xEXIT the Builder and Delete or Set this Environment Variable to 1#$xBefore Rebuilding.",Warn,,MessageError,,Halt
+End
+
 [SelectISO]
+Run,%ScriptFile%,Check_Case_InSensitive
 Set,%TmpSource%,""
 If,ExistFile,%Source_Value%\sources\install.wim,Set,%InitSource%,%Source_Value%
 Else,Set,%InitSource%,C:\
@@ -142,6 +151,7 @@ Else,Begin
 Set,%GSource%,"",Permanent
 Run,%ScriptFile%,Check_Image_Exist
 End
+Run,%ScriptFile%,GetHostOSArch
 
 [Load_Default_Value]
 If,ExistFile,%ProjectDir%\Core.script,AddInterface,%ProjectDir%\Core.script,InterfaceBuild,""
@@ -175,9 +185,18 @@ System,Cursor,Normal
 
 [Check_Image_Exist]
 If,Not,ExistFile,%GSource%\sources\install.wim,Begin
-Run,%ScriptFile%,InitValue
+Run,%ScriptFile%,ResetValue
 EchoExtended,"install.wim image was not found in the Windows 10 source folder.#$x#$xSelect the root of the Windows 10 source folder.",Warn,,Message,,Halt
 End
+
+[GetHostOSArch]
+If,Not,ExistFile,%Gtemp%\HostOSArch.cmd,Begin
+FileCreateBlank,%Gtemp%\HostOSArch.cmd
+TXTAddLine,%Gtemp%\HostOSArch.cmd,"If #$pPROCESSOR_ARCHITECTURE#$p== x86 (If Not Defined PROCESSOR_ARCHITEW6432 Exit 86)",Append
+TXTAddLine,%Gtemp%\HostOSArch.cmd,"Exit 64",Append
+End
+ShellExecute,Hide,cmd.exe,"/C #$q%Gtemp%\HostOSArch.cmd#$q"
+Set,%HostOSArch%,x%ExitCode%,Permanent
 
 [DeleteWithCmd_Examples]
 //If,ExistDir,%GTemp%,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q%GTemp%#$q"
@@ -237,10 +256,10 @@ Set,%Language%,%LanguageVar%,Permanent
 IniRead,%GTemp%\WimInfo.ini,#1,FALLBACKLANGUAGE,%FallBackLanguageVar%
 If,Not,%FallBackLanguageVar%-,Equal,-,Begin
 StrFormat,REPLACE,%FallBackLanguageVar%,#$c,|,%FallBackLanguageVar%
-Set,%FallBackLanguage%,%Language%|%FallBackLanguageVar%|,Permanent
+Set,%FallBackLanguage%,%Language%|%FallBackLanguageVar%,Permanent
 End
-Else,Set,%FallBackLanguage%,%Language%|,Permanent
-Set,%HiveCache%,%ProgCache%\%SourceVersion%_%EditionID%_%Architecture%_%Language%,Permanent
+Else,Set,%FallBackLanguage%,%Language%,Permanent
+Set,%XPECache%,%ProgCache%\%SourceVersion%_%EditionID%_%Architecture%_%Language%,Permanent
 //-
 Set,%EditionID_Value%,%EditionIDVar%,Permanent
 Set,%Version_Value%,%VersionVar%,Permanent
@@ -249,10 +268,10 @@ Set,%Architecture_Value%,%Architecture%,Permanent
 Set,%Language_Value%,%Language%,Permanent
 Set,%FBLanguage_Value%,%FallBackLanguageVar%,Permanent
 
-[InitGlobalVar]
+[ResetGlobalVar]
 Set,%GTarget%,"",Permanent
 Set,%GISO%,"",Permanent
-Set,%HiveCache%,"",Permanent
+Set,%XPECache%,"",Permanent
 Set,%Target_Prog%,"",Permanent
 Set,%PE_Programs%,"",Permanent
 Set,%Shell%,"",Permanent
@@ -268,7 +287,7 @@ Set,%SourceBuild%,"",Permanent
 Set,%Architecture%,"",Permanent
 Set,%Language%,"",Permanent
 Set,%FallBackLanguage%,"",Permanent
-Set,%HostOSArch%,"",Permanent
+Set,%HostOSArch%,x86,Permanent
 IniWrite,%ProjectDir%\Script.Project,Main,AttachDir,""
 IniWrite,%ProjectDir%\Script.Project,Features,TargetArch,""
 IniWrite,%ProjectDir%\Script.Project,Features,AllInRam,""
@@ -290,7 +309,7 @@ IniWrite,%ProjectDir%\Script.Project,Features,Admin,""
 IniWrite,%ProjectDir%\Script.Project,Features,IE11,""
 IniWrite,%ProjectDir%\Script.Project,Features,DotNET,""
 
-[InitInterface]
+[ResetInterface]
 Set,%Source_Value%,"",Permanent
 IniRead,%ScriptFile%,InterfaceDefaultValue,Image_ValuePos2,%Image_ValuePos2%
 IniRead,%ScriptFile%,InterfaceDefaultValue,Image_ValuePos4,%Image_ValuePos4%
@@ -335,6 +354,7 @@ Visible,%Donate_Bevel%,#1,Permanent
 Visible,%Donate_TextLabel%,#1,Permanent
 Visible,%Image_Donate%,#1,Permanent
 Visible,%Homepage_WebLabel%,#1,Permanent
+Visible,%SupportLog_CheckBox%,#1,Permanent
 
 [process]
 If,ExistFile,%API%,AddVariables,%API%,ApiVar,GLOBAL
@@ -360,6 +380,10 @@ Echo,"Build Stopped by Exception.",Warn
 //Message,"Build Stopped by Exception.",Information,2
 End
 If,#1,Equal,DONE,Message,"Success of the Project Building. Enjoy :)",Information,2
+//-
+If,%SupportLog_CheckBox%,Equal,True,Begin
+If,ExistFile,%ProjectDir%\Features\SupportLog_XPE.script,Exec,%ProjectDir%\Features\SupportLog_XPE.script,Process
+End
 
 [HiveUnload]
 If,Not,#1-,Equal,-,Begin

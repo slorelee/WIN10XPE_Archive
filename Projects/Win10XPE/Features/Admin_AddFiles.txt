@@ -4,6 +4,7 @@
 ;dll in PESE does not seem required apprepapi.dll,CredDialogBroker.dll,cscapi.dll,cscdll.dll,hnetcfg.dll,mtxex.dll,profprov.dll,runas.exe,runonce.exe,Sens.dll,Windows.Globalization.Fontgroups.dll,Windows.UI.Cred.dll + WinSxS and Manifests *_microsoft-windows-p..al-securitytemplate_*
 \Windows\inf\wvmic_ext.inf
 \Windows\System32\AuthExt.dll
+\Windows\System32\batmeter.dll
 \Windows\System32\FontGlyphAnimator.dll
 \Windows\System32\InputSwitch.dll
 \Windows\System32\LogonUI.exe
@@ -20,19 +21,6 @@
 \Windows\System32\Windows.UI.Immersive.dll
 \Windows\System32\Windows.UI.Logon.dll
 \Windows\System32\Windows.UI.Xaml.dll
-; 1709 uses Xaml.Resources.dll and 1803 uses Xaml.Resources.rs4.dll. Keep both for compatibility with both versions
 \Windows\System32\Windows.UI.Xaml.Resources.dll
 \Windows\System32\Windows.UI.XamlHost.dll
-; mui files
-\Windows\System32\??-??\AuthExt.dll.mui
-\Windows\System32\??-??\InputSwitch.dll.mui
-\Windows\System32\??-??\MrmCoreR.dll.mui
-\Windows\System32\??-??\secedit.exe.mui
-\Windows\System32\??-??\seclogon.dll.mui
-\Windows\System32\??-??\tsdiscon.exe.mui
-\Windows\System32\??-??\whoami.exe.mui
-\Windows\System32\??-??\Windows.UI.Immersive.dll.mui
-; Windows.UI.Xaml.dll exist in all Language folders. \xx-xx\ is replaced by \%Language%\
-\Windows\System32\en-US\Windows.UI.Xaml.dll.mui
-\Windows\System32\xx-xx\Windows.UI.Xaml.dll.mui
 \Windows\SystemResources\Windows.UI.Logon

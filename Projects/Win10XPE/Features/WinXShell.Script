@@ -3,8 +3,8 @@ Title=WinXShell
 Type=XPEPlugin
 Description=WinXShell
 Author=ChriSR
-Date=2018.05.30
-Version=001
+Date=2019.04.01
+Version=002
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -43,6 +43,13 @@ End
 
 [AddFiles]
 If,ExistFile,%ScriptDir%\WinXShell_AddFiles.txt,ExtractListFiles,%ScriptDir%\WinXShell_AddFiles.txt
+//-
+IniRead,%ProjectDir%\Script.Project,Features,AllCatalogs,%AllCatalogs%
+If,%AllCatalogs%,Equal,True,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_All
+Else,Begin
+  If,ExistSection,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_%SourceBuild%,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_%SourceBuild%
+  Else,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_All
+End
 
 [Registry]
 If,%FullSoftware%,Equal,False,Begin
@@ -82,8 +89,8 @@ If,%FullSoftware%,Equal,False,Begin
   RegCopyKey,HKLM,Tmp_Software\Microsoft\MMC
 End
 //-
-RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings",Icon,"#$qX:\Program Files\WinXShell\wxsUI\UI_Resolution\display.ico#$q"
-RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings\command",,"#$qX:\Program Files\WinXShell\WinXShell.exe#$q -ui -jcfg wxsUI\UI_Resolution\main.jcfg"
+RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings",Icon,"#$qX:\Program Files\WinXShell\wxsUI\display.ico#$q"
+RegWrite,HKLM,0x1,"Tmp_Software\Classes\DesktopBackground\Shell\Display Settings\command",,"#$qX:\Program Files\WinXShell\WinXShell.exe#$q -ui -jcfg wxsUI\UI_Resolution.zip"
 // Shell New Context Menu (possible .lnk additional value)
 RegWrite,HKLM,0x7,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Discardable\PostSetup\ShellNew,Classes,.library-ms,.txt,Folder
 RegWrite,HKLM,0x3,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Discardable\PostSetup\ShellNew,~reserved~,08,00,00,00,00,00,06,00

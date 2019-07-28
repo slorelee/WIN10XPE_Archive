@@ -2,10 +2,10 @@
 Title=Internet Explorer 11
 Description=Internet Explorer 11 for Windows 10
 Author=WindowsForum
-Date=2019.01.07
+Date=2019.04.01
 Credits=
 Contact=
-Version=003
+Version=004
 Level=0
 Download_Level=0
 Selected=None
@@ -75,6 +75,7 @@ If,%IE11TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,$Start_Menu\Programs\%IE11
 \Windows\System32\ddraw.dll
 \Windows\System32\dinput8.dll
 \Windows\System32\dsound.dll
+;\Windows\System32\DXCore.dll (Win10 1903 in winre.wim)
 \Windows\System32\dxtmsft.dll
 \Windows\System32\dxtrans.dll
 \Windows\System32\ELSCore.dll
@@ -139,43 +140,6 @@ If,%IE11TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,$Start_Menu\Programs\%IE11
 \Windows\System32\Windows.Media.MediaControl.dll
 \Windows\System32\Windows.UI.dll
 \Windows\System32\WindowsCodecsExt.dll
-\Windows\System32\??-??\apphelp.dll.mui
-\Windows\System32\??-??\ddraw.dll.mui
-\Windows\System32\??-??\dinput8.dll.mui
-\Windows\System32\??-??\dsound.dll.mui
-\Windows\System32\??-??\elscore.dll.mui
-\Windows\System32\??-??\explorerframe.dll.mui
-\Windows\System32\??-??\hlink.dll.mui
-\Windows\System32\??-??\ie4uinit.exe.mui
-\Windows\System32\??-??\IEAdvpack.dll.mui
-\Windows\System32\??-??\iedkcs32.dll.mui
-\Windows\System32\??-??\iepeers.dll.mui
-\Windows\System32\??-??\iernonce.dll.mui
-\Windows\System32\??-??\iesetup.dll.mui
-\Windows\System32\??-??\ieui.dll.mui
-\Windows\System32\??-??\inetcpl.cpl.mui
-\Windows\System32\??-??\mf.dll.mui
-\Windows\System32\??-??\MFCore.dll.mui
-\Windows\System32\??-??\mfmediaengine.dll.mui
-\Windows\System32\??-??\mfmp4srcsnk.dll.mui
-\Windows\System32\??-??\mfplat.dll.mui
-\Windows\System32\??-??\mscms.dll.mui
-\Windows\System32\??-??\msctfuimanager.dll.mui
-\Windows\System32\??-??\mskeyprotcli.dll.mui
-\Windows\System32\??-??\occache.dll.mui
-\Windows\System32\??-??\PCPKsp.dll.mui
-\Windows\System32\??-??\seclogon.dll.mui
-\Windows\System32\??-??\sens.dll.mui
-\Windows\System32\??-??\SettingSyncCore.dll.mui
-\Windows\System32\??-??\srpapi.dll.mui
-\Windows\System32\??-??\tsdiscon.exe.mui
-\Windows\System32\??-??\twinapi.appcore.dll.mui
-\Windows\System32\??-??\VaultCli.dll.mui
-\Windows\System32\??-??\Windows.Gaming.Input.dll.mui
-\Windows\System32\??-??\Windows.Globalization.dll.mui
-\Windows\System32\??-??\Windows.Media.dll.mui
-\Windows\System32\??-??\Windows.Media.MediaControl.dll.mui
-\Windows\System32\??-??\Windows.UI.dll.mui
 
 [Not Used]
 ;\Windows\System32\webcheck.dll
@@ -189,12 +153,6 @@ If,%IE11TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,$Start_Menu\Programs\%IE11
 ;\Windows\System32\ieUnatt.exe
 ;\Windows\System32\ddrawex.dll
 ;\Windows\System32\atl.dll
-;\Windows\System32\??-??\webcheck.dll.mui
-;\Windows\System32\??-??\mshtmler.dll.mui
-;\Windows\System32\??-??\msfeedsbs.dll.mui
-;\Windows\System32\??-??\licmgr10.dll.mui
-;\Windows\System32\??-??\inseng.dll.mui
-;\Windows\System32\??-??\ieUnatt.exe.mui
 
 [IE11_Registry]
 Echo,

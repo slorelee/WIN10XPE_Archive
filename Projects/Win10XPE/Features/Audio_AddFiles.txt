@@ -46,6 +46,7 @@
 \Windows\System32\msvfw32.dll
 \Windows\System32\msvidc32.dll
 \Windows\System32\msyuv.dll
+\Windows\System32\PlayToDevice.dll
 \Windows\System32\psisdecd.dll
 \Windows\System32\psisrndr.ax
 \Windows\System32\quartz.dll
@@ -56,29 +57,4 @@
 \Windows\System32\WMADMOD.DLL
 \Windows\System32\WMADMOE.DLL
 \Windows\System32\WMASF.DLL
-;In Winre.wim \System32\??-??\audiodg.exe.mui,AudioEndpointBuilder.dll.mui,AudioSes.dll.mui,AudioSrv.dll.mui,DWrite.dll.mui,hidserv.dll.mui,imaadp32.acm.mui,MMDevAPI.dll.mui,msacm32.dll.mui,msadp32.acm.mui,msg711.acm.mui,msgsm32.acm.mui,umpo.dll.mui,utildll.dll.mui,wdmaud.drv.mui,winmm.dll.mui,winmmbase.dll.mui,wintypes.dll.mui,wsock32.dll.mui
-\Windows\System32\??-??\avicap32.dll.mui
-\Windows\System32\??-??\ddraw.dll.mui
-\Windows\System32\??-??\deviceaccess.dll.mui
-\Windows\System32\??-??\dmdskres.dll.mui
-\Windows\System32\??-??\dmdskres2.dll.mui
-\Windows\System32\??-??\dmocx.dll.mui
-\Windows\System32\??-??\dmutil.dll.mui
-\Windows\System32\??-??\dsound.dll.mui
-\Windows\System32\??-??\iyuv_32.dll.mui
-\Windows\System32\??-??\l3codeca.acm.mui
-\Windows\System32\??-??\midimap.dll.mui
-\Windows\System32\??-??\mmci.dll.mui
-\Windows\System32\??-??\mmcndmgr.dll.mui
-\Windows\System32\??-??\mmcshext.dll.mui
-\Windows\System32\??-??\mmres.dll.mui
-\Windows\System32\??-??\mmsys.cpl.mui
-\Windows\System32\??-??\msacm32.drv.mui
-\Windows\System32\??-??\msrle32.dll.mui
-\Windows\System32\??-??\msvfw32.dll.mui
-\Windows\System32\??-??\msvidc32.dll.mui
-\Windows\System32\??-??\quartz.dll.mui
-\Windows\System32\??-??\SndVol.exe.mui
-\Windows\System32\??-??\SndVolSSO.dll.mui
-\Windows\System32\??-??\stobject.dll.mui
 

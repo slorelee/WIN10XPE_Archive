@@ -3,8 +3,8 @@ Title=Build Core
 Type=XPEPlugin
 Description=Build Win10XPE Core based on WinRE.wim Recovery Environment with Features additions and Options
 Author=ChriSR
-Date=2019.01.19
-Version=001
+Date=2019.04.01
+Version=003
 Selected=True
 Mandatory=True
 NoWarning=False
@@ -58,7 +58,7 @@ Msi_CheckBox="Msi Windows Installer",1,3,122,330,142,18,True,"__Add Msi Windows 
 DotNET_CheckBox="Microsoft .NETFx4",1,3,6,348,115,18,False,_DotNet_Info_,True,"__Add Embedded Microsoft .NET Framework 4 - To Get WIFI, You Must Also Enable Network Addition"
 ImDisk_CheckBox="ImDisk Ramdisk B:\Temp",1,3,122,348,142,18,True,"__ImDisk Virtual Disk Driver. Create B: RamDisk and Set %Temp% to B:\Temp"
 Admin_CheckBox="Switch To Admin",1,3,6,366,115,18,False,_Admin_Info_,True,"__Switch to Administrator Account Login At Startup"
-IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,False,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
+IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,True,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
 //-
 Drivers_Bevel=Drivers_Bevel,1,12,270,280,226,61
 Drivers_CheckBox="Integrate Drivers",1,3,276,284,112,18,True,"__Integrate Your Custom Drivers"
@@ -92,7 +92,7 @@ HideTaskbar_CheckBox="Auto Hide The Taskbar",1,3,6,95,200,18,False,"__Select To 
 TouchKeyboard_CheckBox="Show Touch Keyboard Button",1,3,6,114,200,18,True,"__Show Touch Keyboard Button on System Tray"
 SIBSkin_TextLabel="StartIsBack Skin:",1,1,6,136,96,18,8,Normal
 SIBSkin_ScrollBox=Plain8,1,4,102,133,84,21,"Windows 7",Plain8,Plain10,"__StartIsBack Interface Skin"
-SIBOpaque_CheckBox=Opaque,1,3,192,136,60,18,False,"__Make the Start Menu Opaque"
+SIBOpaque_CheckBox=Opaque,1,3,192,136,60,18,True,"__Make the Start Menu Opaque"
 SIBFlyoutMenu_CheckBox="StartIsBack Display as Flyout Menu",1,3,6,155,210,18,True,"__StartIsBack Display as flyout menu (Windows XP Style)"
 Position_TextLabel="Fit Wallpaper:",1,1,6,177,96,18,8,Normal
 Position_ScrollBox=Fill,1,4,102,174,84,21,Stretch,Fill,Tile,Span,"__Choose a Fit between Stretch, Fill (Default), Tile and Span"
@@ -106,7 +106,7 @@ Admin_Bevel=Admin_Bevel,1,12,301,135,250,57
 AdminName_TextLabel="Administrator Name",1,1,308,142,105,18,8,Normal
 AdminName_TextBox=,1,0,433,140,113,21,Administrator
 AdminCountDown_TextLabel="Ask to Switch to Administrator for",1,1,308,168,174,18,8,Normal
-AdminCountDown_NumberBox=CountDown_NumberBox,1,2,482,165,40,22,0,0,10,1,"__Countdown to Ask to Switch to Administrator or continue with the System session. 0=Logon as Administrator without Question"
+AdminCountDown_NumberBox=CountDown_NumberBox,1,2,482,165,40,22,5,0,10,1,"__Countdown to Ask to Switch to Administrator or continue with the System session. 0=Logon as Administrator without Question"
 AdminSec_TextLabel=Sec,1,1,527,168,22,18,8,Normal
 //-
 Power_Bevel=Power_Bevel,1,12,282,38,269,91
@@ -114,7 +114,7 @@ PowerOptions_TextLabel="Power Options",1,1,289,43,96,18,8,Bold
 Battery_TextLabel="On Battery",1,1,432,42,62,18,8,Normal
 Plugged_TextLabel="Plugged In",1,1,495,42,57,18,8,Normal
 Monitor_TextLabel="Turn Off Display (Minutes):",1,1,288,62,145,18,8,Normal
-MonitorDC_NumberBox=MonitorDC_NumberBox,1,2,434,59,50,22,14,0,300,1
+MonitorDC_NumberBox=MonitorDC_NumberBox,1,2,434,59,50,22,10,0,300,1
 MonitorAC_NumberBox=MonitorAC_NumberBox,1,2,496,59,50,22,0,0,300,1
 Disk_TextLabel="Turn Off Hard Disk (Minutes):",1,1,288,88,145,18,8,Normal
 DiskDC_NumberBox=DiskDC_NumberBox,1,2,434,85,50,22,20,0,300,1
@@ -203,13 +203,16 @@ Option_Button="Additional Options",1,8,147,2,145,26,OptionInterface,0,True,"__Di
 PENetwork_Button="Network Options",1,8,292,2,145,26,PENetworkInterface,0,True,"__Display PENetwork Options"
 Build_TextLabel="Build Options",1,1,469,8,120,18,8,Bold
 //-
-ListFilesEdit_Button="Edit ListFiles here",1,8,122,96,120,26,ListFilesEdit,opendir.bmp,False,"__Edit the listfile here. It is an addition to the prepared base of 'Full winre.wim with WinSxS lightened'"
 Buildtype_RadioButton="Build type",1,14,6,40,240,88,"Full Winre.wim","Full Winre.wim with light WinSxS (default)","Use this ListFiles",1
-FullSoftware_CheckBox="Use Full Win10 Software hive",1,3,6,132,200,18,False,"__Use the Full Win10 Software hive from Install.wim"
-AllCatalogs_CheckBox="Add All Win10 Catalogs",1,3,6,151,200,18,False,"__Add All Windows 10 (install.wim) Catalogs"
-AllNls_CheckBox="Add All National Language Support (NLS) Files",1,3,6,170,255,18,True,"__Add All National Language Support (NLS) Files. Otherwise Copy Them From the Registry Settings. It May Not Be  Enough for Extended Languages."
-AllKeyboard_CheckBox="Add All KeyBoards",1,3,6,189,110,18,True,"__Add All KeyBoards. Otherwise Copy Them From the Registry Settings. It May Not Be Enough for Extended Languages."
-TargetArch_CheckBox="Use Architecture for Target and ISO Folders Names",1,3,6,208,280,18,False,"__Use architecture for Target and ISO Folders Names: Target_x64(x86), ISO_x64(x86)"
+ListFilesEdit_Button="Edit ListFiles here",1,8,122,96,120,26,ListFilesEdit,opendir.bmp,False,"__Edit the listfile here. It is an addition to the prepared base of 'Full winre.wim with WinSxS lightened'"
+FullSoftware_CheckBox="Use Full Win10 Software hive",1,3,256,45,200,18,False,"__Use the Full Win10 Software hive from Install.wim"
+TargetArch_CheckBox="Use Arch in Target and ISO Folders Names",1,3,256,64,240,18,False,"__Use architecture for Target and ISO Folders Names: Target_x64(x86), ISO_x64(x86)"
+DrvInstPatch_CheckBox="Patch DrvInst",1,3,256,83,200,18,True,"__Patch DrvInst to Ignores the Validation of the Signed Catalog File"
+AllCatalogs_CheckBox="Add All Win10 Catalogs",1,3,6,132,200,18,False,"__Add All Windows 10 (install.wim) Catalogs"
+AllNls_CheckBox="Add All National Language Support (NLS) Files",1,3,6,151,255,18,True,"__Add All National Language Support (NLS) Files. Otherwise Copy Them From the Registry Settings. It May Not Be  Enough for Extended Languages."
+AllKeyboard_CheckBox="Add All KeyBoards",1,3,6,170,110,18,True,"__Add All KeyBoards. Otherwise Copy Them From the Registry Settings. It May Not Be Enough for Extended Languages."
+DelSpeech_CheckBox="Delete Speech Folder",1,3,6,189,255,18,True,"__Cleanup, Delete Speech Folder Addition for Default Build."
+DelSysWOW64_CheckBox="Delete SysWOW64 Folder in x64 Build With 'WoW64 Basic' Disabled",1,3,6,208,360,18,True,"__Cleanup, Delete SysWOW64 Folder Addition for Default Build. In x64 Build With 'WoW64 Basic' Disabled."
 
 [MainInterface]
 IniWrite,%ScriptFile%,Main,Interface,InterfaceMain
@@ -340,15 +343,6 @@ End
 //If,%Architecture%_%WoW64_CheckBox%,Equal,x64_False,EchoExtended,"IE11 x64 run in hybrid-mode. It needs WoW64 basic",Warn,,Message,,Halt
 //End
 
-[GetHostOSArch]
-If,Not,ExistFile,%Gtemp%\HostOSArch.cmd,Begin
-  FileCreateBlank,%Gtemp%\HostOSArch.cmd
-  TXTAddLine,%Gtemp%\HostOSArch.cmd,"If #$pPROCESSOR_ARCHITECTURE#$p== x86 (If Not Defined PROCESSOR_ARCHITEW6432 Exit 86)",Append
-  TXTAddLine,%Gtemp%\HostOSArch.cmd,"Exit 64",Append
-End
-ShellExecute,Hide,cmd.exe,"/C %Gtemp%\HostOSArch.cmd"
-Set,%HostOSArch%,x%ExitCode%,Permanent
-
 [SaveConfig]
 If,%Explorer_RadioButton%,Equal,True,Set,%Shell%,Explorer,Permanent
 Else,Set,%Shell%,WinXShell,Permanent
@@ -376,6 +370,9 @@ Else,Begin
   If,%DotNET_CheckBox%,Equal,True,Set,%FullSoftware%,True,Permanent
   Else,Set,%FullSoftware%,%FullSoftware_CheckBox%,Permanent
 End
+Run,%scriptfile%,IniWriteFeatures
+
+[IniWriteFeatures]
 IniWrite,%ProjectDir%\Script.Project,Features,TargetArch,%TargetArch_CheckBox%
 IniWrite,%ProjectDir%\Script.Project,Features,AllInRam,%AllInRam_CheckBox%
 IniWrite,%ProjectDir%\Script.Project,Features,AllCatalogs,%AllCatalogs_CheckBox%
@@ -415,7 +412,6 @@ Run,%ScriptFile%,PreCheck_Image_Exist
 StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
 Loop,%ScriptFile%,Check_sr-Latn_Loop,1,%NbLang%
 Run,%ScriptFile%,CheckInput
-Run,%ScriptFile%,GetHostOSArch
 Run,%scriptfile%,SaveConfig
 //-
 Echo,"Deleting Target & Temp folders..."
@@ -427,10 +423,10 @@ ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\insta
 If,%ExitCode%,Equal,0,Echo,"Wimlib extract Winre.wim image file from install.wim return: %ExitCode%"
 Else,EchoExtended,"Error: Wimlib extract Winre.wim image file from install.wim return: %ExitCode%",Warn,,MessageError,,Halt
 //-
-If,ExistFile,%HiveCache%\HiveCache.ini,Begin
-  IniRead,%HiveCache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
+If,ExistFile,%XPECache%\HiveCache.ini,Begin
+  IniRead,%XPECache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
   If,%FullSoftwareIni%,Equal,True,Begin
-    If,ExistFile,%HiveCache%\FullSOFTWARE,FileCopy,%HiveCache%\FullSOFTWARE,%GTemp%\Install.hives\SOFTWARE
+    If,ExistFile,%XPECache%\FullSOFTWARE,FileCopy,%XPECache%\FullSOFTWARE,%GTemp%\Install.hives\SOFTWARE
   End
 End
 If,Not,ExistFile,%GTemp%\Install.hives\SOFTWARE,Begin
@@ -447,7 +443,7 @@ Else,EchoExtended,"Error: Wimlib extract System & Drivers hive from install.wim 
 //-
 If,%Buildtype_RadioButton%,Equal,0,Begin
   Run,%ScriptFile%,ExtractWimFiles
-  If,ExistFile,%GTarget_Sys%\WallpaperHost.exe,FileDelete,%GTarget_Sys%\WallpaperHost.exe
+  If,ExistFile,%GTarget_Sys%\WallpaperHost.exe,FileDeleteQ,%GTarget_Sys%\WallpaperHost.exe
 End
 Else,Begin
   Run,%ScriptFile%,PrepareSmallWim
@@ -525,13 +521,15 @@ If,%Shell%,Equal,Explorer,Begin
 End
 Else,Exec,%ProjectDir%\Features\WinXShell.Script,Process,HiveLoaded
 //-
-If,%DisplayDrivers_CheckBox%,Equal,True,Begin
-  If,%Shell%,Equal,Explorer,Exec,%ProjectDir%\Features\DisplayDrivers.Script,Process,HiveLoaded
-End
-//-
 Set,%WoW64Support%,False,Permanent
 If,%Architecture%,Equal,x64,Begin
   If,%WoW64_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\WoW64.Script,Process,HiveLoaded
+End
+//-
+If,ExistFile,%ProjectDir%\Features\Ime_%Language%.Script,Exec,%ProjectDir%\Features\Ime_%Language%.Script,Process,HiveLoaded
+//-
+If,%DisplayDrivers_CheckBox%,Equal,True,Begin
+  If,%Shell%,Equal,Explorer,Exec,%ProjectDir%\Features\DisplayDrivers.Script,Process,HiveLoaded
 End
 //-
 If,%Network_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\Network.Script,Process,HiveLoaded
@@ -554,11 +552,6 @@ End
 If,%WinApps_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\WinApps.Script,Process,HiveLoaded
 //-
 If,%ImDisk_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\ImDisk.Script,Process,HiveLoaded
-//-
-If,%Language%,Equal,ko-KR,Exec,%ProjectDir%\Features\ImeKR.Script,Process,HiveLoaded
-If,%Language%,Equal,zh-CN,Exec,%ProjectDir%\Features\ImeTC.Script,Process,HiveLoaded
-If,%Language%,Equal,zh-HK,Exec,%ProjectDir%\Features\ImeTC.Script,Process,HiveLoaded
-If,%Language%,Equal,zh-TW,Exec,%ProjectDir%\Features\ImeTC.Script,Process,HiveLoaded
 //-
 If,%Admin_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\Admin.Script,Process,HiveLoaded
 If,%IE11_CheckBox%,Equal,True,Begin
@@ -626,6 +619,7 @@ DirDeleteQ,%GTemp%
 DirMake,%GTemp%\Install.hives
 //-
 DirDeleteQ,%GISO%
+DirMake,%GISO%
 
 [ListFilesEdit]
 If,Not,ExistFile,%ProjectDir%\CoreListFiles.txt,Run,%ScriptFile%,Create_CoreListFiles
@@ -810,13 +804,15 @@ Else,Begin
   Echo,"Wimlib Apply Winre.wim in Target Folder return : %ExitCode%",Warn
   EchoExtended,"Error: Winre.wim image files were not successfully applied in Target Folder.",Warn,,MessageError,,Halt
 End
-// Possible FallBack by First Extract Winre.wim in Temp folder than Xcopy
 
 [ExtractWimListFiles]
-Echo,"Extract Winre.wim in Target Folder following ListFiles. Be patient..."
-ShellExecute,Open,%GTools%\wimlib-imagex.exe,"extract #$q%GTemp%\Winre.wim#$q 1 @#$q%ProjectDir%\CoreListFiles.txt#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob"
-If,%ExitCode%,Equal,0,Echo,"Wimlib extract CoreListFiles from Winre.wim return: %ExitCode%"
-Else,EchoExtended,"Error: Wimlib extract CoreListFiles from Winre.wim return: %ExitCode%",Warn,,MessageError,,Halt
+Echo,"Extract Winre.wim in Target Folder using CoreListFiles. Be patient..."
+ShellExecute,Open,cmd.exe,"/C Echo Extract Winre.wim in Target Folder using CoreListFiles. Be patient...&Echo.&wimlib-imagex.exe extract #$q%GTemp%\Winre.wim#$q 1 @#$q%ProjectDir%\CoreListFiles.txt#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob",%GTools%
+If,%ExitCode%,Equal,0,Echo,"Extract Winre.wim in Target Folder using CoreListFiles return : %ExitCode%"
+Else,Begin
+  Echo,"Extract Winre.wim in Target Folder using CoreListFiles return : %ExitCode%",Warn
+  EchoExtended,"Error: Extract Winre.wim using CoreListFiles were not successfully extracted in Target Folder.",Warn,,MessageError,,Halt
+End
 
 [PrepareSmallSxSFile]
 If,%Architecture%,Equal,x86,Set,%SxSArch%,x86
@@ -851,21 +847,51 @@ TxtAddline,%w%,"\Windows\WinSxS\manifests\%SxSArch%_microsoft-windows-servicings
 [WimSmallUpdate]
 // If Add Windows Installer files done > delete '\sources' folder
 If,%SetupFiles_CheckBox%,Equal,True,TxtAddline,%w%,"delete '\sources' --force --recursive",Append
+If,%DelSpeech_CheckBox%,Equal,True,TxtAddline,%w%,"delete '\Windows\Speech' --force --recursive",Append
 // Pure 64 bit, without WoW64 support): Program Files (x86) is not required
+If,%DelSysWOW64_CheckBox%,Equal,True,Begin
+  If,%Architecture%%WoW64Support%,Equal,x64False,TxtAddline,%w%,"delete '\Windows\SysWOW64' --force  --recursive",Append
+End
 If,%Architecture%,Equal,x64,TxtAddline,%w%,"delete '\Program Files (x86)' --force  --recursive",Append
 TxtAddline,%w%,"delete '\Windows\WinSxs' --force --recursive",Append
 TxtAddline,%w%,"delete '\Windows\System32\WallpaperHost.exe' --force",Append
+//-
+// Disable Diagnostic Telemetry Service (DiagTrack and diagnosticshub.standardcollector.service are disabled in Config.script)
+TxtAddline,%w%,"delete '\Windows\DiagTrack' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\DiagSvcs' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\diagER.dll' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\diagtrack.dll' --force --recursive",Append
+//-
+// WMI Repository will be rebuilt, refresh at startup
+TxtAddline,%w%,"delete '\Windows\System32\wbem\AutoRecover' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\wbem\Logs' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\wbem\Repository' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\wbem\tmf' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\wbem\xml' --force --recursive",Append
+//-
+// Edge web plateform is useless
+TxtAddline,%w%,"delete '\Windows\System32\edgehtml.dll' --force --recursive",Append
+Loop,%ScriptFile%,WimSmallUpdateMuiFile_Loop,1,%NbLang%,\Windows\System32,edgehtml.dll.mui
+TxtAddline,%w%,"delete '\Windows\SystemResources\edgehtml.dll.mun' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\edgeIso.dll' --force --recursive",Append
+TxtAddline,%w%,"delete '\Windows\System32\EdgeManager.dll' --force --recursive",Append
+//-
 TxtAddline,%w%,"delete '\Windows\System32\config\Journal' --force --recursive",Append
 TxtAddline,%w%,"delete '\Windows\System32\config\RegBack' --force --recursive",Append
 TxtAddline,%w%,"delete '\Windows\System32\config\systemprofile' --force --recursive",Append
 TxtAddline,%w%,"delete '\Windows\System32\config\TxR' --force --recursive",Append
-Run,%ScriptFile%,WimSmallUpdateMui,\Windows\System32
-If,%Architecture%,Equal,x64,Run,%ScriptFile%,WimSmallUpdateMui,\Windows\SysWOW64
-Run,%ScriptFile%,WimSmallUpdateMui,\Windows\Boot\EFI
-Run,%ScriptFile%,WimSmallUpdateMui,\Windows\Boot\PCAT
-Run,%ScriptFile%,WimSmallUpdateMui,\Windows\Boot\PXE
+//-
+Run,%ScriptFile%,WimSmallUpdateMuiDir,\Windows\System32
+If,%Architecture%,Equal,x64,Run,%ScriptFile%,WimSmallUpdateMuiDir,\Windows\SysWOW64
+Run,%ScriptFile%,WimSmallUpdateMuiDir,\Windows\Boot\EFI
+Run,%ScriptFile%,WimSmallUpdateMuiDir,\Windows\Boot\PCAT
+Run,%ScriptFile%,WimSmallUpdateMuiDir,\Windows\Boot\PXE
 
-[WimSmallUpdateMui]
+[WimSmallUpdateMuiFile_Loop]
+StrFormat,SPLIT,%FallBackLanguage%,|,#c,#9
+TxtAddline,%w%,"delete '#1\#9\#2' --force --recursive",Append
+
+[WimSmallUpdateMuiDir]
 TxtAddline,%w%,"delete '#1\ar-SA' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\bg-BG' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\cs-CZ' --force --recursive",Append
@@ -907,9 +933,9 @@ TxtAddline,%w%,"delete '#1\uk-UA' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\zh-CN' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\zh-HK' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\zh-TW' --force --recursive",Append
-Loop,%ScriptFile%,WimSmallUpdateMui_Loop,1,%NbLang%,#1
+Loop,%ScriptFile%,WimSmallUpdateMuiDir_Loop,1,%NbLang%,#1
 
-[WimSmallUpdateMui_Loop]
+[WimSmallUpdateMuiDir_Loop]
 StrFormat,SPLIT,%FallBackLanguage%,|,#c,#9
 TXTDelLine,%w%,"delete '#1\#9' --force --recursive"
 

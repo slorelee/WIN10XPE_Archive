@@ -110,5 +110,37 @@
 ; For updates
 \Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Package_*
 
+[Catalog_AddFiles_18362]
+\windows\system32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Desktop-Required-Package*.cat
+\windows\system32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Desktop-Required-WOW64-Package*.cat
+\windows\system32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Features-Package*.cat
+\windows\system32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Client-Features-WOW64-Package*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-DataCenterBridging-Package*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-DataCenterBridging-WOW64-Package*.cat
+\windows\system32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-DataCenterBridging-Opt-Package*.cat
+\windows\system32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-DataCenterBridging-Opt-WOW64-Package*.cat
+; Additions
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\LanguageFeatures-WordBreaking-*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Browser-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Dedup-ChunkLibrary-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Media-Format-multimedia-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Multimedia-RestrictedCodecs-multimedia-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Multimedia-RestrictedCodecs-WOW64-multimedia-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-NetFx4-US-OC-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-NetFx-Shared-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-PhotoBasic-Feature-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-PhotoBasic-PictureTools-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-SearchEngine-Client-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-SecureStartup-Subsystem-base-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-TerminalServices-CommandLineTools-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-WPD-UltimatePortableDeviceFeature-Feature-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-MFCore-Package~*.cat
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-MFCore-WOW64-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-RestrictedCodecsCore-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Multimedia-RestrictedCodecsExt-Package~*.cat
+\Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\WindowsSearchEngineSKU-Group-Package~*.cat
+; For updates
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Package_*
+
 [Catalog_AddFiles_All]
 \Windows\System32\CatRoot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}

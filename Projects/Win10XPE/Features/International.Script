@@ -3,7 +3,7 @@ Title=International
 Type=XPEPlugin
 Description=International setting Keyboard - Format - TimeZone
 Author=ChriSR
-Date=2019.01.18
+Date=2019.04.01
 Version=002
 Selected=None
 Mandatory=None
@@ -93,7 +93,11 @@ If,Not,%Set_Intl_Parm%-,Equal,-,Begin
     StrFormat,Replace,%Set_Intl_Parm%,e:,"e: ",%Set_Intl_Parm_Echo%
     StrFormat,Replace,%Set_Intl_Parm_Echo%,/Set-,"&Echo ",%Set_Intl_Parm_Echo%
     System,FileRedirect,OFF
-    ShellExecute,Open,cmd.exe,"/C Echo Set Keyboard, Format and Timezone. Be patient...%Set_Intl_Parm_Echo%&Dism.exe /image:#$q%GTarget%#$q %Set_Intl_Parm% /LogPath:#$q%DismLog%#$q",%DismExePath%
+    ShellExecute,Open,cmd.exe,"/C Echo Set Keyboard, Format and Timezone. Be patient...&Echo.%Set_Intl_Parm_Echo%&Dism.exe /image:#$q%GTarget%#$q %Set_Intl_Parm% /LogPath:#$q%DismLog%#$q",%DismExePath%
     System,FileRedirect,ON
   End
 End
+//-
+RegHiveLoad,Tmp_Default,%RegDefault%
+RegWrite,HKLM,0x0,"Tmp_Default\Control Panel\International\User Profile"
+RegHiveUnLoad,Tmp_Default

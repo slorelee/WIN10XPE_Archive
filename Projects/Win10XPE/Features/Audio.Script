@@ -3,7 +3,7 @@ Title=Audio
 Type=XPEPlugin
 Description=Audio
 Author=ChriSR
-Date=2018.05.30
+Date=2019.04.01
 Version=001
 Selected=None
 Mandatory=None
@@ -12,6 +12,9 @@ Level=0
 Download_Level=0
 Credits=
 Contact=
+
+[Variables]
+%EnableMMDevicesStereo%=True
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -25,6 +28,11 @@ If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
 
 [AddFiles]
 If,ExistFile,%ScriptDir%\Audio_AddFiles.txt,ExtractListFiles,%ScriptDir%\Audio_AddFiles.txt
+If,%SourceBuild%,Bigger,18300,ExtractSectionFiles,%ScriptFile%,Audio_1903_AddFiles
+
+[Audio_1903_AddFiles]
+\Windows\System32\SysFxUI.dll
+\Windows\System32\WMALFXGFXDSP.dll
 
 [Reg_Audio]
 If,%FullSoftware%,Equal,False,Begin
@@ -58,6 +66,10 @@ RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Beep
 //In WinRE.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\HDAudBus
 //In WinRE.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\MMCSS
 //In WinRE.wim RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\volmgr
+//-
+If,%SourceBuild%%EnableMMDevicesStereo%,Equal,17763True,Begin
+  If,ExistFile,%ScriptDir%\MMDevices_Stereo.txt,RegImportFile,%ScriptDir%\MMDevices_Stereo.txt
+End
 
 [Reg_AudioDrivers]
 RegImportFile,%ScriptDir%\Audio_RegDrivers.txt

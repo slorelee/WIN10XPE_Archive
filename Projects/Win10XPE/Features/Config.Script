@@ -3,7 +3,7 @@ Title=Config
 Type=XPEPlugin
 Description=Configure the Base for Explorer
 Author=ChriSR
-Date=2019.02.10
+Date=2019.04.09
 Version=003
 Selected=None
 Mandatory=None
@@ -14,41 +14,41 @@ Credits=
 Contact=
 
 [Variables]
-%CacheVersion%=4
+%CacheVersion%=5
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
 Run,%ScriptFile%,RegConfig
-Run,%ScriptFile%,ChangeReg
+Run,%ScriptFile%,RegConfig_PostCache
 
 [RegConfig]
-If,ExistFile,%HiveCache%\HiveCache.ini,Run,%ScriptFile%,CheckHiveCacheINI
+If,ExistFile,%XPECache%\HiveCache.ini,Run,%ScriptFile%,CheckHiveCacheINI
 Else,Begin
-  If,ExistDir,%HiveCache%,DirDeleteQ,%HiveCache%
+  If,ExistDir,%XPECache%,DirDeleteQ,%XPECache%
 End
 //--
-If,ExistFile,%HiveCache%\HiveCache.ini,Run,%ScriptFile%,RestoreOrPrepareRegConfig
+If,ExistFile,%XPECache%\HiveCache.ini,Run,%ScriptFile%,RestoreOrPrepareRegConfig
 Else,Begin
-  If,Not,ExistDir,%HiveCache%,DirMake,%HiveCache%
+  If,Not,ExistDir,%XPECache%,DirMake,%XPECache%
   Run,%ScriptFile%,WriteIniCacheInformation
   Run,%ScriptFile%,PrepareRegConfigALL
 End
 
 [CheckHiveCacheINI]
-IniRead,%HiveCache%\HiveCache.ini,Cache,Version,%CacheVersionIni%
-If,Not,%CacheVersion%,Equal,%CacheVersionIni%,DirDeleteQ,%HiveCache%
+IniRead,%XPECache%\HiveCache.ini,Cache,Version,%CacheVersionIni%
+If,Not,%CacheVersion%,Equal,%CacheVersionIni%,DirDeleteQ,%XPECache%
 Else,Begin
-  If,Not,ExistFile,%HiveCache%\SOFTWARE,IniWrite,%HiveCache%\HiveCache.ini,Cache,Software,False
-  If,Not,ExistFile,%HiveCache%\FullSOFTWARE,IniWrite,%HiveCache%\HiveCache.ini,Cache,FullSoftware,False
-  If,Not,ExistFile,%HiveCache%\SYSTEM,IniWrite,%HiveCache%\HiveCache.ini,Cache,System,False
-  If,Not,ExistFile,%HiveCache%\DEFAULT,IniWrite,%HiveCache%\HiveCache.ini,Cache,Default,False
-  If,Not,ExistFile,%HiveCache%\DRIVERS,IniWrite,%HiveCache%\HiveCache.ini,Cache,Drivers,False
+  If,Not,ExistFile,%XPECache%\SOFTWARE,IniWrite,%XPECache%\HiveCache.ini,Cache,Software,False
+  If,Not,ExistFile,%XPECache%\FullSOFTWARE,IniWrite,%XPECache%\HiveCache.ini,Cache,FullSoftware,False
+  If,Not,ExistFile,%XPECache%\SYSTEM,IniWrite,%XPECache%\HiveCache.ini,Cache,System,False
+  If,Not,ExistFile,%XPECache%\DEFAULT,IniWrite,%XPECache%\HiveCache.ini,Cache,Default,False
+  If,Not,ExistFile,%XPECache%\DRIVERS,IniWrite,%XPECache%\HiveCache.ini,Cache,Drivers,False
   //--
-  IniRead,%HiveCache%\HiveCache.ini,Cache,Software,%SoftwareIni%
-  IniRead,%HiveCache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
-  IniRead,%HiveCache%\HiveCache.ini,Cache,System,%SystemIni%
-  IniRead,%HiveCache%\HiveCache.ini,Cache,Default,%DefaultIni%
-  IniRead,%HiveCache%\HiveCache.ini,Cache,Drivers,%DriversIni%
+  IniRead,%XPECache%\HiveCache.ini,Cache,Software,%SoftwareIni%
+  IniRead,%XPECache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
+  IniRead,%XPECache%\HiveCache.ini,Cache,System,%SystemIni%
+  IniRead,%XPECache%\HiveCache.ini,Cache,Default,%DefaultIni%
+  IniRead,%XPECache%\HiveCache.ini,Cache,Drivers,%DriversIni%
 End
 
 [PrepareRegConfigALL]
@@ -62,33 +62,33 @@ Run,%ScriptFile%,PrepareRegConfigDrivers
 If,%FullSoftware%,Equal,True,Begin
   If,%FullSoftwareIni%,Equal,True,Begin
     Echo,"Restore the Full Software registry from cache..."
-    FileCopy,%HiveCache%\FullSOFTWARE,%GTarget_Sys%\Config\SOFTWARE,NoWarn
+    FileCopy,%XPECache%\FullSOFTWARE,%GTarget_Sys%\Config\SOFTWARE,NoWarn
   End
   Else,Run,%ScriptFile%,PrepareRegConfigSoftware
 End
 Else,Begin
   If,%SoftwareIni%,Equal,True,Begin
     Echo,"Restore the Software registry from cache..."
-    FileCopy,%HiveCache%\SOFTWARE,%GTarget_Sys%\Config\,NoWarn
+    FileCopy,%XPECache%\SOFTWARE,%GTarget_Sys%\Config\,NoWarn
   End
   Else,Run,%ScriptFile%,PrepareRegConfigSoftware
 End
 //--- Check System ---
 If,%SystemIni%,Equal,True,Begin
   Echo,"Restore the System registry from cache..."
-  FileCopy,%HiveCache%\SYSTEM,%GTarget_Sys%\Config\,NoWarn
+  FileCopy,%XPECache%\SYSTEM,%GTarget_Sys%\Config\,NoWarn
 End
 Else,Run,%ScriptFile%,PrepareRegConfigSystem
 //--- Check Default ---
 If,%DefaultIni%,Equal,True,Begin
   Echo,"Restore the Default registry from cache..."
-  FileCopy,%HiveCache%\DEFAULT,%GTarget_Sys%\Config\,NoWarn
+  FileCopy,%XPECache%\DEFAULT,%GTarget_Sys%\Config\,NoWarn
 End
 Else,Run,%ScriptFile%,PrepareRegConfigDefault
 //--- Check Drivers ---
 If,%DriversIni%,Equal,True,Begin
   Echo,"Restore the Drivers registry from cache..."
-  FileCopy,%HiveCache%\DRIVERS,%GTarget_Sys%\Config\,NoWarn
+  FileCopy,%XPECache%\DRIVERS,%GTarget_Sys%\Config\,NoWarn
 End
 Else,Run,%ScriptFile%,PrepareRegConfigDrivers
 //-
@@ -110,13 +110,13 @@ RegHiveUnLoad,Tmp_Software
 //-
 If,%FullSoftware%,Equal,True,Begin
   Echo,"Save the Full Software registry in cache..."
-  FileCopy,%GTarget_Sys%\Config\SOFTWARE,%HiveCache%\FullSOFTWARE
-  IniWrite,%HiveCache%\HiveCache.ini,Cache,FullSoftware,True
+  FileCopy,%GTarget_Sys%\Config\SOFTWARE,%XPECache%\FullSOFTWARE
+  IniWrite,%XPECache%\HiveCache.ini,Cache,FullSoftware,True
 End
 Else,Begin
   Echo,"Save the Software registry in cache..."
-  FileCopy,%GTarget_Sys%\Config\SOFTWARE,%HiveCache%
-  IniWrite,%HiveCache%\HiveCache.ini,Cache,Software,True
+  FileCopy,%GTarget_Sys%\Config\SOFTWARE,%XPECache%
+  IniWrite,%XPECache%\HiveCache.ini,Cache,Software,True
 End
 
 [PrepareRegConfigSystem]
@@ -127,8 +127,8 @@ Run,%ScriptFile%,EditReg_System
 RegHiveUnLoad,Tmp_System
 //-
 Echo,"Save the System registry in cache..."
-FileCopy,%GTarget_Sys%\Config\SYSTEM,%HiveCache%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,System,True
+FileCopy,%GTarget_Sys%\Config\SYSTEM,%XPECache%
+IniWrite,%XPECache%\HiveCache.ini,Cache,System,True
 
 [PrepareRegConfigDefault]
 Echo,"Prepare the Default registry..."
@@ -138,8 +138,8 @@ Run,%ScriptFile%,EditReg_Default
 RegHiveUnLoad,Tmp_Default
 //-
 Echo,"Save the Default registry in cache..."
-FileCopy,%GTarget_Sys%\Config\DEFAULT,%HiveCache%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,Default,True
+FileCopy,%GTarget_Sys%\Config\DEFAULT,%XPECache%
+IniWrite,%XPECache%\HiveCache.ini,Cache,Default,True
 
 [PrepareRegConfigDrivers]
 Echo,"Prepare the Drivers registry..."
@@ -148,27 +148,27 @@ ACLRegKey,Tmp_Drivers
 RegHiveUnLoad,Tmp_Drivers
 //-
 Echo,"Save the Drivers registry in cache..."
-FileCopy,%GTarget_Sys%\Config\DRIVERS,%HiveCache%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,Drivers,True
+FileCopy,%GTarget_Sys%\Config\DRIVERS,%XPECache%
+IniWrite,%XPECache%\HiveCache.ini,Cache,Drivers,True
 
 [WriteIniCacheInformation]
-IniWrite,%HiveCache%\HiveCache.ini,Cache,Version,%CacheVersion%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,BuildDate,%Year%.%Month%.%Day%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,Image,%Image%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,DisplayName,%DisplayName%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,EditionID,%EditionID%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,SourceVersion,%SourceVersion%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,SourceBuild,%SourceBuild%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,Architecture,%Architecture%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,Language,%Language%
+IniWrite,%XPECache%\HiveCache.ini,Cache,Version,%CacheVersion%
+IniWrite,%XPECache%\HiveCache.ini,Cache,BuildDate,%Year%.%Month%.%Day%
+IniWrite,%XPECache%\HiveCache.ini,Cache,Image,%Image%
+IniWrite,%XPECache%\HiveCache.ini,Cache,DisplayName,%DisplayName%
+IniWrite,%XPECache%\HiveCache.ini,Cache,EditionID,%EditionID%
+IniWrite,%XPECache%\HiveCache.ini,Cache,SourceVersion,%SourceVersion%
+IniWrite,%XPECache%\HiveCache.ini,Cache,SourceBuild,%SourceBuild%
+IniWrite,%XPECache%\HiveCache.ini,Cache,Architecture,%Architecture%
+IniWrite,%XPECache%\HiveCache.ini,Cache,Language,%Language%
 StrFormat,REPLACE,%FallBackLanguage%,%Language%|,"",%FallBackLanguageVar%
-IniWrite,%HiveCache%\HiveCache.ini,Cache,FallBackLanguage,%FallBackLanguageVar%
+IniWrite,%XPECache%\HiveCache.ini,Cache,FallBackLanguage,%FallBackLanguageVar%
 
 [EditReg_Default]
 RegWrite,HKLM,0x4,"Tmp_Default\Control Panel\Desktop",AutoColorization,1
 RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",DesktopDPIOverride,-2
 RegWrite,HKLM,0x4,"Tmp_Default\Control Panel\Desktop",LogPixels,96
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",Win8DpiScaling,1
+RegWrite,HKLM,0x4,"Tmp_Default\Control Panel\Desktop",Win8DpiScaling,1
 RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",Wallpaper,X:\Windows\Web\Wallpaper\Windows\img0.jpg
 RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,0
 RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,10
@@ -180,6 +180,9 @@ RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\Gene
 RegImportFile,%ScriptDir%\ProductOptions.txt
 // Environment
 RegWrite,HKLM,0x2,"Tmp_System\ControlSet001\Control\Session Manager\Environment",AppData,#$pSystemDrive#$p\Users\Default\AppData\Roaming
+// Disable Telemetry
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener,Start,0
+//-
 RegHiveLoad,Tmp_Install_System,%Gtemp%\Install.hives\SYSTEM
 // Taking Ownership, Appinfo and ProfSvc Services. ProfSvc Already Here
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Appinfo
@@ -193,7 +196,6 @@ RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\SecurityProviders,SecurityPro
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Control\Power
 RegHiveunLoad,Tmp_Install_System
 //-
-RegImportFile,%ScriptDir%\ProductOptions.txt
 // Disable Auto Chkdsk at Bootup Autochk
 //System,ERROROFF
 //RegWrite,HKLM,0x7,"Tmp_System\ControlSet001\Control\Session Manager",BootExecute,"autocheck autochk /k:C /k:D /k:D /k:E /k:F /k:G /k:H /k:I /k:J /k:K /k:L /k:M /k:N /k:O /k:P /k:Q /k:R /k:S /k:T /k:U /k:V /k:W /k:Y /k:Z *"
@@ -217,28 +219,14 @@ RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,"NV Hostnam
 RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,Hostname,%ProjectName%
 RegWrite,HKLM,0x1,"Tmp_System\ControlSet001\Control\Session Manager\Environment",ComputerName,%ProjectName%
 
-[ChangeReg]
-// Start Services in RS5!
-If,%SourceBuild%,Bigger,17700,If,%SourceBuild%,Smaller,18000,Begin
-  RegHiveLoad,Tmp_System,%RegSystem%
-  System,ERROROFF
-  RegWrite,HKLM,0x2,Tmp_System\ControlSet001\Services\BFE,ImagePath,"#$psystemroot#$p\system32\svchost.exe -k LocalServiceNoNetworkFirewall -p"
-  RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\BFE,SvcHostSplitDisable,1
-  RegWrite,HKLM,0x3,Tmp_System\ControlSet001\Services\BFE\Security,Security,01,00,14,80,90,00,00,00,9c,00,00,00,14,00,00,00,30,00,00,00,02,00,1c,00,01,00,00,00,02,80,14,00,ff,00,0f,00,01,01,00,00,00,00,00,01,00,00,00,00,02,00,60,00,04,00,00,00,00,00,14,00,85,00,02,00,01,01,00,00,00,00,00,05,0b,00,00,00,00,00,14,00,9f,00,0e,00,01,01,00,00,00,00,00,05,12,00,00,00,00,00,18,00,9d,00,0e,00,01,02,00,00,00,00,00,05,20,00,00,00,20,02,00,00,00,00,18,00,85,00,00,00,01,02,00,00,00,00,00,05,20,00,00,00,21,02,00,00,01,01,00,00,00,00,00,05,12,00,00,00,01,01,00,00,00,00,00,05,12,00,00,00
-  // In pecmd.ini EXEC @!%WinDir%\System32\Net.exe Start Wlansvc - EXEC @!%WinDir%\System32\Net.exe Start WinHttpAutoProxySvc
-  // LanmanWorkstation,DNSCache,NlaSvc Does Not Start Alone on Windows 10 1809
-  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\LanmanWorkstation
-  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\DNSCache
-  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\NlaSvc
-  RegHiveUnLoad,Tmp_System
-End
-
 [EditReg_Software]
 If,%FullSoftware%,Equal,True,Run,%ScriptFile%,EditReg_FullSoftware
 Else,Run,%ScriptFile%,EditReg_BaseSoftware
 //-
 System,ERROROFF
 RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\ProfileList\S-1-5-18",ProfileImagePath,X:\Users\Default
+// Disable Telemetry
+RegWrite,HKLM,0x4,Tmp_Software\Microsoft\Windows\CurrentVersion\Policies\DataCollection,AllowTelemetry,0
 // Manage Computer
 RegWrite,HKLM,0x2,Tmp_software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell\Manage\command,,"#$pSystemRoot#$p\System32\mmc.exe /b compmgmt.msc",NoWarn
 // Search for driver software in this location (HostOS)
@@ -277,6 +265,9 @@ RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\OC\Mic
 RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\OC\Microsoft-WinPE-WMI","1. Register CIMWIM32",#$psystemroot#$p\system32\wbem\cimwin32.dll
 RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\OC\Microsoft-WinPE-WSH","1. Register WSHOM",#$psystemroot#$p\system32\wshom.ocx
 RegWrite,HKLM,0x7,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\UGC",Microsoft-Windows-TCPIP,"netiougc.exe -online"
+//-
+// Autorecover wbem MOFs files from winre.wim. To do optionally with correct Language
+//RegWrite,HKLM,0x7,Tmp_Software\Microsoft\WBEM\CIMOM,"Autorecover MOFs",#$pwindir#$p\system32\wbem\cimwin32.mof,#$pwindir#$p\system32\wbem\ncprov.mof,#$pwindir#$p\system32\wbem\en-us\cimwin32.mfl
 
 [EditReg_BaseSoftware]
 RegHiveLoad,Tmp_Install_Software,%Gtemp%\Install.hives\SOFTWARE
@@ -312,6 +303,33 @@ RegCopyKey,HKLM,"Tmp_Software\Classes\Local Settings\Software\Microsoft\Windows\
 RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\AppModel
 RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\AppX
 RegHiveunLoad,Tmp_Install_Software
+
+[RegConfig_PostCache]
+RegHiveLoad,Tmp_System,%RegSystem%
+//-
+// Disable Telemetry Service
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\diagnosticshub.standardcollector.service,Start,4
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\DiagTrack,Start,4
+//-
+// Create and Disable Remote Desktop service to avoid event log error
+RegHiveLoad,Tmp_Install_System,%Gtemp%\Install.hives\SYSTEM
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\TermService
+If,ExistRegSection,HKLM,Tmp_System\ControlSet001\Services\TermService,RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\TermService,Start,4
+RegHiveUnLoad,Tmp_Install_System
+//-
+// Start Services in RS5, 19h1
+If,%SourceBuild%,Bigger,17700,Begin
+  System,ERROROFF
+  RegWrite,HKLM,0x2,Tmp_System\ControlSet001\Services\BFE,ImagePath,"#$psystemroot#$p\system32\svchost.exe -k LocalServiceNoNetworkFirewall -p"
+  RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\BFE,SvcHostSplitDisable,1
+  RegWrite,HKLM,0x3,Tmp_System\ControlSet001\Services\BFE\Security,Security,01,00,14,80,90,00,00,00,9c,00,00,00,14,00,00,00,30,00,00,00,02,00,1c,00,01,00,00,00,02,80,14,00,ff,00,0f,00,01,01,00,00,00,00,00,01,00,00,00,00,02,00,60,00,04,00,00,00,00,00,14,00,85,00,02,00,01,01,00,00,00,00,00,05,0b,00,00,00,00,00,14,00,9f,00,0e,00,01,01,00,00,00,00,00,05,12,00,00,00,00,00,18,00,9d,00,0e,00,01,02,00,00,00,00,00,05,20,00,00,00,20,02,00,00,00,00,18,00,85,00,00,00,01,02,00,00,00,00,00,05,20,00,00,00,21,02,00,00,01,01,00,00,00,00,00,05,12,00,00,00,01,01,00,00,00,00,00,05,12,00,00,00
+  // In pecmd.ini EXEC @!%WinDir%\System32\Net.exe Start Wlansvc - EXEC @!%WinDir%\System32\Net.exe Start WinHttpAutoProxySvc
+  // LanmanWorkstation,DNSCache,NlaSvc Does Not Start Alone on Windows 10 1809
+  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\LanmanWorkstation
+  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\DNSCache
+  RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\NlaSvc
+End
+RegHiveUnLoad,Tmp_System
 
 [OpenCmdHere]
 // Cmd Instead of Powershell

@@ -3,8 +3,8 @@ Title=System Event Sounds
 Type=XPEPlugin
 Description=Add System Event Sounds
 Author=James
-Date=2018.09.13
-Version=001
+Date=2019.04.01
+Version=002
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -16,8 +16,7 @@ Contact=
 [Process]
 Echo,"Processing %ScriptTitle%..."
 //--
-ExtractSectionFiles,%ScriptFile%,SoundEvents_AddFiles
-If,%Architecture%%WoW64Support%,Equal,x64True,ExtractSectionFiles,%ScriptFile%,SoundEvents_AddFiles6432
+Run,%ScriptFile%,AddFiles
 //-
 If,Not,#1,Equal,HiveLoaded,Begin
   RegHiveLoad,Tmp_Software,%RegSoftware%
@@ -29,6 +28,10 @@ If,Not,#1,Equal,HiveLoaded,Begin
   RegHiveUnLoad,Tmp_Default
 End
 
+[AddFiles]
+ExtractSectionFiles,%ScriptFile%,SoundEvents_AddFiles
+If,%Architecture%%WoW64Support%,Equal,x64True,ExtractSectionFiles,%ScriptFile%,SoundEvents_AddFiles6432
+
 [SoundEvents_AddFiles]
 \windows\media\*.wav
 \Windows\System32\audiodev.dll
@@ -36,9 +39,6 @@ End
 \Windows\System32\WinTypes.dll
 \windows\System32\mmres.dll
 \windows\System32\ieframe.dll
-\Windows\System32\??-??\audiodev.dll.mui
-\Windows\System32\??-??\mfc40u.dll.mui
-\Windows\System32\??-??\WinTypes.dll.mui
 
 [SoundEvents_AddFiles6432]
 \Windows\SysWOW64\audiodev.dll
@@ -46,9 +46,6 @@ End
 \Windows\SysWOW64\WinTypes.dll
 \windows\SysWOW64\mmres.dll
 \windows\SysWOW64\ieframe.dll
-\Windows\SysWOW64\??-??\audiodev.dll.mui
-\Windows\SysWOW64\??-??\mfc40u.dll.mui
-\Windows\SysWOW64\??-??\WinTypes.dll.mui
 
 [Add_Registry]
 RegWrite,HKLM,0x4,Tmp_Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation,DisableStartupSound,0

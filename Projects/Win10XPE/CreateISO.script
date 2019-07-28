@@ -3,8 +3,8 @@ Title=Create ISO
 Type=XPEPlugin
 Description=Create or Recreate boot.wim and ISO.#$xCopy the ISO on a USB stick, disk, with both Bios and UEFI compatibility.#$xUse the Tools to Add files or Edit Win10XPE registry hives.
 Author=ChriSR
-Date=2018.09.13
-Version=001
+Date=2019.04.01
+Version=003
 Selected=True
 Mandatory=False
 NoWarning=False
@@ -14,15 +14,14 @@ Credits=
 Contact=
 
 [Variables]
+%Debug_Display_CheckSysFiles%=False
 %ImageName%=%ProjectName%_%Architecture%
 %ISOFileName%=%BaseDir%\%ProjectName%_%Architecture%.ISO
 %BcdEditExe%=%GTools%\%Architecture%\BCDBoot\bcdedit.exe
 %tmout%=5
 %Usb7iceExe%=%GTools%\Usb7ice.exe
-%RufusExe%=%GTools%\rufus-3.4p.exe
+%RufusExe%=%GTools%\rufus-3.5p.exe
 %RufusIni%=%GTools%\rufus.ini
-Copy=Run,%ScriptFile%,PCopy
-CopyMui=Run,%ScriptFile%,PCopyMui
 //-
 %RegSoftware%=%GTarget_Sys%\config\SOFTWARE
 %RegSystem%=%GTarget_Sys%\config\SYSTEM
@@ -33,6 +32,9 @@ CopyMui=Run,%ScriptFile%,PCopyMui
 %KeySystem%=Tmp_System
 %KeyDefault%=Tmp_Default
 %KeyDrivers%=Tmp_Drivers
+//-
+Copy=Run,%ScriptFile%,PCopy
+CopyMui=Run,%ScriptFile%,PCopyMui
 
 [Interface]
 ISO_Bevel=ISO_Bevel,1,12,6,6,248,199
@@ -79,11 +81,15 @@ Echo,"Processing %ScriptTitle%..."
 Run,%ScriptFile%,PreCheck_Image_Exist
 Run,%ScriptFile%,PreCheck_Hives_Exist
 StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
-DirDeleteQ,%GISO%\sources
-DirMake,%GISO%\sources
+//-
 // To be sure, Unload Hive to avoid error 47 (sharing violation eg registry hive loaded) when capturing
 Run,%ScriptFile%,HiveUnload,%GTarget%
 Run,%ScriptFile%,CleanupFiles
+//-
+Run,%ScriptFile%,Check_Extract_SysFiles
+//-
+DirDeleteQ,%GISO%\sources
+DirMake,%GISO%\sources
 //-
 Echo,"Packing boot.wim image file, Be patient..."
 //ShellExecute,Open,%GTools%\wimlib-imagex.exe,"capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=LZX --verbose"
@@ -96,6 +102,15 @@ Else,Begin
 End
 //-
 Run,%ScriptFile%,CreateISO
+
+[Check_Extract_SysFiles]
+If,%Debug_Display_CheckSysFiles%,Equal,True,Set,%Action_After%,Display
+Else,Set,%Action_After%,ExtractListFiles
+If,%SourceBuild%,Bigger,18300,Set,%CheckmunFiles%,True
+Else,Set,%CheckmunFiles%,False
+//-
+Echo,"Check and Add System Resources Files..."
+Exec,%ProjectDir%\Features\CheckSysFiles.script,CheckSysFiles,Project,True,%CheckmunFiles%,%Action_After%
 
 [CreateISO]
 Echo,"Create ISO"
@@ -114,7 +129,7 @@ If,%ISOBootFilesOK%,Equal,No,Begin
   If,%TargetBootFilesOK%,Equal,Yes,Run,%ScriptFile%,CopyBootFiles,%GTarget%
   Else,Run,%ScriptFile%,ExtractBootFiles
 End
-If,%Bcdedit_CheckBox%,Equal,True,Run,%ScriptFile%,BcdMenu
+If,%Bcdedit_CheckBox%,Equal,True,Run,%ScriptFile%,SetBcd
 //-
 FileDeleteQ,%ISOFileName%
 Run,%ScriptFile%,MakeISO
@@ -139,12 +154,10 @@ If,%ISOBootFilesOK%,Equal,Yes,Begin
     If,Not,ExistFile,%GISO%\boot\bootfix.bin,Set,%ISOBootFilesOK%,No
   End
   Else,Begin
-    If,ExistFile,%GISO%\boot\bootfix.bin,Begin
-      FileDelete,%GISO%\boot\bootfix.bin
-      If,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,FileDelete,%GISO%\efi\microsoft\boot\efisys.bin
-    End
+    If,ExistFile,%GISO%\boot\bootfix.bin,FileDeleteQ,%GISO%\boot\bootfix.bin
+    If,ExistFile,%GISO%\efi\microsoft\boot\efisys.bin,FileDeleteQ,%GISO%\efi\microsoft\boot\efisys.bin
   End
-  If,Not,ExistFile,%GISO%\BOOTMGR,Set,%ISOBootFilesOK%,No
+  If,Not,ExistFile,%GISO%\bootmgr,Set,%ISOBootFilesOK%,No
   If,Not,ExistFile,%GISO%\bootmgr.efi,Set,%ISOBootFilesOK%,No
   If,Not,ExistFile,%GISO%\boot\BCD,Set,%ISOBootFilesOK%,No
   If,Not,ExistFile,%GISO%\boot\boot.sdi,Set,%ISOBootFilesOK%,No
@@ -224,8 +237,7 @@ Copy,#1\Windows\Boot\PCAT,bootmgr,%GISO%,BOOTMGR
 CopyMui,#1\Windows\Boot\PXE,bootmgr.exe,%GISO%\boot
 If,ExistFile,%GISO%\boot\bootmgr.exe,Begin
   FileCopy,%GISO%\boot\bootmgr.exe,%GISO%\bootmgr.exe
-  FileDelete,%GISO%\boot\bootmgr.exe
-  If,ExistFile,%GISO%\boot\bootmgr.exe,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q%GISO%\boot\bootmgr.exe#$q"
+  FileDeleteQ,%GISO%\boot\bootmgr.exe
 End
 Copy,#1\Windows\Boot\DVD\PCAT,bcd,%GISO%\boot
 Copy,#1\Windows\Boot\DVD\PCAT,boot.sdi,%GISO%\boot
@@ -245,8 +257,7 @@ If,Not,ExistDir,%GISO%\efi\microsoft\boot\fonts,DirMake,%GISO%\efi\microsoft\boo
 CopyMui,#1\Windows\Boot\EFI,bootmgr.efi,%GISO%\efi\microsoft\boot
 If,ExistFile,%GISO%\efi\microsoft\boot\bootmgr.efi,Begin
   FileCopy,%GISO%\efi\microsoft\boot\bootmgr.efi,%GISO%\bootmgr.efi
-  FileDelete,%GISO%\efi\microsoft\boot\bootmgr.efi
-  If,ExistFile,%GISO%\efi\microsoft\boot\bootmgr.efi,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q%GISO%\efi\microsoft\boot\bootmgr.efi#$q"
+  FileDeleteQ,%GISO%\efi\microsoft\boot\bootmgr.efi
 End
 If,%Architecture%,Equal,x64,CopyMui,#1\Windows\Boot\EFI,bootmgfw.efi,%GISO%\efi\boot,bootx64.efi
 Else,CopyMui,#1\Windows\Boot\EFI,bootmgfw.efi,%GISO%\efi\boot,bootia32.efi
@@ -270,8 +281,35 @@ Else,Begin
   Loop,%ScriptFile%,CopyFromMuiDir_Loop,1,%NbLang%,#1\Windows\Boot\DVD\EFI,efisys_noprompt.bin,%GISO%\efi\microsoft\boot,efisys.bin
 End
 
-[BcdMenu]
+[SetBcd]
 Echo,"Set boot configuration data localization"
+If,Not,ExistDir,%XPECache%,DirMake,%XPECache%
+If,ExistFile,%XPECache%\HiveCache.ini,Run,%ScriptFile%,CheckBcdCacheINI
+Else,Begin
+  If,ExistFile,%XPECache%\bcdboot,FileDeleteQ,%XPECache%\bcdboot
+  If,ExistFile,%XPECache%\bcdefi,FileDeleteQ,%XPECache%\bcdefi
+End
+//-
+If,ExistFile,%XPECache%\bcdboot,FileCopy,%XPECache%\bcdboot,%GISO%\Boot\bcd,Nowarn
+Else,Run,%ScriptFile%,SetBcdBoot
+//-
+If,ExistFile,%XPECache%\bcdefi,FileCopy,%XPECache%\bcdefi,%GISO%\efi\microsoft\boot\bcd,Nowarn
+Else,Run,%ScriptFile%,SetBcdEfi
+
+[CheckBcdCacheINI]
+If,Not,ExistFile,%XPECache%\bcdboot,IniWrite,%XPECache%\HiveCache.ini,BcdCache,bcdboot,False
+IniRead,%XPECache%\HiveCache.ini,BcdCache,bcdboot,%bcdbootValue%
+If,%bcdbootValue%,Equal,False,Begin
+  If,ExistFile,%XPECache%\bcdboot,FileDeleteQ,%XPECache%\bcdboot
+End
+//-
+If,Not,ExistFile,%XPECache%\bcdefi,IniWrite,%XPECache%\HiveCache.ini,BcdCache,bcdefi,False
+IniRead,%XPECache%\HiveCache.ini,BcdCache,bcdefi,%bcdefiValue%
+If,%bcdefiValue%,Equal,False,Begin
+  If,ExistFile,%XPECache%\bcdefi,FileDeleteQ,%XPECache%\bcdefi
+End
+
+[SetBcdBoot]
 If,%HostOSArch%,Equal,x86,Set,%BcdEditExe%,%GTools%\x86\BCDBoot\bcdedit.exe
 If,ExistFile,%BcdEditExe%,Begin
   StrFormat,PATH,%BcdEditExe%,%BcdEditExePath%
@@ -283,8 +321,17 @@ If,ExistFile,%BcdEditExe%,Begin
     ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {bootmgr} timeout %tmout%",%BcdEditExePath%
     // Show progress bars "windows is loading"
     ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\Boot\bcd#$q /set {default} bootmenupolicy legacy",%BcdEditExePath%
+    If,ExistFile,%GISO%\efi\microsoft\boot\bcd.LOG*,FileDelete,%GISO%\efi\microsoft\boot\bcd.LOG*
+    //-
+    FileCopy,%GISO%\Boot\bcd,%XPECache%\bcdboot
+    IniWrite,%XPECache%\HiveCache.ini,BcdCache,bcdboot,True
   End
-  //-
+End
+
+[SetBcdEfi]
+If,%HostOSArch%,Equal,x86,Set,%BcdEditExe%,%GTools%\x86\BCDBoot\bcdedit.exe
+If,ExistFile,%BcdEditExe%,Begin
+  StrFormat,PATH,%BcdEditExe%,%BcdEditExePath%
   If,ExistFile,%GISO%\efi\microsoft\boot\bcd,Begin
     ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} locale %Language%",%BcdEditExePath%
     ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} description #$q%ProjectName% %Architecture% UEFI#$q",%BcdEditExePath%
@@ -293,10 +340,11 @@ If,ExistFile,%BcdEditExe%,Begin
     ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\Boot\bcd#$q /set {bootmgr} timeout %tmout%",%BcdEditExePath%
     // Show progress bars "windows is loading"
     ShellExecute,Hide,%BcdEditExe%,"/store #$q%GISO%\efi\microsoft\boot\bcd#$q /set {default} bootmenupolicy legacy",%BcdEditExePath%
+    If,ExistFile,%GISO%\efi\microsoft\boot\bcd.LOG*,FileDelete,%GISO%\efi\microsoft\boot\bcd.LOG*
+    //-
+    FileCopy,%GISO%\efi\microsoft\boot\bcd,%XPECache%\bcdefi
+    IniWrite,%XPECache%\HiveCache.ini,BcdCache,bcdefi,True
   End
-  //-
-  If,ExistFile,%GISO%\boot\bcd.LOG*,FileDelete,%GISO%\boot\bcd.LOG*
-  If,ExistFile,%GISO%\efi\microsoft\boot\bcd.LOG*,FileDelete,%GISO%\efi\microsoft\boot\bcd.LOG*
 End
 
 [MakeISO]
@@ -338,6 +386,12 @@ If,ExistFile,%RufusExe%,Begin
 End
 
 [CleanupFiles]
+If,ExistFile,%GTarget_Sys%\WallpaperHost.exe,FileDeleteQ,%GTarget_Sys%\WallpaperHost.exe
+// Do not use, it causes a problem at startup with Pintool,SIB,...
+If,ExistFile,%GTarget_Sys%\Windows.CloudStore.dll,FileDeleteQ,%GTarget_Sys%\Windows.CloudStore.dll
+// Do not use, it causes a problem at startup with Pintool,...
+If,ExistFile,%GTarget_Sys%\windows.immersiveshell.serviceprovider.dll,FileDeleteQ,%GTarget_Sys%\windows.immersiveshell.serviceprovider.dll
+//-
 If,ExistFile,%GTarget%\Users\Default\Desktop\Desktop.ini,FileDelete,%GTarget%\Users\Default\Desktop\Desktop.ini
 If,ExistFile,%GTarget_Sys%\config\*.LOG1,FileDelete,%GTarget_Sys%\config\*.LOG1
 If,ExistFile,%GTarget_Sys%\config\*.LOG2,FileDelete,%GTarget_Sys%\config\*.LOG2

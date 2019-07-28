@@ -3,8 +3,8 @@ Title=Msi
 Type=XPEPlugin
 Description=Msi Windows Installer
 Author=ChriSR
-Date=2018.06.03
-Version=001
+Date=2019.04.01
+Version=002
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -57,8 +57,6 @@ TXTAddLine,%GTarget_Sys%\autorun.cmd,Exit,Append
 \Windows\System32\msiltcfg.dll
 \Windows\System32\msimsg.dll
 \Windows\System32\msisip.dll
-\Windows\System32\??-??\msiexec.exe.mui
-\Windows\System32\en-US\msimsg.dll.mui
 \Windows\System32\wbem\msi.mof
 \Windows\System32\wbem\msiprov.dll
 \Windows\System32\wbem\??-??\msi.mfl
@@ -70,5 +68,4 @@ TXTAddLine,%GTarget_Sys%\autorun.cmd,Exit,Append
 \Windows\SysWOW64\Msiltcfg.dll
 \Windows\SysWOW64\Msimsg.dll
 \Windows\SysWOW64\Msisip.dll
-\Windows\SysWOW64\??-??\msiexec.exe.mui
-\Windows\SysWOW64\en-US\msimsg.dll.mui
+

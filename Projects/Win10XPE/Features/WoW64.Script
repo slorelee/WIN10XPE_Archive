@@ -3,8 +3,8 @@ Title=WoW64 basic
 Type=XPEPlugin
 Description=WoW64 basic
 Author=ChriSR
-Date=2018.10.11
-Version=001
+Date=2019.04.01
+Version=003
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -12,6 +12,10 @@ Level=0
 Download_Level=0
 Credits=
 Contact=
+HistoryNotes01=wimlib-imagex.exe (v1.13 and older) Extract Path with Wildward Does Not Work on Windows 7 32/64 bits but Works on Windows 10
+HistoryNotes02=The Same Path with Wildward Works on Windows 7 and 10 If Used in a @LISTFILE
+HistoryNotes03=Ex: ExtractWimFile,\Windows\WinSxS\x86_microsoft.windows.c..-controls.resources_*_%Language_LCase%_*
+HistoryNotes04=Or: ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\install.wim#$q %Image% #$q\Windows\WinSxS\x86_microsoft.windows.c..-controls.resources_*_%Language_LCase%_*#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob --preserve-dir-structure"
 
 [Process]
 If,%Architecture%,Equal,x64,Begin
@@ -35,15 +39,22 @@ End
 [AddFiles]
 If,ExistFile,%ScriptDir%\WoW64_AddFiles.txt,Begin
   FileCopy,%ScriptDir%\WoW64_AddFiles.txt,%GTemp%\WoW64_AddFiles.txt
-  TXTReplace,%GTemp%\WoW64_AddFiles.txt,\xx-xx\,\%Language%\
   TXTReplace,%GTemp%\WoW64_AddFiles.txt,_xx-xx_,_%Language%_
-  If,%SourceBuild%,Bigger,17700,TXTDelLine,%GTemp%\WoW64_AddFiles.txt,\Windows\SysWOW64\shellstyle.dll
+  // In Win10 17763 shellstyle.dll(.mui) does not exist in SysWOW64 (wimlib do it well without removing the line)
+  If,%SourceBuild%,Equal,17763,TXTDelLine,%GTemp%\WoW64_AddFiles.txt,\Windows\SysWOW64\shellstyle.dll
   ExtractListFiles,%GTemp%\WoW64_AddFiles.txt
   FileDelete,%GTemp%\WoW64_AddFiles.txt
 End
 If,ExistFile,%GTarget_Sys%\imageres.dll,FileCopy,%GTarget_Sys%\imageres.dll,%GTarget_Win%\syswow64\
+//-
+If,%SourceBuild%,Bigger,18300,ExtractSectionFiles,%ScriptFile%,WoW64_1903_AddFiles
+
+[WoW64_1903_AddFiles]
+\Windows\SysWOW64\DXCore.dll
+\Windows\SysWOW64\umpdc.dll
 
 [Reg_WoW64]
+Echo,"Processing %ScriptTitle% Registry..."
 //RegImportFile,%ScriptDir%\WoW64_RegSoftware.txt
 RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node\CLSID
 RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node\Interface

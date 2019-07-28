@@ -39,15 +39,15 @@ If,ExistFile,%IFiles%,FileDeleteQ,%IFiles%
 FileCreateBlank,%IFiles%
 //-
 If,%AllNls_CheckBox%,Equal,False,Begin
-  FileDelete,%GTarget_Sys%\C_*.NLS
+  FileDelete,%GTarget_Sys%\C_*.NLS,Nowarn
   // Copy Minimum NLS files. Copy National Language Support (NLS) files from registry setting is not enough for advanced or extended languages
   If,ExistSection,%ScriptFile%,minNLS_%Language%,ExtractSectionFiles,%ScriptFile%,minNLS_%Language%
   Run,%ScriptFile%,CopyLocaleNLS
 End
 //-
 If,%AllKeyboard_CheckBox%,Equal,False,Begin
-  FileDelete,%GTarget_Sys%\KBD*.DLL
-  If,%Architecture%%WoW64Support%,Equal,x64True,FileDelete,%GTarget_Win%\SysWOW64\KBD*.DLL
+  FileDelete,%GTarget_Sys%\KBD*.DLL,Nowarn
+  If,%Architecture%%WoW64Support%,Equal,x64True,FileDelete,%GTarget_Win%\SysWOW64\KBD*.DLL,Nowarn
   // Copy Up to Four Default Keyboard Layout DLLs
   Loop,%ScriptFile%,LoopCopyKeyboardDLL,1,4
 End
