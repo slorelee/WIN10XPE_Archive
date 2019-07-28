@@ -3,8 +3,8 @@ Title=Display Drivers
 Type=XPEPlugin
 Description=Display Drivers
 Author=ChriSR
-Date=2018.09.21
-Version=001
+Date=2019.01.18
+Version=002
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -12,6 +12,9 @@ Level=0
 Download_Level=0
 Credits=
 Contact=
+
+[Variables]
+RegAddDriver=Run,%ScriptFile%,MRegAddDriver
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -52,24 +55,12 @@ TXTReplace,%GTarget_Sys%\pecmd.ini,"//EXEC =@!#$pWinDir#$p\System32\Drvload.exe 
 \Windows\System32\DriverStore\FileRepository\monitor.inf_*
 
 [Reg_Display]
-If,Not,ExistRegKey,HKLM,Tmp_Drivers\DriverDatabase\DeviceIds\{4d36e968-e325-11ce-bfc1-08002be10318},displayoverride.inf,ShellExecute,Hide,Reg.exe,"ADD #$qHKLM\Tmp_Drivers\DriverDatabase\DeviceIds\{4d36e968-e325-11ce-bfc1-08002be10318}#$q /v #$qdisplayoverride.inf#$q /t REG_NONE"
-If,Not,ExistRegKey,HKLM,Tmp_Drivers\DriverDatabase\DeviceIds\{4d36e968-e325-11ce-bfc1-08002be10318},display.inf,ShellExecute,Hide,Reg.exe,"ADD #$qHKLM\Tmp_Drivers\DriverDatabase\DeviceIds\{4d36e968-e325-11ce-bfc1-08002be10318}#$q /v #$qdisplay.inf#$q /t REG_NONE"
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\ACPI\CLS_0003&SUBCLS_0000,display.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\ACPI\CLS_0003&SUBCLS_0001,display.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\ACPI\CLS_0003&SUBCLS_0003,display.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\PCI\CC_0300,display.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\PCI\CC_0301,display.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\PCI\VEN_1002&DEV_474D,displayoverride.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\PCI\VEN_1002&DEV_474F,displayoverride.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\PCI\VEN_1002&DEV_4752,displayoverride.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\PCI\VEN_102B&DEV_0522,displayoverride.inf,01,fb,00,00
-RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\PCI\VEN_1039&DEV_6325,displayoverride.inf,01,fb,00,00
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\display.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\displayoverride.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,display.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,displayoverride.inf*
+RegAddDriver,display.inf
+RegAddDriver,displayoverride.inf
 
 [Reg_Monitor]
+Echo,"Register monitor Driver..."
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\monitor
 RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DeviceIds\Monitor
 RegWrite,HKLM,0x3,Tmp_Drivers\DriverDatabase\DeviceIds\*PNP09FF,monitor.inf,01,ff,00,00
 If,Not,ExistRegKey,HKLM,Tmp_Drivers\DriverDatabase\DeviceIds\{4d36e96e-e325-11ce-bfc1-08002be10318},c_monitor.inf,ShellExecute,Hide,Reg.exe,"Add #$qHKLM\Tmp_Drivers\DriverDatabase\DeviceIds\{4d36e96e-e325-11ce-bfc1-08002be10318}#$q /v #$qc_monitor.inf#$q /t REG_NONE"
@@ -80,4 +71,10 @@ RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\monitor.inf
 RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,c_monitor.inf*
 RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,monitor.inf*
 //RegCopyKey,HKLM,Tmp_Drivers\ControlSet001\Control\Class\{4d36e96e-e325-11ce-bfc1-08002be10318}
-RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\monitor
+
+[MRegAddDriver]
+If,-#1,Equal,-,EchoExtended,"Error: RegAddDriver - Missing Parameter: Driver File Name ",Warn,,MessageError,,Halt
+Echo,"Register #1 Driver..."
+System,FileRedirect,OFF
+ShellExecute,Hide,cmd.exe,"/C RegAddDriver.cmd #$q#1#$q",%GTools%
+System,FileRedirect,ON

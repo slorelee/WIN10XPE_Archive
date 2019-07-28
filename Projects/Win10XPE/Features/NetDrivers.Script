@@ -1,10 +1,10 @@
 [Main]
-Title=Net Drivers
+Title=Network Drivers
 Type=XPEPlugin
-Description=Net Drivers
+Description=Network Drivers
 Author=ChriSR
-Date=2018.10.11
-Version=002
+Date=2019.01.18
+Version=003
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -12,6 +12,9 @@ Level=0
 Download_Level=0
 Credits=
 Contact=
+
+[Variables]
+RegAddDriver=Run,%ScriptFile%,MRegAddDriver
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -22,7 +25,6 @@ If,Not,#1,Equal,HiveLoaded,Begin
   RegHiveLoad,Tmp_Install_Drivers,%Gtemp%\Install.hives\DRIVERS
 End
 If,%Shell%,Equal,WinXShell,ACLRegKey,Tmp_Drivers
-Run,%ScriptFile%,Reg_NetDrivers
 Run,%ScriptFile%,Reg_NetDrivers%Architecture%
 If,Not,#1,Equal,HiveLoaded,Begin
   RegHiveunLoad,Tmp_Install_Drivers
@@ -107,89 +109,52 @@ If,%SourceBuild%,Bigger,17700,ExtractSectionFiles,%ScriptFile%,NetDrivers%Archit
 \Windows\INF\netwtn02.inf
 \Windows\System32\DriverStore\FileRepository\netwtn02.inf*
 
-[Reg_NetDrivers]
-If,ExistFile,%ScriptDir%\NetDrivers%SourceBuild%%Architecture%_RegDrivers.txt,RegImportFile,%ScriptDir%\NetDrivers%SourceBuild%%Architecture%_RegDrivers.txt
-Else,Begin
-  If,%SourceBuild%,Smaller,17763,Begin
-    If,ExistFile,%ScriptDir%\NetDrivers16299%Architecture%_RegDrivers.txt,RegImportFile,%ScriptDir%\NetDrivers16299%Architecture%_RegDrivers.txt
-  End
-  Else,Echo,"NetDrivers%SourceBuild%%Architecture%_RegDrivers.txt does not exist",Warn
-End
-
 [Reg_NetDriversx86]
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\athw8.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netathr.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netathr10.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netbc63.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netbc64.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netrtwlane.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netrtwlane_13.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netrtwlanu.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwbn02.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwen00.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwen01.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwlv32.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwns32.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwsn00.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwtn04.inf
-//-
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,athw8.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netathr.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netathr10.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netbc63.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netbc64.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netrtwlane.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netrtwlane_13.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netrtwlanu.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwbn02.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwen00.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwen01.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwlv32.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwns32.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwsn00.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwtn04.inf*
+RegAddDriver,athw8.inf
+RegAddDriver,netathr.inf
+RegAddDriver,netathr10.inf
+RegAddDriver,netbc63.inf
+RegAddDriver,netbc64.inf
+RegAddDriver,netrtwlane.inf
+RegAddDriver,netrtwlane_13.inf
+RegAddDriver,netrtwlanu.inf
+RegAddDriver,netwbn02.inf
+RegAddDriver,netwen00.inf
+RegAddDriver,netwen01.inf
+RegAddDriver,netwlv32.inf
+RegAddDriver,netwns32.inf
+RegAddDriver,netwsn00.inf
+RegAddDriver,netwtn04.inf
 //-
 If,%SourceBuild%,Bigger,17700,Begin
-  RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwtn02.inf
-  RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwtn02.inf*
+  RegAddDriver,netwtn02.inf
 End
 
 [Reg_NetDriversx64]
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\athw8x.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netathr10x.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netathrx.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netbc63a.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netbc64.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netrtwlane.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netrtwlane_13.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netrtwlanu.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwbw02.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwew00.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwew01.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwlv64.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwns64.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwsw00.inf
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwtw04.inf
-//-
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,athw8x.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netathr10x.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netathrx.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netbc63a.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netbc64.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netrtwlane.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netrtwlane_13.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netrtwlanu.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwbw02.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwew00.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwew01.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwlv64.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwns64.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwsw00.inf*
-RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwtw04.inf*
+RegAddDriver,athw8x.inf
+RegAddDriver,netathr10x.inf
+RegAddDriver,netathrx.inf
+RegAddDriver,netbc63a.inf
+RegAddDriver,netbc64.inf
+RegAddDriver,netrtwlane.inf
+RegAddDriver,netrtwlane_13.inf
+RegAddDriver,netrtwlanu.inf
+RegAddDriver,netwbw02.inf
+RegAddDriver,netwew00.inf
+RegAddDriver,netwew01.inf
+RegAddDriver,netwlv64.inf
+RegAddDriver,netwns64.inf
+RegAddDriver,netwsw00.inf
+RegAddDriver,netwtw04.inf
 //-
 If,%SourceBuild%,Bigger,17700,Begin
-  RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwtw02.inf
-  RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles\netwtw06.inf
-  RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwtw02.inf*
-  RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,netwtw06.inf*
+  RegAddDriver,netwtw02.inf
+  RegAddDriver,netwtw06.inf
 End
+
+[MRegAddDriver]
+If,-#1,Equal,-,EchoExtended,"Error: RegAddDriver - Missing Parameter: Driver File Name ",Warn,,MessageError,,Halt
+Echo,"Register #1 Driver..."
+System,FileRedirect,OFF
+ShellExecute,Hide,cmd.exe,"/C RegAddDriver.cmd #$q#1#$q",%GTools%
+System,FileRedirect,ON

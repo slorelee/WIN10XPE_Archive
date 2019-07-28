@@ -3,7 +3,7 @@ Title=Win10XPE
 Type=XPEPlugin
 Description=Build Win10XPE by using an Original Windows 10 ISO x86 or x64...#$xThe build is based on the Winre.wim recovery environment.
 Author=ChrisR
-Date=2018.09.13
+Date=2019.01.20
 Version=001
 Selected=True
 Mandatory=True
@@ -94,7 +94,7 @@ TechBench_TextLabel="Download Windows 10 Original ISO (Final) from ",1,1,10,10,2
 TechBench_WebLabel="TechBench by WZT - RG Adguard",1,10,291,10,160,18,https://tb.rg-adguard.net/public.php
 Mount_TextLabel="Mount Windows 10 ISO or extract the ISO files in a folder",1,1,10,37,345,18,8,Bold
 SelectISO_Button=" Select the Windows 10 Source folder",1,8,10,65,220,50,SelectISO,opendir.bmp,False,"__Select the root of the mounted or extracted Windows 10 Source folder"
-SourceTab_TextLabel="* No need to use the Source tab, Source Directory",1,1,10,115,276,18,8,Normal
+SourceTab_TextLabel="* No Need To Use The Source Tab, Source Directory",1,1,10,115,276,18,8,Normal
 Source_Value=,1,1,236,83,315,18,10,Bold
 Image_TextLabel="Choose Image",0,1,16,137,80,18,8,Normal
 Image_Bevel=Image_Bevel,0,12,10,151,276,144
@@ -111,7 +111,7 @@ Build_Value=,0,1,116,221,164,18,8,Bold
 Architecture_Value=,0,1,116,239,164,18,8,Bold
 Language_Value=,0,1,116,257,164,18,8,Bold
 FBLanguage_Value=,0,1,116,275,164,18,8,Bold
-Play_TextLabel="Start building by using the big blue arrow 'Play' button on top",0,1,10,305,375,18,8,Bold
+Play_TextLabel="Start Building By Using The Big Blue Arrow 'Play' Button On Top",0,1,10,305,375,18,8,Bold
 Donate_Bevel=Donate_Bevel,0,12,421,220,128,75
 Donate_TextLabel="Support Win10XPE dev",0,1,427,225,120,18,8,Normal
 Image_Donate=btn_donate.gif,0,5,443,244,86,25,https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9WZ5EDAMPH6SE
@@ -134,9 +134,8 @@ If,Not,%Source_Value%,Equal,%TmpSource%,Begin
 Set,%Source_Value%,%TmpSource%,Permanent
 Set,%GSource%,%TmpSource%,Permanent
 Run,%ScriptFile%,Load_Image_Value
-//- Default Values if blank
-If,%Target_Prog%-,Equal,-,Set,%Target_Prog%,%GISO%\Programs,Permanent
-If,%PE_Programs%-,Equal,-,Set,%PE_Programs%,Y:\Programs,Permanent
+//- Default Values If Blank (%GTarget%, %GISO%, %Target_Prog%, %PE_Programs%). To possibly continue a previous compilation without going through Build Core
+If,%GTarget%-,Equal,-,Run,%ScriptFile%,Load_Default_Value
 Run,%ScriptFile%,Show_Extended_Gui
 End
 End
@@ -145,11 +144,31 @@ Set,%GSource%,"",Permanent
 Run,%ScriptFile%,Check_Image_Exist
 End
 
+[Load_Default_Value]
+If,ExistFile,%ProjectDir%\Core.script,AddInterface,%ProjectDir%\Core.script,InterfaceBuild,""
+If,%TargetArch_CheckBox%,Equal,True,Begin
+Set,%GTarget%,%BaseDir%\Target_%Architecture%,Permanent
+Set,%GISO%,%BaseDir%\ISO_%Architecture%,Permanent
+End
+Else,Begin
+Set,%GTarget%,%BaseDir%\Target,Permanent
+Set,%GISO%,%BaseDir%\ISO,Permanent
+End
+If,ExistFile,%ProjectDir%\Core.script,AddInterface,%ProjectDir%\Core.script,InterfaceMain,""
+If,%AllInRam_CheckBox%,Equal,True,Begin
+Set,%Target_Prog%,"%GTarget%\Program Files",Permanent
+Set,%PE_Programs%,"X:\Program Files",Permanent
+End
+Else,Begin
+Set,%Target_Prog%,%GISO%\Programs,Permanent
+Set,%PE_Programs%,Y:\Programs,Permanent
+End
+
 [Select_Image_Value]
 Run,%ScriptFile%,Check_Image_Exist
 //If,Not,ExistFile,%GTemp%\WimInfo.ini,Run,%ScriptFile%,Run_WimInfo
 System,Cursor,Wait
-StrFormat,LEFT,%Image_Value%,1,%Save_Image_Value%
+StrFormat,SPLIT,%Image_Value%," - ",1,%Save_Image_Value%
 If,Not,ExistFile,%GTemp%\WimInfo.ini,Run,%ScriptFile%,Load_Image_Value
 Set,%Image%,%Save_Image_Value%,Permanent
 Run,%ScriptFile%,Image_Value_Info,%Image%

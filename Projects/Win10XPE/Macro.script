@@ -88,8 +88,8 @@ Example="ExtractListFiles,%GTemp%\AddFiles.txt"
 [ExtractSectionFiles]
 Extract files from a section name of a script file, from install.wim to the target directory, open or hidden="//ExtractSectionFiles: Extract files from a section name of a script file, from install.wim to the target directory, open or hidden"
 -=
-Syntax="//ExtractSectionFiles,%ScriptDir%,AddFiles,(Hide|Open)"
-Example="ExtractSectionFiles,%ScriptDir%,AddFiles"
+Syntax="//ExtractSectionFiles,%ScriptFile%,AddFiles,(Hide|Open)"
+Example="ExtractSectionFiles,%ScriptFile%,AddFiles"
 
 [EchoExtended]
 Extended Echo with syntaxes concatenated of Echo,Message,Exit and Halt="//EchoExtended: Extended Echo with syntaxes concatenated of Echo,Message,Exit and Halt"

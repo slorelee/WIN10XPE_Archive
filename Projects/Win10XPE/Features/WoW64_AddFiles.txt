@@ -52,6 +52,7 @@
 \Windows\SysWOW64\dcomp.dll
 \Windows\SysWOW64\ddraw.dll
 \Windows\SysWOW64\devobj.dll
+\Windows\SysWOW64\devrtl.dll
 \Windows\SysWOW64\dhcpcsvc.dll
 \Windows\SysWOW64\dhcpcsvc6.dll
 \Windows\SysWOW64\directmanipulation.dll

@@ -3,7 +3,7 @@ Title=Build Core
 Type=XPEPlugin
 Description=Build Win10XPE Core based on WinRE.wim Recovery Environment with Features additions and Options
 Author=ChriSR
-Date=2018.12.05
+Date=2019.01.19
 Version=001
 Selected=True
 Mandatory=True
@@ -24,8 +24,9 @@ Interface=InterfaceMain
 Menu_Bevel=Menu_Bevel,1,12,0,0,583,29
 Main_TextLabel="Main Interface",1,1,32,8,124,18,8,Bold
 Option_Button="Additional Options",1,8,147,2,145,26,OptionInterface,0,True,"__Display Additional Options"
-PENetwork_Button="PENetwork Options",1,8,292,2,145,26,PENetworkInterface,0,True,"__Display PENetwork Options"
+PENetwork_Button="Network Options",1,8,292,2,145,26,PENetworkInterface,0,True,"__Display PENetwork Options"
 Build_Button="Build Options",1,8,437,2,145,26,BuildInterface,0,True,"__Display Advanced Build Options"
+//-
 Shell_Bevel=Shell_Bevel,1,12,6,38,220,24
 Shell_TextLabel="Shell :",1,1,12,44,40,18,8,Bold
 Explorer_RadioButton=Explorer,1,11,66,41,65,20,True,"__Default Windows Explorer Shell"
@@ -37,7 +38,7 @@ Format_ScrollBox=HostOS,1,4,76,91,150,21,HostOS,Default,"Belgian French | fr-BE"
 TimeZone_TextLabel=TimeZone,1,1,6,119,54,18,8,Normal
 TimeZone_ScrollBox=HostOS,1,4,76,115,150,21,HostOS,Default,"(UTC-12:00) Dateline Standard Time","(UTC-11:00) UTC-11","(UTC-10:00) Hawaiian Standard Time","(UTC-10:00) Aleutian Standard Time","(UTC-09:30) Marquesas Standard Time","(UTC-09:00) Alaskan Standard Time","(UTC-09:00) UTC-09","(UTC-08:00) Pacific Standard Time (Mexico)","(UTC-08:00) Pacific Standard Time","(UTC-08:00) UTC-08","(UTC-07:00) US Mountain Standard Time","(UTC-07:00) Mountain Standard Time (Mexico)","(UTC-07:00) Mountain Standard Time","(UTC-06:00) Central America Standard Time","(UTC-06:00) Central Standard Time","(UTC-06:00) Central Standard Time (Mexico)","(UTC-06:00) Easter Island Standard Time","(UTC-06:00) Canada Central Standard Time","(UTC-05:00) SA Pacific Standard Time","(UTC-05:00) Eastern Standard Time (Mexico)","(UTC-05:00) Eastern Standard Time","(UTC-05:00) Haiti Standard Time","(UTC-05:00) Cuba Standard Time","(UTC-05:00) Turks And Caicos Standard Time","(UTC-05:00) US Eastern Standard Time","(UTC-04:00) Paraguay Standard Time","(UTC-04:00) Venezuela Standard Time","(UTC-04:00) Central Brazilian Standard Time","(UTC-04:00) SA Western Standard Time","(UTC-04:00) Atlantic Standard Time","(UTC-04:00) Pacific SA Standard Time","(UTC-03:30) Newfoundland Standard Time","(UTC-03:00) Tocantins Standard Time","(UTC-03:00) E. South America Standard Time","(UTC-03:00) Argentina Standard Time","(UTC-03:00) SA Eastern Standard Time","(UTC-03:00) Greenland Standard Time","(UTC-03:00) Montevideo Standard Time","(UTC-03:00) Magallanes Standard Time","(UTC-03:00) Saint Pierre Standard Time","(UTC-03:00) Bahia Standard Time","(UTC-02:00) UTC-02","(UTC-01:00) Cape Verde Standard Time","(UTC-01:00) Azores Standard Time","(UTC) UTC","(UTC+00:00) Morocco Standard Time","(UTC+00:00) GMT Standard Time","(UTC+00:00) Greenwich Standard Time","(UTC+01:00) W. Central Africa Standard Time","(UTC+01:00) W. Europe Standard Time","(UTC+01:00) Central Europe Standard Time","(UTC+01:00) Romance Standard Time","(UTC+01:00) Sao Tome Standard Time","(UTC+01:00) Central European Standard Time","(UTC+02:00) Jordan Standard Time","(UTC+02:00) GTB Standard Time","(UTC+02:00) Middle East Standard Time","(UTC+02:00) E. Europe Standard Time","(UTC+02:00) Syria Standard Time","(UTC+02:00) West Bank Standard Time","(UTC+02:00) South Africa Standard Time","(UTC+02:00) FLE Standard Time","(UTC+02:00) Israel Standard Time","(UTC+02:00) Kaliningrad Standard Time","(UTC+02:00) Sudan Standard Time","(UTC+02:00) Egypt Standard Time","(UTC+02:00) Libya Standard Time","(UTC+02:00) Namibia Standard Time","(UTC+03:00) Arabic Standard Time","(UTC+03:00) Turkey Standard Time","(UTC+03:00) Arab Standard Time","(UTC+03:00) Belarus Standard Time","(UTC+03:00) Russian Standard Time","(UTC+03:00) E. Africa Standard Time","(UTC+03:30) Iran Standard Time","(UTC+04:00) Arabian Standard Time","(UTC+04:00) Astrakhan Standard Time","(UTC+04:00) Azerbaijan Standard Time","(UTC+04:00) Caucasus Standard Time","(UTC+04:00) Russia Time Zone 3","(UTC+04:00) Mauritius Standard Time","(UTC+04:00) Saratov Standard Time","(UTC+04:00) Georgian Standard Time","(UTC+04:30) Afghanistan Standard Time","(UTC+05:00) West Asia Standard Time","(UTC+05:00) Ekaterinburg Standard Time","(UTC+05:00) Pakistan Standard Time","(UTC+05:30) India Standard Time","(UTC+05:30) Sri Lanka Standard Time","(UTC+05:45) Nepal Standard Time","(UTC+06:00) Central Asia Standard Time","(UTC+06:00) Bangladesh Standard Time","(UTC+06:00) Omsk Standard Time","(UTC+06:30) Myanmar Standard Time","(UTC+07:00) SE Asia Standard Time","(UTC+07:00) Altai Standard Time","(UTC+07:00) W. Mongolia Standard Time","(UTC+07:00) North Asia Standard Time","(UTC+07:00) N. Central Asia Standard Time","(UTC+07:00) Tomsk Standard Time","(UTC+08:00) China Standard Time","(UTC+08:00) North Asia East Standard Time","(UTC+08:00) Singapore Standard Time","(UTC+08:00) Ulaanbaatar Standard Time","(UTC+08:00) W. Australia Standard Time","(UTC+08:00) Taipei Standard Time","(UTC+08:30) North Korea Standard Time","(UTC+08:45) Aus Central W. Standard Time","(UTC+09:00) Transbaikal Standard Time","(UTC+09:00) Yakutsk Standard Time","(UTC+09:00) Tokyo Standard Time","(UTC+09:00) Korea Standard Time","(UTC+09:30) Cen. Australia Standard Time","(UTC+09:30) AUS Central Standard Time","(UTC+10:00) E. Australia Standard Time","(UTC+10:00) AUS Eastern Standard Time","(UTC+10:00) West Pacific Standard Time","(UTC+10:00) Tasmania Standard Time","(UTC+10:00) Vladivostok Standard Time","(UTC+10:30) Lord Howe Standard Time","(UTC+11:00) Russia Time Zone 10","(UTC+11:00) Bougainville Standard Time","(UTC+11:00) Norfolk Standard Time","(UTC+11:00) Central Pacific Standard Time","(UTC+11:00) Magadan Standard Time","(UTC+11:00) Sakhalin Standard Time","(UTC+12:00) Russia Time Zone 11","(UTC+12:00) New Zealand Standard Time","(UTC+12:00) Fiji Standard Time","(UTC+12:00) UTC+12","(UTC+12:45) Chatham Islands Standard Time","(UTC+13:00) Tonga Standard Time","(UTC+13:00) Samoa Standard Time","(UTC+13:00) UTC+13","(UTC+14:00) Line Islands Standard Time","__Choose the Time Zone.  Use 'TZUTIL /L' for the link between the Time Zone ID used here and the Windows display name"
 Fbwf_TextLabel1="WinPE Cache Size",1,1,6,145,96,18,8,Normal
-Fbwf_ScrollBox=2048,1,4,103,141,58,21,512,1024,2048,"__WinPE Cache Threshold or FBWF Cache Size. Limited to 1024 Mb with x86"
+Fbwf_ScrollBox=1024,1,4,103,141,58,21,512,1024,2048,"__WinPE Cache Threshold or FBWF Cache Size. Limited to 1024 Mb with x86"
 Fbwf_TextLabel2=MB,1,1,166,145,26,18,8,Normal
 AllInRam_CheckBox="Run ALL Programs From RAM",1,3,6,164,156,18,False,"__Run All Programs From Ram requires more memory. It is recommended for PXE server"
 Custom_Bevel=Custom_Bevel,1,12,6,183,220,53
@@ -46,7 +47,7 @@ CustomOpen_Button="Open Custom Folder",1,8,10,206,212,26,CustomOpen,opendir.bmp,
 SetupFiles_CheckBox="Windows Installer Files (Setup.exe)",1,3,6,240,225,18,False,"__Add boot.wim Windows Installer Files (Setup.exe)"
 VCRuntime_CheckBox="VC++ 8-9 Runtime",1,3,6,258,115,18,True,"__Add Embedded VC++ (8.0 - 9.0) Runtime"
 Accessibility_CheckBox=Accessibility,1,3,122,258,108,18,False,"__Add Ease of Access, Magnify, OnScreenKeybord in addition to Narrator"
-WoW64_CheckBox="WoW64 Basic",1,3,6,276,115,18,False,"__Add WoW64 Basic. Not Required If You Use Only 64-bit Apps"
+WoW64_CheckBox="WoW64 Basic",1,3,6,276,115,18,True,"__Add WoW64 Basic. Not Required If You Use Only 64-bit Apps"
 DisplayDrivers_CheckBox="Display Drivers",1,3,122,276,108,18,True,"__Add Basic Display Drivers:"
 Network_CheckBox="Network Additions",1,3,6,294,115,18,False,"__Add Network Support Additions"
 NetDrivers_CheckBox="Network Drivers",1,3,122,294,108,18,True,"__Add Original Network Drivers Additions: Atheros,Broadcom,Intel,Realtek"
@@ -80,8 +81,9 @@ NumLock_CheckBox="NumLock ON",1,3,270,259,178,18,True,"__Determines Whether the 
 Menu_Bevel=Menu_Bevel,1,12,0,0,583,29
 Main_Button="Main Interface",1,8,2,2,145,26,MainInterface,0,True,"__Display Main Interface"
 Option_TextLabel="Additional Options",1,1,167,8,120,18,8,Bold
-PENetwork_Button="PENetwork Options",1,8,292,2,145,26,PENetworkInterface,0,True,"__Display PENetwork Options"
+PENetwork_Button="Network Options",1,8,292,2,145,26,PENetworkInterface,0,True,"__Display PENetwork Options"
 Build_Button="Build Options",1,8,437,2,145,26,BuildInterface,0,True,"__Display Advanced Build Options"
+//-
 Computer_CheckBox="Display Computer on Desktop",1,3,6,38,172,18,True,"__Displays MyComputer on Desktop by Default"
 DarkTheme_CheckBox="Explorer Dark Theme",1,3,6,57,125,18,False,"__File Explorer's Dark Theme from Windows 10 1809 and up"
 DarkThemeShortcut_CheckBox="Theme Shortcut",1,3,138,57,125,18,True,"__Create Shortcut To Change Between Light and Dark Themes In Windows 10 1809"
@@ -104,7 +106,7 @@ Admin_Bevel=Admin_Bevel,1,12,301,135,250,57
 AdminName_TextLabel="Administrator Name",1,1,308,142,105,18,8,Normal
 AdminName_TextBox=,1,0,433,140,113,21,Administrator
 AdminCountDown_TextLabel="Ask to Switch to Administrator for",1,1,308,168,174,18,8,Normal
-AdminCountDown_NumberBox=CountDown_NumberBox,1,2,482,165,40,22,3,0,10,1,"__Countdown to Ask to Switch to Administrator or continue with the System session. 0=Logon as Administrator without Question"
+AdminCountDown_NumberBox=CountDown_NumberBox,1,2,482,165,40,22,0,0,10,1,"__Countdown to Ask to Switch to Administrator or continue with the System session. 0=Logon as Administrator without Question"
 AdminSec_TextLabel=Sec,1,1,527,168,22,18,8,Normal
 //-
 Power_Bevel=Power_Bevel,1,12,282,38,269,91
@@ -133,55 +135,81 @@ CustomComputerName_TextBox=,1,0,400,298,150,21,PC-Win10XPE,"__Custom Computer Na
 Menu_Bevel=Menu_Bevel,1,12,0,0,583,29
 Main_Button="Main Interface",1,8,2,2,145,26,MainInterface,0,True,"__Display Main Interface"
 Option_Button="Additional Options",1,8,147,2,145,26,OptionInterface,0,True,"__Display Additional Options"
-PENetwork_TextLabel="PENetwork Options",1,1,310,8,124,18,8,Bold
+PENetwork_TextLabel="Network Options",1,1,316,8,108,18,8,Bold
 Build_Button="Build Options",1,8,437,2,145,26,BuildInterface,0,True,"__Display Advanced Build Options"
+//-
 PENMAddPENetwork_CheckBox="Add PENetwork To Build",0,3,10,40,143,18,True,"__Add PENetwork To The Build"
 PENMRunFromWhere_ScrollBox="Run From USB",1,4,214,36,104,21,"Run From USB","Run From RAM"
-PENMShortcut_Bevel=PENMShortcut_Bevel,1,12,4,64,133,121
-PENMDesktop_CheckBox="Desktop Shortcut",1,3,10,68,122,18,True,"__Add Desktop Shortcut"
-PENMStartMenu_CheckBox="Start Menu Shortcut",1,3,10,86,122,18,True,"__Add Start Menu Shortcut"
-PENMTaskBpin_CheckBox="Pin To TaskBar",1,3,10,104,122,18,False,"__Add Pin To Taskbar Shortcut"
-PENMStartMpin_CheckBox="Pin To StartMenu",1,3,10,122,122,18,True,"__Add Pin To StartMenu Shortcut"
-PENMStartMenuFolder_TextBox="Start Menu Folder:",1,0,10,158,121,21,Network,"__Start Menu Folder Name"
-PENMImage_Software=PENetwork64.ico,1,5,143,81,64,64
-PENMHomePage_WebLabel="Home Page",1,10,148,149,54,18,https://www.penetworkmanager.de/
+PENMUpdate_Button=U,0,8,419,36,14,14,Update_PENProgramFiles,0,False,"__Update PENetwork Program Files"
+PENMShortcut_Bevel=PENMShortcut_Bevel,1,12,4,62,133,121
+PENMDesktop_CheckBox="Desktop Shortcut",1,3,10,66,122,18,True,"__Add PENetwork Desktop Shortcut"
+PENMStartMenu_CheckBox="Start Menu Shortcut",1,3,10,84,122,18,True,"__Add PENetwork Start Menu Shortcut"
+PENMTaskBpin_CheckBox="Pin To TaskBar",1,3,10,102,122,18,False,"__Add PENetwork Pin To Taskbar Shortcut"
+PENMStartMpin_CheckBox="Pin To StartMenu",1,3,10,120,122,18,True,"__Add PENetwork Pin To StartMenu Shortcut"
+PENMStartMenuFolder_TextBox="Start Menu Folder:",1,0,10,156,121,21,Network,"__PENetwork Start Menu Folder Name"
+PENM_TextLabel=PENetwork,1,1,145,67,72,18,8,Bold
+PENMImage_Software=PENetwork64.ico,1,5,143,83,64,64
+PENMHomePage_WebLabel="Home Page",1,10,148,151,54,18,https://www.penetworkmanager.de/
 //-
-PENMEditor_Button="Start PENetwork Configuration Editor",1,8,214,64,220,26,PENMEditor,Penetwork.bmp,True,"__Start PE Network Manager Configuration/Profile Editor"
-WifiProfile_Bevel=WifiProfile_Bevel,1,12,214,95,220,93
-ExportWifi_Button="Start Wireless Configuration Exporter",1,8,220,100,210,26,ExportWifi,Penetwork.bmp,True,"__Start PENetwork Wireless Network Configuration Exporter - Export/Save Your PC's Wireless Network Configuration into PE Build"
-WifiProfile_TextLabel=SSIDProfile.xml,1,1,222,130,91,18,8,Normal
-WifiProfile_TextBox=,1,0,220,144,186,21,SSIDProfile.xml,"__Enter Full Name Of SSID Profile.xml (SSIDProfile.xml)"
-Profiles_Opendir_Button=,1,8,408,144,22,22,Profiles_OpenDir,opendir.bmp,False,"__Click Here To Open WIFI Profiles Folder:"
-UseWifiProfile_CheckBox="AutoConnect To Wireless SSID Profile",1,3,220,168,209,18,False,"__Start PENetwork With Custom Wifi Profile"
-WifiProfile_TextLabel1="1. Export Wireless SSID Profile",1,1,438,105,175,18,8,Normal,"__Export Wireless SSID Profile"
-WifiProfile_TextLabel2="2. Enter Full Name Of SSID Profile",1,1,438,147,175,18,8,Normal,"__Enter Full Name Of SSID Profile"
-WifiProfile_TextLabel3="3. Enable Connect To SSID Profile",1,1,438,170,175,18,8,Normal,"__Enable Connect To SSID Profile"
+PENMEditor_Button="Start PENetwork Configuration Editor",1,8,214,62,220,26,PENMEditor,Penetwork.bmp,True,"__Start PE Network Manager Configuration/Profile Editor"
+WifiProfile_Bevel=WifiProfile_Bevel,1,12,214,92,220,91
+ExportWifi_Button="Start Wireless Configuration Exporter",1,8,220,97,210,26,ExportWifi,Penetwork.bmp,True,"__Start PENetwork Wireless Network Configuration Exporter - Export/Save Your PC's Wireless Network Configuration into PE Build"
+WifiProfile_TextLabel=SSIDProfile.xml,1,1,222,126,91,18,8,Normal
+WifiProfile_TextBox=,1,0,220,140,186,21,SSIDProfile.xml,"__Enter Full Name Of SSID Profile.xml (SSIDProfile.xml)"
+Profiles_Opendir_Button=,1,8,408,140,22,22,Profiles_OpenDir,opendir.bmp,False,"__Click Here To Open WIFI Profiles Folder:"
+UseWifiProfile_CheckBox="AutoConnect To Wireless SSID Profile",1,3,220,163,209,18,True,"__Start PENetwork With Custom Wifi Profile"
+WifiProfile_TextLabel1="1. Export Wireless SSID Profile",1,1,438,102,175,18,8,Normal,"__Export Wireless SSID Profile"
+WifiProfile_TextLabel2="2. Enter Full Name Of SSID Profile",1,1,438,143,175,18,8,Normal,"__Enter Full Name Of SSID Profile"
+WifiProfile_TextLabel3="3. Enable Connect To SSID Profile",1,1,438,165,175,18,8,Normal,"__Enable Connect To SSID Profile"
 //-
-PENMAutoRun_CheckBox="Run PENetwork at Startup",0,3,10,200,169,18,True,"__Run PENetwork at Startup"
-PENMPromptAtStartup_CheckBox="Prompt for Starting Network",0,3,10,220,169,18,True,"__Prompt for Starting Network Support"
-PENMStartCountdown_CheckBox="Startup Countdown:",0,3,10,240,120,20,False,"__Use a Countdown on 1st Startup (Only if AutoStart is Disabled). Time in Seconds for the Countdown"
-PENMStartCountdown_NumberBox=StartCountdown_NumberBox,0,2,128,240,44,22,3,0,600,
-PENMUseProfilesStartup_CheckBox="Use Network Profiles at Startup",0,3,10,260,200,20,True,"__Read and Use Profiles From PENetwork ini File at Startup"
-PENMForceScanOnStartup_CheckBox="Force Detection of Network Cards",0,3,10,280,200,20,False,"__Force Device Detection of Network Cards"
-PENMAfterStart_TextLabel="After Starting Network:",0,1,220,202,124,20,8,Normal
-PENMAfterStart_ScrollBox="Start to Tray",0,4,338,200,115,21,"Show main window","Start to Tray","Close program"
-PENMMinToTray_CheckBox="Minimize to Tray",0,3,220,220,110,18,True,"__Minimizing PENetwork in System Tray"
-PENMCloseToTray_CheckBox="Close to Tray",0,3,220,240,110,18,True,"__Closing PENetwork in System Tray"
-PENMShowTrayActivity_CheckBox="Show Network Activity in Tray",0,3,220,260,200,20,True,"__Show the Network Activity in System Tray"
-PENMHideOptions_Button=,0,8,560,329,8,8,PENMHideOptions,0,False,"__Hide Advanced Options"
-PENMShowOptions_Button=,1,8,560,329,8,8,PENMShowOptions,0,False,"__Show Advanced Options"
+Splitter1_Bevel=Splitter1_Bevel,1,12,0,190,578,4
+IE11Shortcut_Bevel=IE11Shortcut_Bevel,1,12,4,201,133,121
+IE11Desktop_CheckBox="Desktop Shortcut",1,3,10,205,122,18,True,"__Add IE11 Desktop Shortcut"
+IE11StartMenu_CheckBox="Start Menu Shortcut",1,3,10,223,122,18,True,"__Add IE11 Start Menu Shortcut"
+IE11TaskBpin_CheckBox="Pin To TaskBar",1,3,10,241,122,18,True,"__Add IE11 Pin To Taskbar Shortcut"
+IE11StartMpin_CheckBox="Pin To StartMenu",1,3,10,259,122,18,True,"__Add IE11 Pin To StartMenu Shortcut"
+IE11StartMenuFolder_TextBox="Start Menu Folder:",1,0,10,295,121,21,Network,"__IE11 Start Menu Folder Name"
+IE11_TextLabel=IE11,1,1,164,212,36,18,8,Bold
+IE11_Image=IE11_64.ico,1,5,143,226,64,64
+IE11_Bevel=IE11_Bevel,1,12,214,208,220,86
+HomePage_TextLabel=HomePage,1,1,220,216,57,18,8,Normal
+HomePage_TextBox=,1,0,278,214,152,21,https://www.google.com,"__Define IE11 Home Page"
+Search_TextLabel="Search Engine",1,1,220,242,77,18,8,Normal
+Search_ScrollBox=Google,1,4,298,240,132,21,Baidu,Bing,DuckDuckGo,Google,Yahoo!,Yandex,"__Select IE11 Search Engine"
+Favorites_Button="Copy Favorites (*.url) Here",1,8,220,265,210,25,Favorites_OpenDir,0,False,"__Copy your IE11 Favorites (*.url) Here"
+IE11Admin_TextLabel="(*) Internet Explorer 11 Requires Administrator Account For Downloads.",1,1,151,304,376,18,8,Normal
+//-
+Splitter2_Bevel=Splitter2_Bevel,0,12,0,329,578,4
+PENMOptions_TextLabel=PENetwork,0,1,493,348,72,18,8,Bold
+PENMOptions2_TextLabel="Advanced Options",0,1,473,364,116,18,8,Bold
+PENMAutoRun_CheckBox="Run PENetwork at Startup",0,3,10,338,169,18,True,"__Run PENetwork at Startup"
+PENMPromptAtStartup_CheckBox="Prompt for Starting Network",0,3,10,356,169,18,True,"__Prompt for Starting Network Support"
+PENMStartCountdown_CheckBox="Startup Countdown:",0,3,10,375,120,20,False,"__Use a Countdown on 1st Startup (Only if AutoStart is Disabled). Time in Seconds for the Countdown"
+PENMStartCountdown_NumberBox=StartCountdown_NumberBox,0,2,130,374,44,22,5,0,600,
+PENMUseProfilesStartup_CheckBox="Use Network Profiles at Startup",0,3,10,396,200,20,True,"__Read and Use Profiles From PENetwork ini File at Startup"
+PENMForceScanOnStartup_CheckBox="Force Detection of Network Cards",0,3,10,415,200,20,False,"__Force Device Detection of Network Cards"
+PENMAfterStart_TextLabel="After Starting Network:",0,1,220,344,124,18,8,Normal
+PENMAfterStart_ScrollBox="Start to Tray",0,4,340,340,115,21,"Show main window","Start to Tray","Close program"
+PENMMinToTray_CheckBox="Minimize to Tray",0,3,220,360,110,18,True,"__Minimizing PENetwork in System Tray"
+PENMCloseToTray_CheckBox="Close to Tray",0,3,220,379,110,18,True,"__Closing PENetwork in System Tray"
+PENMShowTrayActivity_CheckBox="Show Network Activity in Tray",0,3,220,398,200,20,True,"__Show the Network Activity in System Tray"
+PENMHideOptions_Button=,0,8,580,328,8,8,PENMHideOptions,0,False,"__Hide PENetwork Advanced Options"
+PENMShowOptions_Button=,1,8,580,328,8,8,PENMShowOptions,0,False,"__Show PENetwork Advanced Options"
 
 [InterfaceBuild]
 Menu_Bevel=Menu_Bevel,1,12,0,0,583,29
 Main_Button="Main Interface",1,8,2,2,145,26,MainInterface,0,True,"__Display Main Interface"
 Option_Button="Additional Options",1,8,147,2,145,26,OptionInterface,0,True,"__Display Additional Options"
-PENetwork_Button="PENetwork Options",1,8,292,2,145,26,PENetworkInterface,0,True,"__Display PENetwork Options"
+PENetwork_Button="Network Options",1,8,292,2,145,26,PENetworkInterface,0,True,"__Display PENetwork Options"
 Build_TextLabel="Build Options",1,1,469,8,120,18,8,Bold
+//-
 ListFilesEdit_Button="Edit ListFiles here",1,8,122,96,120,26,ListFilesEdit,opendir.bmp,False,"__Edit the listfile here. It is an addition to the prepared base of 'Full winre.wim with WinSxS lightened'"
 Buildtype_RadioButton="Build type",1,14,6,40,240,88,"Full Winre.wim","Full Winre.wim with light WinSxS (default)","Use this ListFiles",1
 FullSoftware_CheckBox="Use Full Win10 Software hive",1,3,6,132,200,18,False,"__Use the Full Win10 Software hive from Install.wim"
 AllCatalogs_CheckBox="Add All Win10 Catalogs",1,3,6,151,200,18,False,"__Add All Windows 10 (install.wim) Catalogs"
-TargetArch_CheckBox="Use Architecture for Target and ISO Folders Names",1,3,6,170,280,18,False,"__Use architecture for Target and ISO Folders Names: Target_x64(x86), ISO_x64(x86)"
+AllNls_CheckBox="Add All National Language Support (NLS) Files",1,3,6,170,255,18,True,"__Add All National Language Support (NLS) Files. Otherwise Copy Them From the Registry Settings. It May Not Be  Enough for Extended Languages."
+AllKeyboard_CheckBox="Add All KeyBoards",1,3,6,189,110,18,True,"__Add All KeyBoards. Otherwise Copy Them From the Registry Settings. It May Not Be Enough for Extended Languages."
+TargetArch_CheckBox="Use Architecture for Target and ISO Folders Names",1,3,6,208,280,18,False,"__Use architecture for Target and ISO Folders Names: Target_x64(x86), ISO_x64(x86)"
 
 [MainInterface]
 IniWrite,%ScriptFile%,Main,Interface,InterfaceMain
@@ -216,6 +244,7 @@ System,RefreshInterface
 System,CURSOR,Normal
 
 [PENMOptions]
+Visible,%Splitter2_Bevel%,#1,PERMANENT
 Visible,%PENMAddPENetwork_CheckBox%,#1,PERMANENT
 Visible,%PENMAutoRun_CheckBox%,#1,PERMANENT
 Visible,%PENMPromptAtStartup_CheckBox%,#1,PERMANENT
@@ -228,30 +257,33 @@ Visible,%PENMAfterStart_ScrollBox%,#1,PERMANENT
 Visible,%PENMMinToTray_CheckBox%,#1,PERMANENT
 Visible,%PENMCloseToTray_CheckBox%,#1,PERMANENT
 Visible,%PENMShowTrayActivity_CheckBox%,#1,PERMANENT
+Visible,%PENMUpdate_Button%,#1,PERMANENT
+Visible,%PENMOptions_TextLabel%,#1,PERMANENT
+Visible,%PENMOptions2_TextLabel%,#1,PERMANENT
 
 [DotNet_Info]
 If,%DotNET_CheckBox%,Equal,True,Begin
-  If,%Network_CheckBox%,Equal,False,Message,"To get Wifi with Microsoft.NET, you must also enabled Network addition",Information
+  If,%Network_CheckBox%,Equal,False,Message,"To get Wifi with Microsoft.NET, you must also Enabled Network Addition",Information
 End
 
 [Admin_Info]
 If,%Admin_CheckBox%,Equal,True,Begin
-  If,%Network_CheckBox%,Equal,False,Message,"To get Wifi with Switch to Admin, you must also enabled Network addition",Information
+  If,%Network_CheckBox%,Equal,False,Message,"To get Wifi with Switch to Admin, you must also Enabled Network Addition",Information
 End
 
 [IE11_Info]
 If,%IE11_CheckBox%,Equal,True,Begin
-  //If,%Architecture%_%WoW64_CheckBox%,Equal,x64_False,Message,"IE11 x64 run in hybrid-mode. It needs WoW64 basic",Information
-  If,%Admin_CheckBox%,Equal,False,Message,"To Download with IE11, you need to enable Switch to Admin",Information
+  //If,%Architecture%_%WoW64_CheckBox%,Equal,x64_False,Message,"Internet Explorer 11 x64 Run in Hybrid-Mode. It needs WoW64 basic",Information
+  If,%Admin_CheckBox%,Equal,False,Message,"To Download with Internet Explorer 11, you need to Enable Switch to Admin",Information
 End
 
 [PreCheck_RootDrive]
 Set,%t%,0
 StrFormat,SPLIT,%BaseDir%,\,0,%t%
-If,%t%,Equal,1,EchoExtended,"Base folder can not be a root drive (ex: D:).",Warn,,Message,,Halt
+If,%t%,Equal,1,EchoExtended,"Base Folder can not be a Root Drive (ex: D:).",Warn,,Message,,Halt
 
 [PreCheck_Build]
-If,%SourceBuild%,Smaller,16299,EchoExtended,"The build is prepared for Windows 10 Build 16299 and maybe following.#$x#$xDownload and choose a suitable windows 10 source.",Warn,,Message,,Halt
+If,%SourceBuild%,Smaller,16299,EchoExtended,"The Build is prepared for Windows 10 Build 16299 and maybe Following.#$x#$xDownload and choose a suitable Windows 10 Source.",Warn,,Message,,Halt
 
 [PreCheck_Tools]
 Set,%ToolsOK%,Yes
@@ -266,7 +298,7 @@ If,Not,ExistFile,%GTools%\SetACL.exe,Set,%ToolsOK%,No
 If,Not,ExistFile,%GTools%\wiminfo.exe,Set,%ToolsOK%,No
 If,Not,ExistFile,%GTools%\wimlib-imagex.exe,Set,%ToolsOK%,No
 If,Not,ExistFile,%GTools%\aria2c.exe,Set,%ToolsOK%,No
-If,%ToolsOK%,Equal,No,EchoExtended,"Error: Some required Programs are missing in the Tools folder.",Warn,,MessageError,,Halt
+If,%ToolsOK%,Equal,No,EchoExtended,"Error: Some Required Programs are Missing in the Tools Folder.",Warn,,MessageError,,Halt
 
 [PreCheck_CodeBox]
 Set,%w%,%ProjectDir%\CodeBox.txt
@@ -284,8 +316,8 @@ If,Not,ExistFile,%w%,Begin
 End
 
 [PreCheck_Image_Exist]
-If,Not,ExistFile,%GSource%\sources\install.wim,EchoExtended,"install.wim image was not found in the Windows 10 source folder.#$x#$xSelect the root of the Windows 10 source folder.",Warn,,Message,,Halt
-If,Not,ExistFile,%GSource%\sources\boot.wim,EchoExtended,"boot.wim image was not found in the Windows 10 source folder.#$x#$xSelect the root of the Windows 10 source folder.",Warn,,Message,,Halt
+If,Not,ExistFile,%GSource%\sources\install.wim,EchoExtended,"install.wim image was Not Found in the Windows 10 Source Folder.#$x#$xSelect the Root of the Windows 10 Source Folder.",Warn,,Message,,Halt
+If,Not,ExistFile,%GSource%\sources\boot.wim,EchoExtended,"boot.wim image was Not Found in the Windows 10 Source Folder.#$x#$xSelect the Root of the Windows 10 Source Folder.",Warn,,Message,,Halt
 
 [Check_sr-Latn_Loop]
 StrFormat,SPLIT,%FallBackLanguage%,|,#c,#9
@@ -299,10 +331,10 @@ End
 
 [CheckInput]
 If,%WinXShell_RadioButton%,Equal,True,Begin
-  If,%Admin_CheckBox%,Equal,True,EchoExtended,"Do not use Switch to Admin with WinXShell.",Warn,,Message,,Halt
-  If,%IE11_CheckBox%,Equal,True,EchoExtended,"Do not use IE11 with WinXShell.",Warn,,Message,,Halt
-  If,%DotNET_CheckBox%,Equal,True,EchoExtended,"Do not use DotNET with WinXShell.",Warn,,Message,,Halt
-  If,%FullSoftware_CheckBox%,Equal,True,EchoExtended,"WinXShell is designed to be light, it is not intended for using the full Software hive.",Warn,,Message,,Halt
+  If,%Admin_CheckBox%,Equal,True,EchoExtended,"Do Not Use Switch to Admin with WinXShell.",Warn,,Message,,Halt
+  If,%IE11_CheckBox%,Equal,True,EchoExtended,"Do Not Use IE11 with WinXShell.",Warn,,Message,,Halt
+  If,%DotNET_CheckBox%,Equal,True,EchoExtended,"Do Not Use DotNET with WinXShell.",Warn,,Message,,Halt
+  If,%FullSoftware_CheckBox%,Equal,True,EchoExtended,"WinXShell is Designed to be Light, it is not intended for using the Full Software hive.",Warn,,Message,,Halt
 End
 //If,%IE11_CheckBox%,Equal,True,Begin
 //If,%Architecture%_%WoW64_CheckBox%,Equal,x64_False,EchoExtended,"IE11 x64 run in hybrid-mode. It needs WoW64 basic",Warn,,Message,,Halt
@@ -395,9 +427,11 @@ ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\insta
 If,%ExitCode%,Equal,0,Echo,"Wimlib extract Winre.wim image file from install.wim return: %ExitCode%"
 Else,EchoExtended,"Error: Wimlib extract Winre.wim image file from install.wim return: %ExitCode%",Warn,,MessageError,,Halt
 //-
-If,ExistFile,%HiveCache%\HiveCache.ini,IniRead,%HiveCache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
-If,%FullSoftwareIni%,Equal,True,Begin
-  If,ExistFile,%HiveCache%\FullSOFTWARE,FileCopy,%HiveCache%\FullSOFTWARE,%GTemp%\Install.hives\SOFTWARE
+If,ExistFile,%HiveCache%\HiveCache.ini,Begin
+  IniRead,%HiveCache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
+  If,%FullSoftwareIni%,Equal,True,Begin
+    If,ExistFile,%HiveCache%\FullSOFTWARE,FileCopy,%HiveCache%\FullSOFTWARE,%GTemp%\Install.hives\SOFTWARE
+  End
 End
 If,Not,ExistFile,%GTemp%\Install.hives\SOFTWARE,Begin
   Echo,"Extract Software hive from install.wim"
@@ -468,10 +502,12 @@ End
 // Add Features
 //-----------------------------------------------------------------------------
 // International Section use dism /Get-Intl -> dism /Set-InputLocale... Hives should not be mounted
-If,Not,%Keyboard_ScrollBox%%Format_ScrollBox%%TimeZone_ScrollBox%,Equal,DefaultDefaultDefault,Run,%ProjectDir%\Features\International.Script,International
+If,Not,%Keyboard_ScrollBox%%Format_ScrollBox%%TimeZone_ScrollBox%,Equal,DefaultDefaultDefault,Exec,%ProjectDir%\Features\International.Script,Process
 //-
 HiveLoadALL
 Run,%ScriptFile%,WinPE_StartUp
+//-
+If,Not,%AllKeyboard_CheckBox%%AllNls_CheckBox%,Equal,TrueTrue,Exec,%ProjectDir%\Features\InternationalFiles.Script,Process,HiveLoaded
 //-
 // Fbwf Cache Size. Limited to 1024 Mb with x86
 If,%Architecture%,Equal,x64,RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\FBWF,WinPECacheThreshold,%Fbwf_ScrollBox%
@@ -528,7 +564,7 @@ End
 If,%DotNET_CheckBox%,Equal,True,Begin
   If,ExistFile,%ProjectDir%\Features\DotNET.Script,Exec,%ProjectDir%\Features\DotNET.Script,Process,HiveLoaded
 End
-Run,%ScriptFile%,OptionsPlay
+Exec,%ProjectDir%\Features\CoreOptions.Script,Process,HiveLoaded
 Exec,%ProjectDir%\Features\ThemesColor.Script,Process,HiveLoaded
 HiveUnLoadALL
 If,%Drivers_CheckBox%,Equal,True,Run,%ScriptFile%,DriversPlay
@@ -625,6 +661,12 @@ Exec,%ProjectDir%\Features\PENetwork.Script,ExportWifi
 [Profiles_OpenDir]
 Exec,%ProjectDir%\Features\PENetwork.Script,Profiles_OpenDir
 
+[Update_PENProgramFiles]
+Exec,%ProjectDir%\Features\PENetwork.Script,Update_Containers
+
+[Favorites_OpenDir]
+Exec,%ProjectDir%\Features\IE11.Script,Favorites_OpenDir
+
 [PecmdEdit]
 If,%Architecture%-,Equal,-,EchoExtended,"Select the Windows 10 source folder first on Win10XPE main plugin.",Warn,,Message,,Exit
 If,Not,ExistFile,%GCustom%\Pecmdini\pecmd.ini,Begin
@@ -692,163 +734,6 @@ OpenDir,%GCustom%\UserAccountPicture
 
 [StartupMP3Open]
 OpenDir,%GCustom%\StartupMP3
-
-[OptionsPlay]
-Echo,"Integrate Options..."
-// Hide Taskbar For Fullscreen Use - Following Oscar
-If,%HideTaskbar_CheckBox%,Equal,True,RegWrite,HKLM,0x3,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3,Settings,30,00,00,00,fe,ff,ff,ff,03,00,00,00,03,00,00,00,9b,00,00,00,64,00,00,00,00,00,00,00,0c,08,00,00,00,0f,00,00,70,08,00,00,f0,00,00,00,01,00,00,00
-// 0=Always combine, hide labels, 1=Combine when taskbar is full,2=Never combine
-If,%Taskbar_Button%,Equal,0,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced,TaskbarGlomLevel,0
-If,%Taskbar_Button%,Equal,1,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced,TaskbarGlomLevel,1
-If,%Taskbar_Button%,Equal,2,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced,TaskbarGlomLevel,2
-// Automtically expand to current folder
-If,%ExpandCurDir_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced,NavPaneExpandToCurrentFolder,1
-Else,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced,NavPaneExpandToCurrentFolder,0
-// Show My Computer on Desktop
-If,%Computer_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel,{20D04FE0-3AEA-1069-A2D8-08002B30309D},0
-Else,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel,{20D04FE0-3AEA-1069-A2D8-08002B30309D},1
-// Open the Ribbon by default
-If,%Ribbon_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Ribbon,MinimizedStateTabletModeOff,0
-Else,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Ribbon,MinimizedStateTabletModeOff,1
-// StartIsBack Display as flyout menu (Windows XP style) value 0/1
-If,%SIBFlyoutMenu_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,AllProgramsFlyout,1
-Else,RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,AllProgramsFlyout,0
-// StartIsBack Style Menu Windows 10
-RegWrite,HKLM,0x1,Tmp_Default\Software\StartIsBack,AlterStyle,"X:\Program Files\StartIsBack\Styles\%SIBSkin_ScrollBox%.msstyles"
-RegWrite,HKLM,0x1,Tmp_Default\Software\StartIsBack,TaskbarStyle,"X:\Program Files\StartIsBack\Styles\%SIBSkin_ScrollBox%.msstyles"
-// StartIsBack Start Menu Opaque
-If,%SIBOpaque_CheckBox%,Equal,True,Begin
-  RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,StartMenuAlpha,255
-  RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,StartMenuBlur,2
-  RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,StartMenuColor,-1
-  RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,TaskbarAlpha,255
-  RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,TaskbarBlur,0
-  RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,TaskbarColor,-1
-End
-// Explorer Dark or Light Theme
-If,%SourceBuild%,Bigger,17700,Begin
-  If,%DarkTheme_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize,AppsUseLightTheme,0
-  Else,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize,AppsUseLightTheme,1
-  If,%DarkThemeShortcut_CheckBox%,Equal,True,Begin
-    TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pDesktop#$p\Change Explorer Theme","LINK #$pDesktop#$p\Change Explorer Theme"
-    TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\System Tools\Change Explorer Theme","LINK #$pPrograms#$p\System Tools\Change Explorer Theme"
-  End
-End
-// Show Touch Keyboard Button. Accessibility must be enabled
-If,%TouchKeyboard_CheckBox%-%WinApps_CheckBox%,Equal,True-True,Begin
-  If,ExistFile,%ProjectDir%\Features\OSK_AddFiles.txt,Begin
-    ExtractListFiles,%ProjectDir%\Features\OSK_AddFiles.txt
-    FileCopy,%ProjectDir%\Features\OskTray_%Architecture%.exe,%Gtarget_Sys%\OskTray.exe
-    TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessibility\OSK","LINK #$pPrograms#$p\Accessibility\OSK"
-    TXTReplace,%GTarget_Sys%\pecmd.ini,"//EXEC %WinDir%\System32\OskTray.exe","EXEC %WinDir%\System32\OskTray.exe"
-  End
-End
-If,%ComputerName_RadioGroup%,Equal,1,Begin
-  If,%CustomComputerName_TextBox%-,Equal,-,Set,%CustomComputerName_TextBox%,%ProjectName%
-  Set,%ComputerName%,%CustomComputerName_TextBox%
-  Run,%ScriptFile%,RegComputerName
-End
-Run,%ScriptFile%,NumLock
-If,%Shell%,Equal,Explorer,Run,%ScriptFile%,PowerOptions
-Run,%ScriptFile%,ControlVolume
-Run,%ScriptFile%,FitWallpaper
-
-[RegComputerName]
-System,ERROROFF,7
-RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D},LocalizedString,"%ComputerName%"
-RegWrite,HKLM,0x2,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D},,"%ComputerName%"
-RegWrite,HKLM,0x1,"Tmp_System\ControlSet001\Control\Session Manager\Environment",ComputerName,%ComputerName%
-RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\ComputerName\ComputerName,ComputerName,%ComputerName%
-RegWrite,HKLM,0x1,Tmp_System\ControlSet001\Control\ComputerName\ActiveComputerName,ComputerName,%ComputerName%
-RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,"NV Hostname",%ComputerName%
-RegWrite,HKLM,0x1,Tmp_System\ControlSet001\services\Tcpip\Parameters,Hostname,%ComputerName%
-
-[Numlock]
-If,%NumLock_CheckBox%,Equal,True,Set,%Numlock%,2
-Else,Begin
-  Set,%Numlock%,2147483648
-  TXTReplace,%GTarget_Sys%\pecmd.ini,"NUMK 1","NUMK 0"
-End
-System,ERROROFF
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Keyboard",InitialKeyboardIndicators,%Numlock%
-
-[PowerOptions]
-Set,%MonitorDC%,%MonitorDC_NumberBox%
-Set,%MonitorAC%,%MonitorAC_NumberBox%
-Set,%DiskDC%,%DiskDC_NumberBox%
-Set,%DiskAC%,%DiskAC_NumberBox%
-StrFormat,MULT,%MonitorDC%,60
-StrFormat,MULT,%MonitorAC%,60
-StrFormat,MULT,%DiskDC%,60
-StrFormat,MULT,%DiskAC%,60
-// Monitor Timeout
-RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\7516b95f-f776-4464-8c53-06167f40cc99\3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e,ACSettingIndex,%MonitorAC%
-RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\7516b95f-f776-4464-8c53-06167f40cc99\3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e,DCSettingIndex,%MonitorDC%
-// Disk Timeout
-RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\0012ee47-9041-4b5d-9b77-535fba8b1442\6738e2c4-e8a5-4a42-b16a-e040e769756e,ACSettingIndex,%DiskAC%
-RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\0012ee47-9041-4b5d-9b77-535fba8b1442\6738e2c4-e8a5-4a42-b16a-e040e769756e,DCSettingIndex,%DiskDC%
-// Disable USB Selective suspend on battery
-If,%USBsuspendDC_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\2a737441-1930-4402-8d77-b2bebba308a3\48e6b7a6-50f5-4782-a5d4-53bb8f07e226,DCSettingIndex,0
-Else,RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\2a737441-1930-4402-8d77-b2bebba308a3\48e6b7a6-50f5-4782-a5d4-53bb8f07e226,DCSettingIndex,1
-// Disable USB Selective suspend plugged in
-If,%USBsuspendAC_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\2a737441-1930-4402-8d77-b2bebba308a3\48e6b7a6-50f5-4782-a5d4-53bb8f07e226,ACSettingIndex,0
-Else,RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\2a737441-1930-4402-8d77-b2bebba308a3\48e6b7a6-50f5-4782-a5d4-53bb8f07e226,ACSettingIndex,1
-// Sleep Button To Turn Off Screen
-RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Power\User\PowerSchemes\381b4222-f694-41f0-9685-ff5bb260df2e\4f971e89-eebd-4455-a8de-9e59040e7347\96996bc0-ad50-47ec-923b-6f41874dd9eb,ACSettingIndex,4
-
-[ControlVolume]
-If,%Mute_CheckBox%,Equal,False,Begin
-  Set,%Volume%,%Volume_NumberBox%
-  StrFormat,MULT,%Volume%,65535
-  StrFormat,DIV,%Volume%,100
-  TXTReplace,%GTarget_Sys%\pecmd.ini,"//EXEC=!%WinDir%\System32\nircmd.exe setsysvolume 21626","EXEC=!%WinDir%\System32\nircmd.exe setsysvolume %Volume%"
-End
-Else,Begin
-  TXTReplace,%GTarget_Sys%\pecmd.ini,"EXEC @!%WinDir%\System32\mpg123.exe","//EXEC @!%WinDir%\System32\mpg123.exe"
-End
-
-[FitWallpaper]
-// Default Fill. Win10 Center and Fit position Not Used Here
-If,%Position_ScrollBox%,Equal,Stretch,Run,%ScriptFile%,RegStretch
-If,%Position_ScrollBox%,Equal,Fill,Run,%ScriptFile%,RegFill
-If,%Position_ScrollBox%,Equal,Tile,Run,%ScriptFile%,RegTile
-If,%Position_ScrollBox%,Equal,Span,Run,%ScriptFile%,RegSpan
-
-[RegStretch]
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,2
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperStyle,2
-
-[RegCenter]
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,0
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperStyle,0
-
-[RegFit]
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,6
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperStyle,6
-
-[RegFill]
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,10
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperStyle,10
-
-[RegTile]
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,1
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,0
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",TileWallpaper,1
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperStyle,0
-
-[RegSpan]
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Control Panel\Desktop",WallpaperStyle,22
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",TileWallpaper,0
-RegWrite,HKLM,0x1,"Tmp_Default\Software\Microsoft\Internet Explorer\Desktop\General",WallpaperStyle,22
 
 [DriversPlay]
 Echo,"Integrate Drivers..."
@@ -1047,6 +932,7 @@ Penetwork.bmp=150,200
 Pecmd.bmp=643,858
 ThemeColors.jpg=14635,19514
 PENetwork64.ico=1406,1875
+IE11_64.ico=7426,9902
 
 [EncodedFile-InterfaceEncoded-opendir.bmp]
 lines=0
@@ -1087,4 +973,10 @@ lines=4
 [EncodedFile-InterfaceEncoded-PENetwork64.ico]
 lines=0
 0=eJztm11MI1UUx29F7PbLpa0tLVtSnjYbNWyigZiYANkVXwxrNJv9kM0qGkApCA+8L4nv8EBiSHziYftgEIwPJj4aQsy+u/u0JqjRICRLCC5pLHA8/5mO2zZ0Oh+3H2PnkMOZzse5/9/03pm5w0EID/8MDQn+3SMuXREiLoS4xM6rxIJQ17tW3aLRaCiZTK74/f4sf8x6PJ6qjv0ikUg2lUpN10sn2kKbZjSCCWxgrJQ3EAjEY7HYPyMjI5TJZGhiYkLxmZkZxScnJ2l2dpampqb+24bl/v5+CofD39WLH22hzXId0AaNml5tG1jABDYw6qSOhUKhvzY2Ngh2cnJCp6entL+/r3g+n6fd3V06OjpS1sNhaJuPzdaLH22hTZimA5qgDRo1vVgPBhiYwAZGnbwl/Bqfdg6Rv6+vj9bW1kq2N5ofBk3QBo1a3y3eboT/rP6Pdrq7u2lsbIx2dnaop6eHBgYGSrY3uv9DCzRBGzRCKzQXbzfS/8+6/hXiNsYWzm1vby++663i7Y2+/gm1721BGzRCKzQXbzdy/dOx1bm5Odrb29P4r8mjkWbXoA0aoZU/r0rMvTo/P0+Hh4dNzw+N0CoM8nd1dWV9wY6saOM+/3zwbG/zbV98+TK9d/02dUQTxPtuVd43mO2IxHg8JKWNB+RCTuSu3K5/C9qgEVqhWWdfhRnsiUSS3h3uo8xHb1Pmzltn+tSdq/Tx9Tfp9juv0eStoYr7KX53mN54/RUKR2LSrofIhZzIrdc2tEEjtEJzxX2ZFcxgf7EjSt+vfEq0+xXR42V7/gv7Hyv0+YfDpPQnWca5kBO5lTbs6mRWMIMd/u3yONFvXxI9XLTnjxYVfTjHsvmRU2F/ZFMjnFnBDPbz4ZdoA/y/Mv/Pi/YcuR8X+DHOZBnnUvjx3T20qRHOrGAGu8tfI/42/31p/JzLefwBec8fnMtJ/J99cIVe8J3/M5FI/CDDkQs5XX5n8Cv9/zmvvP7PuZzU/wv88q5/nMtx/K1+/3MIf6s//7b6/MfI/FeZA49eVe5ruvPKovkvz9e/loWPXEbmv9CmaBytorFo/mvo/Qd7mzf04FwwnBftoXW9/bT3HxcudC3zvfuuXXbkQK6q7z/grA0aoVVf47P3H0Z1JJPJUfa/eTFgZP/Ozs6bvP8Tjq/yR68FdC+OLeS4afCYADRCq4X2dI01jCF3MBjU+/tBsRXrv2GhvRtmzx+0QSO0mm2vmnHeT7i/PI3H451mjkP/ZT3fcLxn4ph7hWNMjR9og0ZoNXOcEbPKDzPDY+V8adas/DAD/dnWeIE1M7+owmdlvJdbk/MrpvVv9gVtHZatjPdycwI/rHA9uM/5bsGxbGW8l1st+S3c/3QtFou9n0qlCI5lGTlrfP8z9fxTzWrBL2w+/+jV/7S3tz/w+Xx5Xl63W/9jt//r1P+sQyO0yq7/mZ6epvHxcdv1PzKuf3r1P9AIrU1Y/yPz/ue4+h/Jzz+Oqv+R/fzrpPqfWsx/HFL/U+/5b1PV/zTg/UdT1f/U/f1Xk9X/NOL9p1v/49b/uPU/5v7+5fK79T9u/Y9b/+Lyu/U/kvnd+h9Z5sT7n0P4W/35t9XnP0brfwx7A///xbBbqP8x7I36/ydTGs3X//xfjQq2LdJEOeE1GukLHPUjaVEID9ECMlqN5WY5D+HlH/10PHg8+Ds9i5TOkRKXDtS4uVkaD5bUmEur8XiwKDJ3Lq3yHyypcXOzNC4dqDGdU84P2sX5UaOmq/HnR43a9/4vl/JPi3ic4w9w9UstKc8vyjYz0ctMzmcYBSMK2DlBaH1W7PLPdy7YzcAEAI06CRM//RyrAQAAAAIAAAArAAAALwUAAAAAAAABAAAAAAAAAAAAAAA
+
+[EncodedFile-InterfaceEncoded-IE11_64.ico]
+lines=2
+0=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
+1=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
+2=q1/5ly0D4Pel3dqmH5u/ckT82HJ0dvjYAm2JF/TlW2hv3E2xQLUKrWFG54eHukSqFQ04S7Gwk3LCROodu1P//F2yeT20pbXQnuJhUIIGEbxw6BXe5rzK7S9cfqG+wyBaAx1vKdRZ86i+n0Hsk4ndE8/P9JYELWu+gOqk313fvU8KarUMxI2vOu+w/av4uUGxYB17qMtVaeYKrU7yC8UC1Yiqylg4g0JdOM7qxfChODhK62ExrYcBtB6c0sx7JBcL7UgH5wcslqXmIFd4APoy4pb8BL1wNbT5y6DOXEDsP6A8fioEkR76e7s6PvRf2MT5XdfldqG0HvE//qrLzvf6fuSf1KDmjbWtpry4NDRNVbDOqCvdDIN8J+mwn3qGY9DpziFa+5T6Rz18SIOttEeOF1EsZHOxwML2IYtvb7MUCyzlBT0Opd2F+NVaqLMXQ/VyAeTJsyF5NNX47HTvPMpzCwMXNf3D70Bb/xTv2iIQL75s79Xyr+avHFQj1LnlZbMg9eLgFGn6Co1OvIXqpZ20LrxpXRxGiSYAgZpXOGowkrFYLmMxtICFcxr1jvGkQQwD2ygGjneMGBgrx+mEEGTfmaN7dqZ/5q2N9iuurrGp4vd9R1Vre7L4pNVFY3L1Wp7v3Xt86KCe4VOKiSGPvF1OZIZ6FJSmrlDpirezBsleGMoPIUsWjIvKfBzRGbFbzeAHkRH9s41wemaA/SMDaaCnXlrHdritN/Z6IFd123nrVH2n9RTvo2r98d+bjKrWatmd+dbByGq2PuXY+/x9yl8xrq1s9vn11S26R22ynZ9wos+xZN9ht7OuT3qZe2du0cMHW0uOZz6W7lfqmG1yPTOjSG/sn2XQOyczWvsnrKrdQ1ZuFwOpwwOUusSxIpfLgmjrhSHrGrpuc/vki0l1K/4WqWaFfdqon7dLG+80n9ZhyG11BTmNR5/p/neyV3XMUhutVmqYXbt0LG+HBrJZEpQPyUNp1zSIHZJQYheHYrsHKLJ/AIHDI/A7xqLQ5Qmb1+WuOu47//xIh8uCW84PjS/s76KgTQR41tdQ0Gpz6sEvrOb+rb5/3zFLa6w9T8l4rFMzQT8pWf6iMghH8lDklgmBy3MIHBPBbx8Pvv0Tsjh6zBn3OBZ8u3sopJqisG0ECm32vQqs027Vv//4jP+7g2Ki7hw5M3aRgjk8U8QmjRVAMDgXgp4ZEHR5QXqkgO/0DIKOiRB0SADfkTRwijYktz+aNe/L1is/as37vzBmlBmaTBYb+00oYX4YU8j8PIZn3DMy33hw0HPdpqEZmjl9Ikq6tBx24H/+O1f/jH/G3znwB4O1cDXNUotabDWa8y2q5VvUAWLqbLCwoCc2WErpKF7Y4MrNrrBwzae5Diy8YmiuRTO9zqIGzdzZqsHC/OkTLMw7sVfF7Lqhc8X8JfdLC0uaayDGNNeik9aJ4Q4qNc2W0FrUyudm0/WYL1D6xqzlLso8c6OGsWJm35hROW94Y44xzbVodoXxjVlruibLitl0XTRXPubey83V6FjcazhEy4oLqQNjxWy+gFjg9bkazSa9Yk1kFrViTUQWlrFmEtdYmN6IbTC90KuWGZnziOkVdcw+M2tjulZuGN/u5v8H/Ji2/Xic4/Z0NTSMNzPRy0zOZxgFIw7YOUHo7TLY5V8oaj9nYAIA9YkGnrkxms8BAAAAAgAAACcAAAC3HAAAAAAAAAEAAAAAAAAAAAAAAA
 

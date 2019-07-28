@@ -1,0 +1,7 @@
+@Echo off
+If Exist "%SystemDrive%\Users\Default\Desktop\desktop.ini" Attrib -S -H "%SystemDrive%\Users\Default\Desktop\desktop.ini" & del /q /f "%SystemDrive%\Users\Default\Desktop\desktop.ini" & del /q /f /A:R /A:H /A:S /A:A "%SystemDrive%\Users\Default\Desktop\desktop.ini"
+If Exist "%SystemDrive%\Users\Public\Desktop\desktop.ini" Attrib -S -H "%SystemDrive%\Users\Default\Desktop\desktop.ini" & del /q /f "%SystemDrive%\Users\Public\Desktop\desktop.ini" & del /q /f /A:R /A:H /A:S /A:A "%SystemDrive%\Users\Public\Desktop\desktop.ini"
+:: Remove Google Chrome.lnk. It is auto created at startup without the correct target
+If Exist "%SystemDrive%\Users\Default\Desktop\Google Chrome.lnk" Attrib -S -H "%SystemDrive%\Users\Default\Desktop\Google Chrome.lnk" & del /q /f "%SystemDrive%\Users\Default\Desktop\Google Chrome.lnk" & del /q /f /A:R /A:H /A:S /A:A "%SystemDrive%\Users\Default\Desktop\Google Chrome.lnk"
+If Exist "%SystemDrive%\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk" Attrib -S -H "%SystemDrive%\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk" & del /q /f "%SystemDrive%\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk" & del /q /f /A:R /A:H /A:S /A:A "%SystemDrive%\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk"
+Exit

@@ -1,38 +1,8 @@
 ;\ProgramData\Microsoft\User Account Pictures\user-200.png
-; Additional Fonts, optional in addition to segoeui.ttf
-\Windows\Fonts\segoeui.ttf
-\Windows\Fonts\coure.fon
-\Windows\Fonts\sserife.fon
-\Windows\Fonts\arial.ttf
-\Windows\Fonts\arialbd.ttf
-\Windows\Fonts\arialbi.ttf
-\Windows\Fonts\ariali.ttf
-\Windows\Fonts\comic.ttf
-\Windows\Fonts\comicbd.ttf
-\Windows\Fonts\cour.ttf
-\Windows\Fonts\courbd.ttf
-\Windows\Fonts\courbi.ttf
-\Windows\Fonts\l_10646.ttf
-\Windows\Fonts\timesbd.ttf
-\Windows\Fonts\timesbi.ttf
-\Windows\Fonts\timesi.ttf
-\Windows\Fonts\trebuc.ttf
-\Windows\Fonts\trebucbd.ttf
-\Windows\Fonts\trebucbi.ttf
-\Windows\Fonts\trebucit.ttf
-\Windows\Fonts\verdana.ttf
-\Windows\Fonts\verdanab.ttf
-\Windows\Fonts\verdanai.ttf
-\Windows\Fonts\verdanaz.ttf
-\Windows\SystemResources\Windows.UI.ShellCommon
-\Users\Default\AppData\Roaming\Microsoft\Windows\SendTo\Compressed (zipped) Folder.zfsendtotarget
-\Users\Default\AppData\Roaming\Microsoft\Windows\SendTo\Desktop (create shortcut).DeskLink
-\Users\Default\AppData\Roaming\Microsoft\Windows\SendTo\desktop.ini
-; Windows Trusted Runtime Interface Driver
-\Windows\System32\drivers\WindowsTrustedRT.sys
 ; Explorer
 \Windows\explorer.exe
 \Windows\??-??\explorer.exe.mui
+\Windows\SystemResources\Windows.UI.ShellCommon
 \Windows\System32\actxprxy.dll
 \Windows\System32\AppHelp.dll
 \Windows\System32\AppResolver.dll
@@ -41,8 +11,6 @@
 \Windows\System32\clip.exe
 \Windows\System32\Clipc.dll
 \Windows\System32\comctl32.dll
-\Windows\System32\compmgmt.msc
-\Windows\System32\CompMgmtLauncher.exe
 \Windows\System32\comsvcs.dll
 \Windows\System32\control.exe
 \Windows\System32\CoreMessaging.dll
@@ -50,11 +18,8 @@
 \Windows\System32\cscapi.dll
 \Windows\System32\ctfmon.exe
 \Windows\System32\desk.cpl
-\Windows\System32\devmgmt.msc
-\Windows\System32\devmgr.dll
 \Windows\System32\edputil.dll
 \Windows\System32\ELSCore.dll
-\Windows\System32\filemgmt.dll
 \Windows\System32\IconCodecService.dll
 \Windows\System32\imageres.dll
 \Windows\System32\InfDefaultInstall.exe
@@ -76,10 +41,8 @@
 \Windows\System32\rmclient.dll
 \Windows\System32\rshx32.dll
 \Windows\System32\sendmail.dll
-\Windows\System32\services.msc
 \Windows\System32\SettingSyncCore.dll
 \Windows\System32\SharedStartModel.dll
-\Windows\System32\shellstyle.dll
 \Windows\System32\ShellCommonCommonProxyStub.dll
 \Windows\System32\shfolder.dll
 \Windows\System32\shutdown.exe
@@ -96,83 +59,25 @@
 \Windows\System32\UIAnimation.dll
 \Windows\System32\UIRibbon.dll
 \Windows\System32\UIRibbonRes.dll
-\Windows\System32\VEEventDispatcher.dll
+; Do not use, it causes a problem at startup with Pintool
+;\Windows\System32\windows.immersiveshell.serviceprovider.dll
 \Windows\System32\Windows.Internal.Shell.Broker.dll
 \Windows\System32\Windows.Networking.Connectivity.dll
 \Windows\System32\WorkFoldersShell.dll
 \Windows\System32\zipfldr.dll
-; Advanced system setting
-\windows\System32\sysdm.cpl
-\windows\System32\DeviceProperties.exe
-\windows\System32\SystemPropertiesAdvanced.exe
-\windows\System32\SystemPropertiesComputerName.exe
-\windows\System32\systempropertieshardware.exe
-\windows\System32\systempropertiesperformance.exe
-\windows\System32\systempropertiesremote.exe
-; Device Manager cpl
-\Windows\System32\hdwwiz.cpl
-\Windows\System32\hdwwiz.exe
-\Windows\System32\??-??\hdwwiz.cpl.mui
-\Windows\System32\??-??\hdwwiz.exe.mui
-; Timedate cpl
-\Windows\System32\timedate.cpl
-\Windows\System32\??-??\timedate.cpl.mui
-; Mouse cpl
-\Windows\System32\main.cpl
-\Windows\System32\??-??\main.cpl.mui
-; Region, Language
-\Windows\System32\intl.cpl
-\Windows\System32\??-??\intl.cpl.mui
-; DragAndDrop (in Winre.wim d2d1.dll,ksuser.dll)
-\Windows\System32\DataExchange.dll
-\Windows\System32\dcomp.dll
-\windows\system32\d3d11.dll
-\windows\system32\dxgi.dll
-; CopyProgress
-\Windows\System32\chartv.dll
-\Windows\System32\OneCoreUAPCommonProxyStub.dll
-; Eject usb
-\windows\System32\DeviceCenter.dll
-\windows\System32\DeviceEject.exe
-\windows\System32\StorageContextHandler.dll
-; System Information (Optional)
-\Windows\System32\msinfo32.exe
-\Windows\System32\??-??\msinfo32.exe.mui
-; Map a network drive also in network addition
-\Windows\System32\netplwiz.dll
-\Windows\System32\netplwiz.exe
-\Windows\System32\??-??\netplwiz.dll.mui
-\Windows\System32\??-??\netplwiz.exe.mui
-; Sharing from explorer
-\Windows\System32\dtsh.dll
-\Windows\System32\??-??\dtsh.dll.mui
-\Windows\System32\shpafact.dll
-\Windows\System32\networkexplorer.dll
-\Windows\System32\??-??\networkexplorer.dll.mui
-\Windows\System32\provsvc.dll
-\Windows\System32\??-??\provsvc.dll.mui
 ;
 \Windows\System32\??-??\actxprxy.dll.mui
 \Windows\System32\??-??\AppHelp.dll.mui
 \Windows\System32\??-??\AppResolver.dll.mui
 \Windows\System32\??-??\avifil32.dll.mui
-\Windows\System32\??-??\chartv.dll.mui
 \Windows\System32\??-??\clip.exe.mui
 \Windows\System32\??-??\Clipc.dll.mui
 \Windows\System32\xx-xx\comctl32.dll.mui
-\Windows\System32\??-??\compmgmt.msc
-\Windows\System32\??-??\CompMgmtLauncher.exe.mui
 \Windows\System32\??-??\CoreMessaging.dll.mui
 \Windows\System32\??-??\ctfmon.exe.mui
-\Windows\System32\??-??\dcomp.dll.mui
 \Windows\System32\??-??\desk.cpl.mui
-\windows\System32\??-??\DeviceCenter.dll.mui
-\windows\System32\??-??\DeviceProperties.exe.mui
-\Windows\System32\??-??\devmgr.dll.mui
 \Windows\System32\??-??\edputil.dll.mui
 \Windows\System32\??-??\ELSCore.dll.mui
-\Windows\System32\??-??\filemgmt.dll.mui
-\Windows\System32\??-??\findstr.exe.mui
 \Windows\System32\??-??\imageres.dll.mui
 \Windows\System32\??-??\InfDefaultInstall.exe.mui
 \Windows\System32\??-??\InputSwitch.dll.mui
@@ -187,19 +92,10 @@
 \Windows\System32\??-??\ProximityCommon.dll.mui
 \Windows\System32\??-??\rshx32.dll.mui
 \Windows\System32\??-??\sendmail.dll.mui
-\Windows\System32\??-??\services.msc
 \Windows\System32\??-??\SettingSyncCore.dll.mui
-\Windows\System32\??-??\shellstyle.dll.mui
 \Windows\System32\??-??\shutdown.exe.mui
 \Windows\System32\??-??\StartTileData.dll.mui
 \Windows\System32\??-??\stobject.dll.mui
-\windows\System32\??-??\StorageContextHandler.dll.mui
-\windows\System32\??-??\sysdm.cpl.mui
-\windows\System32\??-??\SystemPropertiesAdvanced.exe.mui
-\windows\System32\??-??\SystemPropertiesComputerName.exe.mui
-\windows\System32\??-??\systempropertieshardware.exe.mui
-\windows\System32\??-??\systempropertiesperformance.exe.mui
-\windows\System32\??-??\systempropertiesremote.exe.mui
 \Windows\System32\??-??\systemcpl.dll.mui
 \Windows\System32\??-??\thumbcache.dll.mui
 \Windows\System32\??-??\twinapi.appcore.dll.mui
@@ -208,10 +104,93 @@
 \Windows\System32\??-??\twinui.pcshell.dll.mui
 \Windows\System32\??-??\UIAnimation.dll.mui
 \Windows\System32\??-??\UIRibbon.dll.mui
+; Windows.CloudStore.dll.mui is required for Pintool (mui file only)
 \Windows\System32\??-??\Windows.CloudStore.dll.mui
+; Do not use, it causes a problem at startup with Pintool
+;\Windows\System32\??-??\windows.immersiveshell.serviceprovider.dll.mui
 \Windows\System32\??-??\windows.internal.shell.broker.dll.mui
 \Windows\System32\??-??\WorkFoldersShell.dll.mui
 \Windows\System32\??-??\zipfldr.dll.mui
+;
+; Advanced system setting
+\windows\System32\sysdm.cpl
+\windows\System32\DeviceProperties.exe
+\windows\System32\SystemPropertiesAdvanced.exe
+\windows\System32\SystemPropertiesComputerName.exe
+\windows\System32\systempropertieshardware.exe
+\windows\System32\systempropertiesperformance.exe
+\windows\System32\systempropertiesremote.exe
+\windows\System32\??-??\sysdm.cpl.mui
+\windows\System32\??-??\DeviceProperties.exe.mui
+\windows\System32\??-??\SystemPropertiesAdvanced.exe.mui
+\windows\System32\??-??\SystemPropertiesComputerName.exe.mui
+\windows\System32\??-??\systempropertieshardware.exe.mui
+\windows\System32\??-??\systempropertiesperformance.exe.mui
+\windows\System32\??-??\systempropertiesremote.exe.mui
+;
+; Browse Folder
+\Windows\System32\ExplorerFrame.dll
+\Windows\System32\??-??\ExplorerFrame.dll.mui
+;
+; DragAndDrop (in Winre.wim d2d1.dll,ksuser.dll)
+\Windows\System32\DataExchange.dll
+\Windows\System32\dcomp.dll
+\Windows\System32\??-??\dcomp.dll.mui
+\windows\system32\d3d11.dll
+\windows\system32\dxgi.dll
+;
+; CopyProgress
+\Windows\System32\chartv.dll
+\Windows\System32\??-??\chartv.dll.mui
+\Windows\System32\OneCoreUAPCommonProxyStub.dll
+;
+; Service Manager
+\Windows\System32\services.msc
+\Windows\System32\??-??\services.msc
+;
+; Timedate cpl
+\Windows\System32\timedate.cpl
+\Windows\System32\??-??\timedate.cpl.mui
+; Mouse cpl
+\Windows\System32\main.cpl
+\Windows\System32\??-??\main.cpl.mui
+; Region, Language
+\Windows\System32\intl.cpl
+\Windows\System32\??-??\intl.cpl.mui
+;
+; Eject usb
+\windows\System32\DeviceCenter.dll
+\windows\System32\??-??\DeviceCenter.dll.mui
+\windows\System32\DeviceEject.exe
+\windows\System32\StorageContextHandler.dll
+\windows\System32\??-??\StorageContextHandler.dll.mui
+;
+; Map a network drive also in network addition
+\Windows\System32\netplwiz.dll
+\Windows\System32\netplwiz.exe
+\Windows\System32\??-??\netplwiz.dll.mui
+\Windows\System32\??-??\netplwiz.exe.mui
+;
+; Sharing from explorer
+\Windows\System32\dtsh.dll
+\Windows\System32\??-??\dtsh.dll.mui
+\Windows\System32\shpafact.dll
+\Windows\System32\networkexplorer.dll
+\Windows\System32\??-??\networkexplorer.dll.mui
+\Windows\System32\provsvc.dll
+\Windows\System32\??-??\provsvc.dll.mui
+;
+; Network: L2Schemas seems necessary in x86 with the default Winre.wim network support. otherwise the Wlansvc service does not start with Native Wifi Filter error
+\Windows\L2Schemas
+;
+; Windows Trusted Runtime Interface Driver
+\Windows\System32\drivers\WindowsTrustedRT.sys
+;
+; Windows WinUSB Class Driver
+\Windows\INF\winusb.inf
+\Windows\System32\drivers\winusb.sys
+\Windows\System32\DriverStore\FileRepository\winusb.inf_*
+\Windows\System32\winusb.dll
 ;
 ; Theme and dwm
 \Windows\System32\dwm.exe
@@ -243,7 +222,23 @@
 \Windows\System32\??-??\Windows.Gaming.Input.dll.mui
 \Windows\System32\??-??\Windows.UI.Immersive.dll.mui
 ;
-; Microsoft Managment Control. Disk Management
+; In Win10 > 17700 shellstyle.dll(.mui) is now in \Windows\resources\themes\aero\shell\normalcolor
+\Windows\System32\shellstyle.dll
+\Windows\System32\??-??\shellstyle.dll.mui
+;
+; Microsoft Managment Control (MMC)
+\Windows\System32\filemgmt.dll
+\Windows\System32\mmc.exe
+\Windows\System32\mmcbase.dll
+\Windows\System32\mmcndmgr.dll
+\Windows\System32\mmcshext.dll
+\Windows\System32\??-??\filemgmt.dll.mui
+\Windows\System32\??-??\mmc.exe.mui
+\Windows\System32\??-??\mmcbase.dll.mui
+\Windows\System32\??-??\mmcndmgr.dll.mui
+\Windows\System32\??-??\mmcshext.dll.mui
+;
+; Disk Management
 \windows\system32\diskmgmt.msc
 \Windows\System32\dmdlgs.dll
 \Windows\System32\dmdskmgr.dll
@@ -255,43 +250,33 @@
 \Windows\System32\dmvdsitf.dll
 \Windows\System32\dmview.ocx
 \Windows\System32\hhsetup.dll
-\Windows\System32\mmc.exe
-\Windows\System32\mmcbase.dll
-\Windows\System32\mmcndmgr.dll
-\Windows\System32\mmcshext.dll
 \Windows\System32\??-??\diskmgmt.msc
 \Windows\System32\??-??\dmdskres.dll.mui
 \Windows\System32\??-??\dmdskres2.dll.mui
 \Windows\System32\??-??\dmocx.dll.mui
 \Windows\System32\??-??\dmutil.dll.mui
-\Windows\System32\??-??\mmc.exe.mui
-\Windows\System32\??-??\mmcbase.dll.mui
-\Windows\System32\??-??\mmcndmgr.dll.mui
-\Windows\System32\??-??\mmcshext.dll.mui
-; Browse Folder
-\Windows\System32\ExplorerFrame.dll
-\Windows\System32\??-??\ExplorerFrame.dll.mui
-; Network: L2Schemas seems necessary in x86 with the default Winre.wim network support. otherwise the Wlansvc service does not start with Native Wifi Filter error
-\Windows\L2Schemas
-; Addional Cmds
-\Windows\System32\cacls.exe
-\Windows\System32\Comp.exe
-\Windows\System32\choice.exe
-\Windows\System32\Fc.exe
-\Windows\System32\findstr.exe
-\Windows\System32\Help.exe
-\Windows\System32\Label.exe
-\Windows\System32\Makecab.exe
-\Windows\System32\sc.exe
-\Windows\System32\Sort.exe
-\Windows\System32\??-??\cacls.exe.mui
-\Windows\System32\??-??\Comp.exe.mui
-\Windows\System32\??-??\choice.exe.mui
-\Windows\System32\??-??\Fc.exe.mui
-\Windows\System32\??-??\Help.exe.mui
-\Windows\System32\??-??\Label.exe.mui
-\Windows\System32\??-??\sc.exe.mui
-\Windows\System32\??-??\Sort.exe.mui
+;
+; Device Manager cpl
+\Windows\System32\hdwwiz.cpl
+\Windows\System32\hdwwiz.exe
+\Windows\System32\??-??\hdwwiz.cpl.mui
+\Windows\System32\??-??\hdwwiz.exe.mui
+;
+; Device Manager
+\Windows\System32\devmgmt.msc
+\Windows\System32\devmgr.dll
+\Windows\System32\??-??\devmgr.dll.mui
+;
+; Computer Manager
+\Windows\System32\compmgmt.msc
+\Windows\System32\CompMgmtLauncher.exe
+\Windows\System32\??-??\compmgmt.msc
+\Windows\System32\??-??\CompMgmtLauncher.exe.mui
+;
+; Filesystem Manager - Shared folder
+\Windows\System32\fsmgmt.msc
+\Windows\System32\??-??\fsmgmt.msc
+;
 ; Search
 \Windows\INF\wsearchidxpi
 \Windows\System32\esent.dll
@@ -328,29 +313,91 @@
 \Windows\System32\??-??\tquery.dll.mui
 \Windows\System32\??-??\Windows.Storage.Search.dll.mui
 \Windows\System32\??-??\wsepno.dll.mui
+;
 ; ShellHWDetection
 \Windows\System32\shsvcs.dll
 \Windows\System32\??-??\shsvcs.dll.mui
+;
 ; Explorer BitLocker integration
 \Windows\System32\bdeunlock.exe
 \Windows\System32\fvenotify.exe
 \Windows\System32\??-??\bdeunlock.exe.mui
 \Windows\System32\??-??\fvenotify.exe.mui
+,
 ; Taking Ownership (Appinfo and ProfSvc services). ProfSvc services already here (profsvc.dll,profsvcext.dll,provsvc.dll,objsel.dll)
 \Windows\System32\appinfo.dll
 \Windows\System32\appinfoext.dll
 \Windows\System32\objsel.dll
 \Windows\System32\??-??\appinfo.dll.mui
 \Windows\System32\??-??\objsel.dll.mui
+;
 ; Battery icon - In Winre.wim inf: hidbatt.inf,cmbatt.inf - drivers: battc.sys,HidBatt.sys,CmBatt.sys - system32: umpo.dll,umpnpmgr.dll
 \Windows\INF\battery.inf
 \Windows\INF\c_battery.inf
 \Windows\System32\batmeter.dll
 \Windows\System32\??-??\batmeter.dll.mui
 ; Possible Addition  \Windows\System32\umpoext.dll \Windows\System32\umpowmi.dll \Windows\System32\??-??\umpoext.dll.mui
+;
 ; Power management - In Winre.wim system32: powercfg.cpl,powrprof.dll,workerdd.dll
 \Windows\System32\powercpl.dll
 \Windows\System32\??-??\powercpl.dll.mui
-; Version Info
+;
+; System Information (Optional)
+\Windows\System32\msinfo32.exe
+\Windows\System32\??-??\msinfo32.exe.mui
+;
+; Version Info (Optional)
 \Windows\System32\winver.exe
 \Windows\System32\??-??\winver.exe.mui
+;
+; SendTo
+\Users\Default\AppData\Roaming\Microsoft\Windows\SendTo\Compressed (zipped) Folder.zfsendtotarget
+\Users\Default\AppData\Roaming\Microsoft\Windows\SendTo\Desktop (create shortcut).DeskLink
+\Users\Default\AppData\Roaming\Microsoft\Windows\SendTo\desktop.ini
+;
+; Additional Cmds (optional)
+\Windows\System32\cacls.exe
+\Windows\System32\Comp.exe
+\Windows\System32\choice.exe
+\Windows\System32\Fc.exe
+\Windows\System32\findstr.exe
+\Windows\System32\Help.exe
+\Windows\System32\Label.exe
+\Windows\System32\Makecab.exe
+\Windows\System32\sc.exe
+\Windows\System32\Sort.exe
+\Windows\System32\??-??\cacls.exe.mui
+\Windows\System32\??-??\Comp.exe.mui
+\Windows\System32\??-??\choice.exe.mui
+\Windows\System32\??-??\Fc.exe.mui
+\Windows\System32\??-??\findstr.exe.mui
+\Windows\System32\??-??\Help.exe.mui
+\Windows\System32\??-??\Label.exe.mui
+\Windows\System32\??-??\sc.exe.mui
+\Windows\System32\??-??\Sort.exe.mui
+;
+; Additional Fonts (optional) in addition to segoeui.ttf
+\Windows\Fonts\segoeui.ttf
+\Windows\Fonts\coure.fon
+\Windows\Fonts\sserife.fon
+\Windows\Fonts\arial.ttf
+\Windows\Fonts\arialbd.ttf
+\Windows\Fonts\arialbi.ttf
+\Windows\Fonts\ariali.ttf
+\Windows\Fonts\comic.ttf
+\Windows\Fonts\comicbd.ttf
+\Windows\Fonts\cour.ttf
+\Windows\Fonts\courbd.ttf
+\Windows\Fonts\courbi.ttf
+\Windows\Fonts\l_10646.ttf
+\Windows\Fonts\timesbd.ttf
+\Windows\Fonts\timesbi.ttf
+\Windows\Fonts\timesi.ttf
+\Windows\Fonts\trebuc.ttf
+\Windows\Fonts\trebucbd.ttf
+\Windows\Fonts\trebucbi.ttf
+\Windows\Fonts\trebucit.ttf
+\Windows\Fonts\verdana.ttf
+\Windows\Fonts\verdanab.ttf
+\Windows\Fonts\verdanai.ttf
+\Windows\Fonts\verdanaz.ttf

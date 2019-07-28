@@ -3,7 +3,7 @@ Title=ImDisk
 Type=XPEPlugin
 Description=ImDisk Virtual Disk Driver
 Author=ChrisR
-Date=2018.05.30
+Date=2019.01.22
 Version=001
 Selected=None
 Mandatory=None
@@ -38,5 +38,5 @@ RegWrite,HKLM,0x2,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\RunOnce,
 
 [Enable_In_Pecmdini]
 TXTReplace,%GTarget_Sys%\pecmd.ini,"//EXEC @!%WinDir%\System32\StartImDIsk.exe","EXEC @!%WinDir%\System32\StartImDIsk.exe"
-TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK %Programs%\System Tools\ImDisk","LINK %Programs%\System Tools\ImDisk"
+TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\System Tools\ImDisk","LINK #$pPrograms#$p\System Tools\ImDisk"
 

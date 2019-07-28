@@ -3,7 +3,7 @@ Title=WinApps
 Type=XPEPlugin
 Description=WinApps: OSK,mspaint,ImagingDevices,SnippingTool,WordPad
 Author=ChriSR
-Date=2018.09.13
+Date=2019.01.22
 Version=001
 Selected=None
 Mandatory=None
@@ -48,8 +48,8 @@ TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessibility\OSK","LI
 TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\mspaint","LINK #$pPrograms#$p\Accessories\mspaint"
 TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\WordPad","LINK #$pPrograms#$p\Accessories\WordPad"
 If,%Shell%,Equal,Explorer,Begin
-  TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK %Programs%\Accessories\PhotoViewer","LINK %Programs%\Accessories\PhotoViewer"
-  TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK %Programs%\Accessories\SnippingTool","LINK %Programs%\Accessories\SnippingTool"
+  TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\PhotoViewer","LINK #$pPrograms#$p\Accessories\PhotoViewer"
+  TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\SnippingTool","LINK #$pPrograms#$p\Accessories\SnippingTool"
 End
 
 [Registry]

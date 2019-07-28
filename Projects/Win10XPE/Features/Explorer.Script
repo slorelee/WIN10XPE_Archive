@@ -3,7 +3,7 @@ Title=Explorer
 Type=XPEPlugin
 Description=Explorer
 Author=ChriSR
-Date=2018.09.20
+Date=2019.01.20
 Version=001
 Selected=None
 Mandatory=None
@@ -27,6 +27,7 @@ Run,%ScriptFile%,Reg_Search
 Run,%ScriptFile%,Reg_MMC
 Run,%ScriptFile%,Reg_ShellHWDetection
 Run,%ScriptFile%,Reg_BitLocker
+Run,%ScriptFile%,WinUSBClassDriver
 Run,%ScriptFile%,Reg_StartIsBack
 If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
 
@@ -109,7 +110,7 @@ If,%FullSoftware%,Equal,False,Begin
   RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\Explorer
   RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
   RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Winlogon",shell,explorer.exe
-  // Registry cached version of the Start menu + Windows.CloudStore.dll seem require on x86 build. Else Pintool and others does not work
+  // Registry cached version of the Start menu + Windows.CloudStore.dll seem require Else Pintool and others does not work
   RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\CloudStore
   RegImportFile,%ScriptDir%\Explorer_RegSoftware.txt
   Run,%ScriptFile%,AdditionalFonts
@@ -315,6 +316,10 @@ RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{DF1E92F3-F333-4EF5-9C38-B75CB65FFC
 RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{DF1E92F3-F333-4EF5-9C38-B75CB65FFC39}\InProcServer32,,X:\Windows\System32\Windows.Globalization.dll
 RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{DF1E92F3-F333-4EF5-9C38-B75CB65FFC39}\InProcServer32,ThreadingModel,Both
 
+[WinUSBClassDriver]
+RegWrite,HKLM,0x1,Tmp_Drivers\DriverDatabase\DriverFiles\winusb.sys,,winusb.inf
+
 [Reg_StartIsBack]
 RegImportFile,%ScriptDir%\SIB_RegDefault.txt
 RegImportFile,%ScriptDir%\SIB%Architecture%_RegSoftware.txt
+

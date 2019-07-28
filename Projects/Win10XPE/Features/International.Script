@@ -3,8 +3,8 @@ Title=International
 Type=XPEPlugin
 Description=International setting Keyboard - Format - TimeZone
 Author=ChriSR
-Date=2018.12.03
-Version=001
+Date=2019.01.18
+Version=002
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -13,12 +13,23 @@ Download_Level=0
 Credits=
 Contact=
 
-[International]
-Echo,"Set Keyboard, Format and Timezone..."
+[Variables]
+%DismExe%=%GTools%\%Architecture%\DISM\dism.exe
+%DismLog%=%GTarget_Win%\Logs\DISM\dism.log
+
+[Process]
+Echo,"Processing %ScriptTitle%..."
+If,ExistFile,%ProjectDir%\Core.script,AddInterface,%ProjectDir%\Core.script,InterfaceMain,""
+//--
 StrFormat,PATH,%DismLog%,%DismLogPath%
 If,Not,ExistDir,%DismLogPath%,DirMake,%DismLogPath%
 If,%HostOSArch%,Equal,x86,Set,%DismExe%,%GTools%\x86\DISM\dism.exe
 StrFormat,PATH,%DismExe%,%DismExePath%
+//--
+Run,%ScriptFile%,International
+
+[International]
+Echo,"Set Keyboard, Format and Timezone..."
 //Message,"Keyboard: %Keyboard_ScrollBox%#$xFormat: %Format_ScrollBox%#$xTimeZone: %TimeZone_ScrollBox%"
 //-
 // Format Input Locale (Keyboard)
