@@ -3,7 +3,7 @@ Title=Win10XPE
 Type=XPEPlugin
 Description=Build Win10XPE by using an Original Windows 10 ISO x86 or x64...#$xThe build is based on the Winre.wim recovery environment.
 Author=ChrisR
-Date=2019.04.01
+Date=2019.09.14
 Version=002
 Selected=True
 Mandatory=True
@@ -62,7 +62,7 @@ AttachDir=
 %TargetProgramData%=%GTarget%\ProgramData
 
 [Features]
-TargetArch
+TargetArch=
 AllInRam=
 AllCatalogs=
 SetupFiles=
@@ -81,7 +81,6 @@ WinApps=
 Admin=
 IE11=
 DotNET=
-TargetArch=
 
 [InterfaceDefaultValue]
 Image_ValuePos2=,1,4,16,158,264,21,
@@ -363,21 +362,17 @@ System,ONBUILDEXIT,Exec,%ProjectDir%\script.project,WinXPE_OnBuildExit
 [WinXPE_OnBuildExit]
 If,ExistDir,%GTarget%,Run,%ScriptFile%,HiveUnload,%GTarget%
 If,ExistDir,%GTemp%,Run,%ScriptFile%,HiveUnload,%GTemp%
-If,#1,Equal,STOP,Begin
-Echo,"Build Stopped by User.",Warn
-//Message,"Build Stopped by User.",Information,2
-End
 If,#1,Equal,ERROR,Begin
 Echo,"Build Stopped due to an Error.",Warn
-//Message,"Build Stopped due to an Error.",Information,2
-End
-If,#1,Equal,COMMAND,Begin
-Echo,"Build Stopped by script Command.",Warn
-//Message,"Build Stopped by script Command.",Information,2
 End
 If,#1,Equal,EXCEPTION,Begin
 Echo,"Build Stopped by Exception.",Warn
-//Message,"Build Stopped by Exception.",Information,2
+End
+If,#1,Equal,STOP,Begin
+Echo,"Build Stopped by User.",Warn
+End
+If,#1,Equal,COMMAND,Begin
+Echo,"Build Stopped by script Command.",Warn
 End
 If,#1,Equal,DONE,Message,"Success of the Project Building. Enjoy :)",Information,2
 //-

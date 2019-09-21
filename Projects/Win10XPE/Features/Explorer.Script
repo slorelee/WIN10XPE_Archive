@@ -3,7 +3,7 @@ Title=Explorer
 Type=XPEPlugin
 Description=Explorer
 Author=ChriSR
-Date=2019.04.01
+Date=2019.08.26
 Version=002
 Selected=None
 Mandatory=None
@@ -27,6 +27,7 @@ Run,%ScriptFile%,Reg_MMC
 Run,%ScriptFile%,Reg_ShellHWDetection
 Run,%ScriptFile%,Reg_BitLocker
 Run,%ScriptFile%,WinUSBClassDriver
+Run,%ScriptFile%,Reg_Environment
 If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
 
 [AddWinXShell]
@@ -89,7 +90,7 @@ RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\CoreMessagingRegistrar
 
 [Reg_Explorer]
 RegImportFile,%ScriptDir%\Explorer_RegDefault.txt
-// Shell New Context Menu (possible .lnk additional value)
+// Shell New Context Menu. New Folder and Text Document
 RegWrite,HKLM,0x7,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Discardable\PostSetup\ShellNew,Classes,.library-ms,.txt,Folder
 RegWrite,HKLM,0x3,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Discardable\PostSetup\ShellNew,~reserved~,08,00,00,00,00,00,06,00
 // PinTool must be Launched after Explorer. Seems better to Launched it in pecmd.ini
@@ -247,7 +248,7 @@ RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Fonts","Verd
 If,%FullSoftware%,Equal,False,Begin
   // Classes\AppID,CLSID,Interface,TypeLib already copied
   RegWrite,HKLM,0x1,Tmp_Software\Classes\Applications\MMC.exe,NoOpenWith,
-  RegWrite,HKLM,0x1,Tmp_software\Classes\.msc,,MSCFile
+  RegWrite,HKLM,0x1,Tmp_Software\Classes\.msc,,MSCFile
   RegCopyKey,HKLM,Tmp_Software\Classes\mscfile
   RegCopyKey,HKLM,Tmp_Software\Microsoft\MMC
 End
@@ -309,3 +310,24 @@ RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{DF1E92F3-F333-4EF5-9C38-B75CB65FFC
 
 [WinUSBClassDriver]
 RegWrite,HKLM,0x1,Tmp_Drivers\DriverDatabase\DriverFiles\winusb.sys,,winusb.inf
+
+[Reg_Environment_Info]
+//- Not Sure Values Needed
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",LOGONSERVER,\\Win10XPE
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",USERDOMAIN,Win10XPE
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",USERDOMAIN_ROAMINGPROFILE,Win10XPE
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment\2",SESSIONNAME,Console
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment\2",CLIENTNAME,
+//- Registry Values Exist
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",USERNAME,System
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",USERPROFILE,x:\Users\Default
+//RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",APPDATA,x:\Users\Default\AppData\Roaming
+
+[Reg_Environment]
+Iniread,%ProjectDir%\Script.Project,Features,Admin,%Admin%
+If,Not,%Admin%,Equal,True,Begin
+  RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",HOMEPATH,\Users\Default
+  RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",HOMEDRIVE,X:
+  RegWrite,HKLM,0x1,"Tmp_Default\Volatile Environment",LOCALAPPDATA,X:\Users\Default\AppData\Local
+End
+

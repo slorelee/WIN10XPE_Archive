@@ -3,7 +3,7 @@ Title=Network
 Type=XPEPlugin
 Description=Network
 Author=ChriSR
-Date=2019.07.19
+Date=2019.08.26
 Version=002
 Selected=None
 Mandatory=None
@@ -227,17 +227,7 @@ RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\SSDPSRV
 //-- KYHI Added Network and Sharing Center Service
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\upnphost
 //-- Add Network Icon To File Explorer Navagation Pane
-RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},,"Computers and Devices"
-RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},InfoTip,"@#$psystemroot#$p\system32\NetworkExplorer.dll,-2"
-RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},LocalizedString,"@#$psystemroot#$p\system32\NetworkExplorer.dll,-1"
-RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},ControlPanel,"/name Microsoft.NetworkAndSharingCenter"
-RegWrite,HKLM,0x4,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C},SortOrderIndex,88
-RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\DefaultIcon,,"#$pSystemRoot#$p\System32\imageres.dll,-25"
-RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\InProcServer32,,#$psystemroot#$p\system32\NetworkExplorer.dll
-RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\InProcServer32,LoadWithoutCOM,
-RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\InProcServer32,ThreadingModel,Both
-RegWrite,HKLM,0x4,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder,FolderValueFlags,1057344
-RegWrite,HKLM,0x4,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder,Attributes,-1341915036
+RegCopyKey,HKLM,Tmp_Software\\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}
 
 [FunctionDiscovery_AddFiles]
 ; Function Discovery Provider Host and Publication
@@ -279,3 +269,5 @@ RegWrite,HKLM,0x4,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF
 \Windows\System32\rpcnsh.dll
 \Windows\System32\whhelper.dll
 \Windows\System32\wwancfg.dll
+; KYHI Added 2019.08.26
+\Windows\System32\PortableDeviceApi.dll

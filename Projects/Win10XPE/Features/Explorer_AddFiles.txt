@@ -8,7 +8,7 @@
 \Windows\System32\AppResolver.dll
 \Windows\System32\atlthunk.dll
 \Windows\System32\avifil32.dll
-; Do not add \Windows\System32\cdosys.dll, it locks switch to Admin, even if cdosys.dll.mui is present in winre.wim
+;\Windows\System32\cdosys.dll > DO NOT ADD OR USE - it locks switch to Admin, even if cdosys.dll.mui is present in winre.wim
 \Windows\System32\clip.exe
 \Windows\System32\Clipc.dll
 \Windows\System32\comctl32.dll
@@ -16,7 +16,7 @@
 \Windows\System32\control.exe
 \Windows\System32\CoreMessaging.dll
 \Windows\System32\CoreUIComponents.dll
-\windows\system32\credssp.dll
+\Windows\System32\credssp.dll
 \Windows\System32\cscapi.dll
 \Windows\System32\ctfmon.exe
 \Windows\System32\desk.cpl
@@ -26,7 +26,7 @@
 \Windows\System32\imageres.dll
 \Windows\System32\InfDefaultInstall.exe
 \Windows\System32\InputSwitch.dll
-\windows\system32\mblctr.exe
+\Windows\System32\mblctr.exe
 \Windows\System32\mfperfhelper.dll
 \Windows\System32\MrmCoreR.dll
 \Windows\System32\mscories.dll
@@ -52,6 +52,7 @@
 \Windows\System32\shfolder.dll
 \Windows\System32\shutdown.exe
 \Windows\System32\StartTileData.dll
+\Windows\System32\Sti.dll
 \Windows\System32\stobject.dll
 \Windows\System32\StorageUsage.dll
 \Windows\System32\systemcpl.dll
@@ -66,29 +67,32 @@
 \Windows\System32\UIAnimation.dll
 \Windows\System32\UIRibbon.dll
 \Windows\System32\UIRibbonRes.dll
-; Do not use windows.immersiveshell.serviceprovider.dll
 \Windows\System32\Windows.Globalization.dll
+;\Windows\System32\windows.immersiveshell.serviceprovider.dll > DO NOT ADD OR USE
 \Windows\System32\Windows.Internal.Shell.Broker.dll
 \Windows\System32\Windows.Networking.Connectivity.dll
 \Windows\System32\Windows.UI.dll
 \Windows\System32\WorkFoldersShell.dll
+\Windows\System32\wpdshext.dll
 \Windows\System32\zipfldr.dll
 ;
 ; Windows.CloudStore.dll.mui is required for Pintool (mui file only)
 \Windows\System32\??-??\Windows.CloudStore.dll.mui
 ;
-; Windows Management for Source Build > 18500
+; Windows Management for Source Build > 18900
+;\Windows\System32\Windows.FileExplorer.Common.dll > in winre.wim
 \Windows\System32\WindowManagement.dll
 \Windows\System32\WindowManagementAPI.dll
+\Windows\System32\GameInput.dll
 ;
 ; Advanced system setting
-\windows\System32\sysdm.cpl
-\windows\System32\DeviceProperties.exe
-\windows\System32\SystemPropertiesAdvanced.exe
-\windows\System32\SystemPropertiesComputerName.exe
-\windows\System32\systempropertieshardware.exe
-\windows\System32\systempropertiesperformance.exe
-\windows\System32\systempropertiesremote.exe
+\Windows\System32\sysdm.cpl
+\Windows\System32\DeviceProperties.exe
+\Windows\System32\SystemPropertiesAdvanced.exe
+\Windows\System32\SystemPropertiesComputerName.exe
+\Windows\System32\systempropertieshardware.exe
+\Windows\System32\systempropertiesperformance.exe
+\Windows\System32\systempropertiesremote.exe
 ;
 ; Browse Folder
 \Windows\System32\ExplorerFrame.dll
@@ -96,8 +100,8 @@
 ; DragAndDrop (in Winre.wim d2d1.dll,ksuser.dll)
 \Windows\System32\DataExchange.dll
 \Windows\System32\dcomp.dll
-\windows\system32\d3d11.dll
-\windows\system32\dxgi.dll
+\Windows\System32\d3d11.dll
+\Windows\System32\dxgi.dll
 ;
 ; CopyProgress
 \Windows\System32\chartv.dll
@@ -105,6 +109,12 @@
 ;
 ; Previous version tab
 \Windows\System32\twext.dll
+;
+; Shell extension for Windows Script Host
+\Windows\System32\wshext.dll
+;
+; Sets environment variables
+\Windows\System32\setx.exe
 ;
 ; Service Manager
 \Windows\System32\services.msc
@@ -117,9 +127,9 @@
 \Windows\System32\intl.cpl
 ;
 ; Eject usb
-\windows\System32\DeviceCenter.dll
-\windows\System32\DeviceEject.exe
-\windows\System32\StorageContextHandler.dll
+\Windows\System32\DeviceCenter.dll
+\Windows\System32\DeviceEject.exe
+\Windows\System32\StorageContextHandler.dll
 ;
 ; Map a network drive also in network addition
 \Windows\System32\netplwiz.dll
@@ -149,6 +159,7 @@
 ; Theme and dwm
 \Windows\System32\dwm.exe
 \Windows\System32\dwmcore.dll
+\Windows\System32\dwmghost.dll
 \Windows\System32\dwminit.dll
 \Windows\System32\dwmredir.dll
 \Windows\System32\hotplug.dll
@@ -165,17 +176,23 @@
 ; shellstyle.dll(.mui) does not exist in Win10 17763
 \Windows\System32\shellstyle.dll
 ;
+; Resources for desktop background contextmenu
+\Windows\System32\Display.dll
+\Windows\System32\themecpl.dll
+;
 ; Microsoft Managment Control (MMC)
+;\Windows\System32\dwwin.exe > windows error reporting not used
 \Windows\System32\filemgmt.dll
 \Windows\System32\mmc.exe
 \Windows\System32\mmcbase.dll
 \Windows\System32\mmcndmgr.dll
 \Windows\System32\mmcshext.dll
-\windows\system32\wbem\servdeps.dll
-\windows\system32\OnDemandConnRouteHelper.dll
+\Windows\System32\wbem\servdeps.dll
+\Windows\System32\OnDemandConnRouteHelper.dll
+\Windows\System32\wbem\??-??\servdeps.dll.mui
 ;
 ; Disk Management
-\windows\system32\diskmgmt.msc
+\Windows\System32\diskmgmt.msc
 \Windows\System32\dmdlgs.dll
 \Windows\System32\dmdskmgr.dll
 \Windows\System32\dmdskres.dll
@@ -235,6 +252,7 @@
 \Windows\System32\dlnashext.dll
 ;
 ; Explorer BitLocker integration
+\Windows\System32\bdesvc.dll
 \Windows\System32\bdeunlock.exe
 \Windows\System32\fvenotify.exe
 ,
@@ -247,9 +265,11 @@
 \Windows\INF\battery.inf
 \Windows\INF\c_battery.inf
 \Windows\System32\batmeter.dll
+\Windows\System32\umpoext.dll
 ; Possible Addition  \Windows\System32\umpoext.dll \Windows\System32\umpowmi.dll
 ;
-; Power management - In Winre.wim system32: powercfg.cpl,powrprof.dll,workerdd.dll
+; Power management - In Winre.wim system32: powrprof.dll,workerdd.dll
+\Windows\System32\powercfg.cpl
 \Windows\System32\powercpl.dll
 ;
 ; System Information (Optional)

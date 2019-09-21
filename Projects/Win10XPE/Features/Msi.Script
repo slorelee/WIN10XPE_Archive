@@ -3,7 +3,7 @@ Title=Msi
 Type=XPEPlugin
 Description=Msi Windows Installer
 Author=ChriSR
-Date=2019.05.10
+Date=2019.09.01
 Credits=
 Contact=
 Version=002
@@ -54,19 +54,19 @@ TXTAddLine,%GTarget_Sys%\autorun.cmd,Exit,Append
 \windows\AppPatch\msimain.sdb
 \windows\AppPatch\sysmain.sdb
 \Windows\Installer
-\Windows\System32\mscoree.dll
 \Windows\System32\msi.dll
 \Windows\System32\msiexec.exe
 \Windows\System32\msihnd.dll
 \Windows\System32\msiltcfg.dll
 \Windows\System32\msimsg.dll
 \Windows\System32\msisip.dll
-\Windows\System32\pcacli.dll
-\Windows\System32\RstrtMgr.dll
-\Windows\System32\srpapi.dll
-\Windows\System32\wbem\??-??\msi.mfl
+;\Windows\System32\mscoree.dll
+;\Windows\System32\pcacli.dll
+;\Windows\System32\RstrtMgr.dll
+;\Windows\System32\srpapi.dll
 \Windows\System32\wbem\msi.mof
 \Windows\System32\wbem\msiprov.dll
+\Windows\System32\wbem\??-??\msi.mfl
 
 [Msix64_AddFiles]
 \Windows\SysWOW64\Msi.dll
@@ -75,7 +75,7 @@ TXTAddLine,%GTarget_Sys%\autorun.cmd,Exit,Append
 \Windows\SysWOW64\Msiltcfg.dll
 \Windows\SysWOW64\Msimsg.dll
 \Windows\SysWOW64\Msisip.dll
-\Windows\SysWOW64\mscoree.dll
-\Windows\SysWOW64\pcacli.dll
-\Windows\SysWOW64\RstrtMgr.dll
-\Windows\SysWOW64\srpapi.dll
+;\Windows\SysWOW64\mscoree.dll
+;\Windows\SysWOW64\pcacli.dll
+;\Windows\SysWOW64\RstrtMgr.dll
+;\Windows\SysWOW64\srpapi.dll

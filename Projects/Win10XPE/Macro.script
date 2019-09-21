@@ -3,7 +3,7 @@ Title=Macro
 Type=XPEPlugin
 Description=Macro File
 Author=ChriSR
-Date=2019.04.01
+Date=2019.08.20
 Version=004
 Level=0
 Download_Level=0
@@ -214,14 +214,15 @@ If,#3-,Equal,-,Begin
     Set,#3,$Start_Menu\Programs\#3\%ProgramTitle%.lnk
   End
 End
+// PinUtil.exe, once final, replace the 3 PINTOOL section here by PinUtil. In pecmd.ini (Include folder), rename [PINTOOL] by [PinUtil] And remove the 3rd parameter (Pintool section) in EXEC PinUtil.exe Config Pecmd.ini Pintool
 Set,%MXPE_AddPin_Read%,
-IniRead,%GTarget_Sys%\pecmd.ini,PINTOOL,#1#2,%MXPE_AddPin_Read%
-If,Not,%MXPE_AddPin_Read%-,Equal,-,Echo,"Pin #1#2 Already Exist. Pin #1#2=#3|||||||| Can Not be Added",Warn
-Else,IniWriteTextLine,%GTarget_Sys%\pecmd.ini,PINTOOL,#1#2=#3||||||||
+IniRead,%GTarget_Sys%\pecmd.ini,PinUtil,#1#2,%MXPE_AddPin_Read%
+If,Not,%MXPE_AddPin_Read%-,Equal,-,Echo,"Pin #1#2 Already Exist. Pin #1#2=#3 Can Not be Added",Warn
+Else,IniWriteTextLine,%GTarget_Sys%\pecmd.ini,PinUtil,#1#2=#3
 //----------  END AddPin Macro  ------------------------------
 
 [MAddPin_FindPlace]
-IniRead,%GTarget_Sys%\pecmd.ini,PINTOOL,#1#c,%MXPE_AddPin_Read%
+IniRead,%GTarget_Sys%\pecmd.ini,PinUtil,#1#c,%MXPE_AddPin_Read%
 If,%MXPE_AddPin_Read%-,Equal,-,begin
   set,%MXPE_AddPin_Count%,#c
   Loop,Break
@@ -309,8 +310,7 @@ If,#3,Equal,NoExitOnError,Set,#6,""
 Else,Set,#6,Exit
 //-
 //Echo,"Downloading #2 Please Wait..."
-//ShellExecute,#7,%GTools%\aria2c.exe,"-x16 -s16 --allow-overwrite=true --auto-file-renaming=false -d#$q#8#$q -o#$q#9#$q #$q#2#$q"
-ShellExecute,#7,cmd.exe,"/c Echo Downloading #2 Please Wait... &%GTools%\aria2c.exe -x16 -s16 --allow-overwrite=true --auto-file-renaming=false -d#$q#8#$q -o#$q#9#$q #$q#2#$q"
+ShellExecute,#7,cmd.exe,"/c Echo Downloading #$q#2#$q Please Wait... &%GTools%\aria2c.exe -x16 -s16 --allow-overwrite=true --auto-file-renaming=false -d#$q#8#$q -o#$q#9#$q #$q#2#$q"
 If,Not,%ExitCode%,Equal,0,Begin
   If,ExistFile,#1,FileDelete,#1
   Set,%MXPE_ErrorMessage%,""

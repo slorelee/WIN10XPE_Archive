@@ -3,7 +3,7 @@ Title=VCRuntime
 Type=XPEPlugin
 Description=VCRuntime
 Author=ChriSR
-Date=2019.05.10
+Date=2019.09.04
 Credits=
 Contact=
 Version=002
@@ -13,7 +13,7 @@ Selected=None
 Mandatory=None
 NoWarning=False
 History001=ChrisR Initial XPE Packed Plugin Created 2018.05.30
-History002=KYHI - Additional File Support For 10.0.18632 - 2019.05.10
+History002=KYHI - Additional File Support For 10.0.18632 - 2019.05.10 - 2019.09.04
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -75,6 +75,8 @@ End
 \Windows\System32\msvcp140_clr0400.dll
 \Windows\System32\msvcr100_clr0400.dll
 \Windows\System32\msvcr120_clr0400.dll
+; Additional Files for 1903
+\Windows\System32\ucrtbase_clr0400.dll
 ; WinSxS VC++ runtimes
 \Windows\WinSxS\amd64_microsoft.vc80.crt*
 \Windows\WinSxS\amd64_microsoft.vc90.crt*
@@ -99,6 +101,8 @@ End
 \Windows\SysWOW64\msvcp140_clr0400.dll
 \Windows\SysWOW64\msvcr100_clr0400.dll
 \Windows\SysWOW64\msvcr120_clr0400.dll
+; Additional Files for 1903
+\Windows\SysWOW64\ucrtbase_clr0400.dll
 ; SysWOW64 WinSxS VC++ runtimes
 \Windows\WinSxS\x86_microsoft.vc80.crt*
 \Windows\WinSxS\x86_microsoft.vc90.crt*

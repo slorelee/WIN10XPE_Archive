@@ -268,6 +268,39 @@ RegWrite,HKLM,0x7,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\WinPE\UGC",M
 //-
 // Autorecover wbem MOFs files from winre.wim. To do optionally with correct Language
 //RegWrite,HKLM,0x7,Tmp_Software\Microsoft\WBEM\CIMOM,"Autorecover MOFs",#$pwindir#$p\system32\wbem\cimwin32.mof,#$pwindir#$p\system32\wbem\ncprov.mof,#$pwindir#$p\system32\wbem\en-us\cimwin32.mfl
+//-
+// Open with Notepad context Menu Option. Associate .cfg,.inf,.ini,.log,.scp,.script,.txt,.wtx (txtfile)
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.inf,,inffile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.ini,,inifile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.ini,PerceivedType,text
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.log,,txtfile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.scp,,txtfile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt,,txtfile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt,PerceivedType,text
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt,"Content Type",text/plain
+RegWrite,HKLM,0x2,Tmp_Software\Classes\.txt\ShellNew,ItemName,"@#$pSystemRoot#$p\system32\Notepad.exe,-470"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt\ShellNew,NullFile,
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.wtx,,txtfile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.cfg,,txtfile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.script,,txtfile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\inffile,,"Setup Information"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile,FriendlyTypeName,"@#$pSystemRoot#$p\System32\setupapi.dll,-2000"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\DefaultIcon,,"#$pSystemRoot#$p\System32\imageres.dll,-69"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\shell\open\command,,"#$pSystemRoot#$p\system32\Notepad.exe #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\shell\print\command,,"#$pSystemRoot#$p\system32\Notepad.exe /p #$p1"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\inifile,,"Configuration Settings"
+RegWrite,HKLM,0x4,Tmp_Software\Classes\inifile,EditFlags,2097152
+RegWrite,HKLM,0x1,Tmp_Software\Classes\inifile,FriendlyTypeName,"@shell32.dll,-10151"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inifile\DefaultIcon,,"#$pSystemRoot#$p\system32\imageres.dll,-69"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inifile\shell\open\command,,"#$pSystemRoot#$p\system32\Notepad.exe #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inifile\shell\print\command,,"#$pSystemRoot#$p\system32\Notepad.exe /p #$p1"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\txtfile,,"Text Document"
+RegWrite,HKLM,0x4,Tmp_Software\Classes\txtfile,EditFlags,2162688
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfile,FriendlyTypeName,"@#$pSystemRoot#$p\system32\Notepad.exe,-469"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfile\DefaultIcon,,"#$pSystemRoot#$p\system32\imageres.dll,-102"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfile\shell\open\command,,"#$pSystemRoot#$p\system32\Notepad.exe #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfile\shell\print\command,,"#$pSystemRoot#$p\system32\Notepad.exe /p #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfile\shell\printto\command,,"#$pSystemRoot#$p\system32\Notepad.exe /pt #$q#$p1#$q #$q#$p2#$q #$q#$p3#$q #$q#$p4#$q"
 
 [EditReg_BaseSoftware]
 RegHiveLoad,Tmp_Install_Software,%Gtemp%\Install.hives\SOFTWARE
