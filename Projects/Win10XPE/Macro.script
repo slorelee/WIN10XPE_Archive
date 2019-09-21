@@ -211,7 +211,7 @@ If,#3-,Equal,-,Begin
     StrFormat,REPLACE,#3,App,,#3
     StrFormat,POS,#3,\,%MXPE_Pos%
     StrFormat,LTRIM,#3,%MXPE_Pos%,#3
-    Set,#3,$Start_Menu\Programs\#3\%ProgramTitle%.lnk
+    Set,#3,#$pStartMenu#$p\Programs\#3\%ProgramTitle%.lnk
   End
 End
 // PinUtil.exe, once final, replace the 3 PINTOOL section here by PinUtil. In pecmd.ini (Include folder), rename [PINTOOL] by [PinUtil] And remove the 3rd parameter (Pintool section) in EXEC PinUtil.exe Config Pecmd.ini Pintool

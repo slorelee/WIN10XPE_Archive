@@ -3,7 +3,7 @@ Title=Create ISO
 Type=XPEPlugin
 Description=Create or Recreate boot.wim and ISO.#$xCopy the ISO on a USB stick, disk, with both Bios and UEFI compatibility.#$xUse the Tools to Add files or Edit Win10XPE registry hives.
 Author=ChriSR
-Date=2019.09.06
+Date=2019.09.19
 Version=004
 Selected=True
 Mandatory=False
@@ -20,7 +20,7 @@ Contact=
 %BcdEditExe%=%GTools%\%Architecture%\BCDBoot\bcdedit.exe
 %tmout%=5
 %Usb7iceExe%=%GTools%\Usb7ice.exe
-%RufusExe%=%GTools%\rufus-3.7p.exe
+%RufusExe%=%GTools%\rufus-3.8p.exe
 %RufusIni%=%GTools%\rufus.ini
 //-
 %RegSoftware%=%GTarget_Sys%\config\SOFTWARE
@@ -142,9 +142,15 @@ ExtractFile,%ScriptFile%,Folder,DrvInstPatch.exe,%GTemp%\DrvInstPatch
 ShellExecute,Hide,%GTemp%\DrvInstPatch\DrvInstPatch.exe,"P %GTarget_Sys%\drvinst.exe"
 
 [ControllerPatch]
-Echo,"Patch Controller.dll to Get the Credentials Window..."
-//FileCopy,%GTarget_Sys%\Windows.UI.CredDialogController.dll,%GTarget_Sys%\Windows.UI.CredDialogController_org.dll
-ShellExecute,Hide,%GTools%\Jrepl.bat,"#$q\x5C\x00\x4D\x00\x69\x00\x6E\x00\x69\x00\x4E\x00\x54\x00\x00\x00#$q #$q\x5C\x00\x4D\x00\x69\x00\x6E\x00\x69\x00\x4E\x00\x58\x00\x00\x00#$q /m /x /f #$q%GTarget_Sys%\Windows.UI.CredDialogController.dll#$q /o -"
+// Patch Windows.UI.CredDialogController.dll to Get the Credentials Window Only If both Remote Desktop and Switch to Admin Enabled
+Iniread,%ProjectDir%\Script.Project,Features,Admin,%Admin%
+If,%Admin%,Equal,True,Begin
+  If,ExistFile,%GTarget_Sys%\mstsc.exe,Begin
+    Echo,"Patch Controller.dll to Get the Credentials Window..."
+    //FileCopy,%GTarget_Sys%\Windows.UI.CredDialogController.dll,%GTarget_Sys%\Windows.UI.CredDialogController_org.dll
+    If,ExistFile,%GTarget_Sys%\Windows.UI.CredDialogController.dll,ShellExecute,Hide,%GTools%\binmay.exe,"-u #$q%GTarget_Sys%\Windows.UI.CredDialogController.dll#$q -s 5C004D0069006E0069004E0054000000 -r 5C004D0069006E0069004E0058000000"
+  End
+End
 
 [Check_Extract_SysFiles]
 Echo,"Check and Add System Resources Files..."

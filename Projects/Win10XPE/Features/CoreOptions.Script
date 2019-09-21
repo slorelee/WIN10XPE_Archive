@@ -3,7 +3,7 @@ Title=Core Options
 Type=XPEPlugin
 Description=Core Interface Options
 Author=ChriSR
-Date=2019.08.27
+Date=2019.09.19
 Version=004
 Selected=None
 Mandatory=None
@@ -13,7 +13,7 @@ Download_Level=0
 Credits=
 Contact=
 History003=KYHI - Update JFX's DrvInstPatch - 2019.07.12
-History004=ChrisR - Change ComputerName in Penetwork.ini - 2019-08-20
+History004=ChrisR - Change ComputerName in Penetwork.ini - 2019-09-19
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -116,8 +116,9 @@ End
 If,%PENMRunFromWhere_ScrollBox%,Equal,"Run From RAM",RunFromRAM
 Set,%PENetworkFolder%,PENetwork
 If,%Architecture%,Equal,x64,Set,%PENetworkFolder%,%PENetworkFolder%_x64
+//-
 If,ExistFile,%Target_Prog%\%PENetworkFolder%\PENetwork.ini,Begin
-  ShellExecute,Hide,%GTools%\Jrepl.bat,"#$qWin10XPE#$q #$q%PENMComputerName%#$q /f #$q%Target_Prog%\%PENetworkFolder%\PENetwork.ini#$q /UTF /o -"
+  ShellExecute,Hide,%GTools%\binmay.exe,"-u #$q%Target_Prog%\%PENetworkFolder%\PENetwork.ini#$q -s u:Win10XPE -r u:#$q%PENMComputerName%#$q"
 End
 //-
 If,Not,%PENMComputerName%,Equal,%CustomComputerName_TextBox%,Echo,"The computer name has been changed to %ComputerName%, its max size is 15 chars and it must not contain special chars: \ / : * ? #$q < > |",Warn
