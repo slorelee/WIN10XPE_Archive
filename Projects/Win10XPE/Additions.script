@@ -83,7 +83,7 @@ FileDeleteQ,%GTemp%\AddFiles.txt
 ExtractFile,%ScriptFile%,InterfaceEncoded,AddFiles.txt,%GTemp%
 Echo,"Waiting for changes in AddFiles.txt and closing the editor..."
 System,FileRedirect,OFF
-ShellExecute,Hide,cmd.exe,"/C #$q%GTemp%\AddFiles.txt#$q",%GTemp%
+ShellExecute,Hide,cmd.exe,"/D /C #$q%GTemp%\AddFiles.txt#$q",%GTemp%
 System,FileRedirect,ON
 Encode,%ScriptFile%,InterfaceEncoded,%GTemp%\AddFiles.txt
 System,RefreshInterface
@@ -121,7 +121,7 @@ FileDeleteQ,%GTemp%\AddReg.txt
 ExtractFile,%ScriptFile%,InterfaceEncoded,AddReg.txt,%GTemp%
 Echo,"Waiting for changes in AddReg.txt and closing the editor..."
 System,FileRedirect,OFF
-ShellExecute,Hide,cmd.exe,"/C #$q%GTemp%\AddReg.txt#$q",%GTemp%
+ShellExecute,Hide,cmd.exe,"/D /C #$q%GTemp%\AddReg.txt#$q",%GTemp%
 System,FileRedirect,ON
 Encode,%ScriptFile%,InterfaceEncoded,%GTemp%\AddReg.txt
 System,RefreshInterface

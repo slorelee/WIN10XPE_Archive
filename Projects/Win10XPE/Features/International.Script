@@ -53,7 +53,7 @@ If,%InputLocale%,Equal,HostOS,Set,%Get-Intl%,True
 If,%UserLocale%,Equal,HostOS,Set,%Get-Intl%,True
 If,%TimeZone%,Equal,HostOS,Set,%Get-Intl%,True
 If,%Get-Intl%,Equal,True,begin
-  ShellExecute,Hide,cmd.exe,"/C Echo Get international information. Be patient...&Dism.exe /online /Get-Intl /English > #$q%Gtemp%\Get-Intl.ini#$q",%DismExePath%
+  ShellExecute,Hide,cmd.exe,"/D /C Echo Get international information. Be patient...&Dism.exe /online /Get-Intl /English > #$q%Gtemp%\Get-Intl.ini#$q",%DismExePath%
   If,ExistFile,%Gtemp%\Get-Intl.ini,Begin
     TXTAddLine,%Gtemp%\Get-Intl.ini,[International],Prepend
     TXTReplace,%Gtemp%\Get-Intl.ini," : ",=
@@ -93,7 +93,7 @@ If,Not,%Set_Intl_Parm%-,Equal,-,Begin
     StrFormat,Replace,%Set_Intl_Parm%,e:,"e: ",%Set_Intl_Parm_Echo%
     StrFormat,Replace,%Set_Intl_Parm_Echo%,/Set-,"&Echo ",%Set_Intl_Parm_Echo%
     System,FileRedirect,OFF
-    ShellExecute,Open,cmd.exe,"/C Echo Set Keyboard, Format and Timezone. Be patient...&Echo.%Set_Intl_Parm_Echo%&Dism.exe /image:#$q%GTarget%#$q %Set_Intl_Parm% /LogPath:#$q%DismLog%#$q",%DismExePath%
+    ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Set Keyboard, Format and Timezone. Be patient...&Echo.%Set_Intl_Parm_Echo%&Dism.exe /image:#$q%GTarget%#$q %Set_Intl_Parm% /LogPath:#$q%DismLog%#$q",%DismExePath%
     System,FileRedirect,ON
   End
 End

@@ -25,15 +25,15 @@ HistoryNotes05=(*) Noted that the Target Folder will be Deleted if Plugin Select
 %AddFile%=%TempFolder%\%AddFileName%_AddFiles.txt
 //-
 %TempFolder%=%Gtemp%\CheckSysFiles
-%WimMunFile%=%TempFolder%\WimMunFile.txt
 %WimMui32File%=%TempFolder%\WimMui32File.txt
 %WimMui64File%=%TempFolder%\WimMui64File.txt
-%TargetMunFile%=%TempFolder%\TargetMunFile.txt
+%WimMunFile%=%TempFolder%\WimMunFile.txt
 %TargetSysFile%=%TempFolder%\TargetSysFile.txt
 %TargetSys32File%=%TempFolder%\TargetSys32File.txt
 %TargetSys64File%=%TempFolder%\TargetSys64File.txt
 %TargetMui32File%=%TempFolder%\TargetMui32File.txt
 %TargetMui64File%=%TempFolder%\TargetMui64File.txt
+%TargetMunFile%=%TempFolder%\TargetMunFile.txt
 %KeepWorkFile%=False
 
 [Plugin_Parm]
@@ -156,18 +156,18 @@ TXTAddLine,%GTarget_Sys%\pecmd.ini,"",Append
 TXTAddLine,%GTarget_Sys%\pecmd.ini,[PINTOOL],Append
 
 [CreateTargetSysFile]
-If,ExistDir,%GTarget_Sys%,ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Sys%\*.*#$q >> #$q%TargetSys32File%#$q",%TempFolder%
+If,ExistDir,%GTarget_Sys%,ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Sys%\*.*#$q >> #$q%TargetSys32File%#$q",%TempFolder%
 If,ExistFile,%TargetSys32File%,Begin
   FileCopy,%TargetSys32File%,%TargetSysFile%
   If,ExistDir,%GTarget_Win%\SysWOW64,Begin
-    ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSys64File%#$q",%TempFolder%
-    ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSysFile%#$q",%TempFolder%
+    ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSys64File%#$q",%TempFolder%
+    ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSysFile%#$q",%TempFolder%
   End
 End
 Else,Begin
   If,ExistDir,%GTarget_Win%\SysWOW64,Begin
-    ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSys64File%#$q",%TempFolder%
-    ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSysFile%#$q",%TempFolder%
+    ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSys64File%#$q",%TempFolder%
+    ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\*.*#$q >> #$q%TargetSysFile%#$q",%TempFolder%
   End
   Else,FileCreateBlank,%TargetSysFile%
 End
@@ -203,9 +203,9 @@ End
 
 [Process_CheckMun]
 Echo,"Processing %ScriptTitle% SystemResources Mun Files..."
-ShellExecute,Hide,cmd.exe,"/C wimlib-imagex.exe dir #$q%GSource%\sources\install.wim#$q %Image% --path=\Windows\SystemResources > #$q%WimMunFile%.tmp#$q&Findstr /E #$q.mun#$q #$q%WimMunFile%.tmp#$q > #$q%WimMunFile%#$q&Del /q /f #$q%WimMunFile%.tmp#$q",%GTools%
+ShellExecute,Hide,cmd.exe,"/D /C wimlib-imagex.exe dir #$q%GSource%\sources\install.wim#$q %Image% --path=\Windows\SystemResources > #$q%WimMunFile%.tmp#$q&Findstr /E #$q.mun#$q #$q%WimMunFile%.tmp#$q > #$q%WimMunFile%#$q&Del /q /f #$q%WimMunFile%.tmp#$q",%GTools%
 //-
-If,ExistDir,%GTarget_Win%\SystemResources,ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Win%\SystemResources\*.*#$q > #$q%TargetMunFile%#$q",%TempFolder%
+If,ExistDir,%GTarget_Win%\SystemResources,ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Win%\SystemResources\*.*#$q > #$q%TargetMunFile%#$q",%TempFolder%
 Else,FileCreateBlank,%TargetMunFile%
 //-
 Run,%ScriptFile%,Process_CheckMun_Exclude
@@ -228,15 +228,15 @@ ShellExecute,Open,%TempFolder%\%ProgramEXE%,"#$q%TargetSys32File%#$q #$q%TargetM
 
 [Process_CheckMui32_Loop]
 StrFormat,SPLIT,%FallBackLanguage%,|,#c,#9
-ShellExecute,Hide,cmd.exe,"/C wimlib-imagex.exe dir #$q%GSource%\sources\install.wim#$q %Image% --path=\Windows\System32\#9 >> #$q%WimMui32File%#$q",%GTools%
+ShellExecute,Hide,cmd.exe,"/D /C wimlib-imagex.exe dir #$q%GSource%\sources\install.wim#$q %Image% --path=\Windows\System32\#9 >> #$q%WimMui32File%#$q",%GTools%
 //-
-If,ExistDir,%GTarget_Sys%\#9,ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Sys%\#9\*.*#$q >> #$q%TargetMui32File%#$q",%TempFolder%
+If,ExistDir,%GTarget_Sys%\#9,ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Sys%\#9\*.*#$q >> #$q%TargetMui32File%#$q",%TempFolder%
 
 [Process_CheckMui32_Exclude]
 // cdosys.dll.mui is present in winre.wim but not cdosys.dll. cdosys.dll Locks switch to Admin
 TXTDelLine,%TargetMui32File%,cdosys.dll.mui
 // msimsg.dll.mui is present in winre.wim but not msimsg.dll. msimsg.dll is copied in msi plugin
-TXTDelLine,%TargetMui32File%,msimsg.dll.mui
+If,Not,ExistFile,%GTarget_Sys%\msimsg.dll,TXTDelLine,%TargetMui32File%,msimsg.dll.mui
 // psmodulediscoveryprovider.mfl is linked to psmodulediscoveryprovider.dll, not an anomaly
 TXTDelLine,%TargetMui32File%,psmodulediscoveryprovider.mfl
 // Windows.CloudStore.dll.mui is required for Pintool but not Windows.CloudStore.dll which makes Win10XPE Unusable
@@ -252,9 +252,9 @@ ShellExecute,Open,%TempFolder%\%ProgramEXE%,"#$q%TargetSys64File%#$q #$q%TargetM
 
 [Process_CheckMui64_Loop]
 StrFormat,SPLIT,%FallBackLanguage%,|,#c,#9
-ShellExecute,Hide,cmd.exe,"/C wimlib-imagex.exe dir #$q%GSource%\sources\install.wim#$q %Image% --path=\Windows\SysWOW64\#9 >> #$q%WimMui64File%#$q",%GTools%
+ShellExecute,Hide,cmd.exe,"/D /C wimlib-imagex.exe dir #$q%GSource%\sources\install.wim#$q %Image% --path=\Windows\SysWOW64\#9 >> #$q%WimMui64File%#$q",%GTools%
 //-
-If,ExistDir,%GTarget_Win%\SysWOW64\#9,ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\#9\*.*#$q >> #$q%TargetMui64File%#$q",%TempFolder%
+If,ExistDir,%GTarget_Win%\SysWOW64\#9,ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B #$q%GTarget_Win%\SysWOW64\#9\*.*#$q >> #$q%TargetMui64File%#$q",%TempFolder%
 
 [Process_CheckMui64_Exclude]
 // Only wcncsvc.dll.mui, wcncsvc.dll does not exist in SysWOW64, not an anomaly

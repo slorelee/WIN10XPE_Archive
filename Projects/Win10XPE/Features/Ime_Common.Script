@@ -58,13 +58,13 @@ If,%Architecture%%WoW64Support%,Equal,x64True,Begin
   RegCopyKey,HKLM,Tmp_Software\WOW6432Node\Microsoft\IMETC
   RegCopyKey,HKLM,Tmp_Software\WOW6432Node\Microsoft\InputMethod
 End
-  
-[Ime_Common_Reg_Save]  
+
+[Ime_Common_Reg_Save]
 // WOW6432Node FuzzyDS is not in install.wim but seems not required
 If,%Architecture%%WoW64Support%,Equal,x64True,Begin
   If,%SourceBuild%,Bigger,18300,Begin
     System,FileRedirect,OFF
-    ShellExecute,Hide,cmd.exe,"/C Reg Copy #$qHKLM\Tmp_Software\Microsoft\FuzzyDS#$q #$qHKLM\Tmp_Software\WOW6432Node\Microsoft\FuzzyDS#$q /S /F"
+    ShellExecute,Hide,cmd.exe,"/D /C Reg Copy #$qHKLM\Tmp_Software\Microsoft\FuzzyDS#$q #$qHKLM\Tmp_Software\WOW6432Node\Microsoft\FuzzyDS#$q /S /F"
     System,FileRedirect,ON
   End
 End

@@ -45,6 +45,9 @@ If,%Architecture%,Equal,x86,FileDelete,%Target_Prog%\%ProgramFolder%\StartIsBack
 RegImportFile,%ScriptDir%\StartIsBack_RegDefault.txt
 RegImportFile,%ScriptDir%\StartIsBack_RegSoftware.txt
 //-
+// TaskbarJumpList is disabled by default. SIB v2.8.9 crashes desktop with TaskbarJumpList enabled
+//RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,TaskbarJumpList,1
+//-
 If,%Architecture%,Equal,x86,Begin
   RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{865e5e76-ad83-4dca-a109-50dc2113ce9b}\InProcServer32,,"X:\Program Files\StartIsBack\StartIsBack32.dll"
   RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{99E2B362-3E4E-4255-9B29-41A7F40777BA}\InProcServer32,,"X:\Program Files\StartIsBack\StartIsBack32.dll"

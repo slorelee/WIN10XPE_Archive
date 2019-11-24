@@ -129,7 +129,7 @@ If,Not,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
   ExtractWimFile,\Windows\WinSxS\*_microsoft-windows-smb10-minirdr_*\mrxsmb10.sys,%GTarget_Sys%\Drivers,1
   If,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,Begin
     ShellExecute,Hide,%GTools%\sxsexp32.exe,"#$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q"
-    //ShellExecute,Open,cmd.exe,"/C Echo sxsexp32.exe #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q&Echo.&#$q%GTools%\sxsexp32.exe#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q&Pause"
+    //ShellExecute,Hide,cmd.exe,"/D /C Echo sxsexp32.exe #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q&Echo.&#$q%GTools%\sxsexp32.exe#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q #$q%GTarget_Sys%\drivers\mrxsmb10.sys#$q&Pause"
     If,Not,%ExitCode%,Equal,0,Begin
       EchoExtended,"SMB v1.0 Service will Not be Available. The WinSxS mrxsmb10.sys Driver could Not be Expanded.",,5
       If,ExistFile,%GTarget_Sys%\drivers\mrxsmb10.sys,FileDeleteQ,%GTarget_Sys%\drivers\mrxsmb10.sys
@@ -227,7 +227,7 @@ RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\SSDPSRV
 //-- KYHI Added Network and Sharing Center Service
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\upnphost
 //-- Add Network Icon To File Explorer Navagation Pane
-RegCopyKey,HKLM,Tmp_Software\\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}
+RegCopyKey,HKLM,Tmp_Software\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}
 
 [FunctionDiscovery_AddFiles]
 ; Function Discovery Provider Host and Publication
@@ -269,5 +269,4 @@ RegCopyKey,HKLM,Tmp_Software\\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3
 \Windows\System32\rpcnsh.dll
 \Windows\System32\whhelper.dll
 \Windows\System32\wwancfg.dll
-; KYHI Added 2019.08.26
 \Windows\System32\PortableDeviceApi.dll

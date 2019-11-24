@@ -20,7 +20,7 @@ Contact=
 Echo,"Processing %ScriptTitle%..."
 StrFormat,DATE,%CurrentDateYYMD%,yyyymmdd
 StrFormat,DATE,%CurrentDateHN%,hhnn
-ShellExecute,Hide,cmd.exe,"/C Exit #$pTIME:~6,2#$p"
+ShellExecute,Hide,cmd.exe,"/D /C Exit #$pTIME:~6,2#$p"
 Set,%CurrentDateS%,%ExitCode%
 Set,%CurrentDate%,%CurrentDateYYMD%_%CurrentDateHN%%CurrentDateS%
 //-
@@ -32,7 +32,7 @@ Filecopy,%ProjectDir%\script.project,%GTemp%\%ProgramFolder%
 If,ExistFile,%GTarget_Win%\Logs\DISM\dism.log,Filecopy,%GTarget_Win%\Logs\DISM\dism.log,%GTemp%\%ProgramFolder%
 //-
 Echo,"%ScriptTitle% Create Target folder Files List..."
-ShellExecute,Hide,cmd.exe,"/C Dir /A:-D /B /S #$q%GTarget%\*.*#$q > TargetlistFiles.txt",%GTemp%\%ProgramFolder%
+ShellExecute,Hide,cmd.exe,"/D /C Dir /A:-D /B /S #$q%GTarget%\*.*#$q > TargetlistFiles.txt",%GTemp%\%ProgramFolder%
 TXTReplace,%GTemp%\%ProgramFolder%\TargetlistFiles.txt,%GTarget%,""
 //-
 Echo,"Pack SupportLog_%ProjectName%_%CurrentDate%.7z at the Project Base Directory..."

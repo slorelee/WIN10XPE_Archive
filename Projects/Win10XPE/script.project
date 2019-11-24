@@ -8,6 +8,7 @@ Version=002
 Selected=True
 Mandatory=True
 NoWarning=False
+PathSetting=False
 Level=1
 Download_Level=0
 Credits=
@@ -49,6 +50,7 @@ AttachDir=
 %FallBackLanguage%=
 //-
 %HostOSArch%=x86
+%OpenHideOutput%=Open
 //-
 %API%=%ProjectDir%\Macro.script
 %APIDEF%=XPEMacro
@@ -92,7 +94,7 @@ TechBench_TextLabel="Download Windows 10 Original ISO (Final) From ",1,1,10,10,2
 TechBench_WebLabel="TechBench by WZT - RG Adguard",1,10,291,10,160,18,https://tb.rg-adguard.net/public.php
 Mount_TextLabel="Mount Windows 10 ISO or Extract the ISO in a Folder",1,1,10,37,345,18,8,Bold
 SelectISO_Button=" Select the Windows 10 Source Folder",1,8,10,65,220,50,SelectISO,opendir.bmp,False,"__Select the Root of the Mounted or Extracted Windows 10 Source Folder"
-SourceTab_TextLabel="* No Need To Use The Source Tab, Source Directory",1,1,10,115,276,18,8,Normal
+SourceTab_TextLabel="* No Need To Use The Source Tab, Source Directory",1,1,10,116,276,18,8,Normal
 Source_Value=,1,1,236,83,315,18,10,Bold
 Image_TextLabel="Choose Image",0,1,16,137,80,18,8,Normal
 Image_Bevel=Image_Bevel,0,12,10,151,276,144
@@ -122,7 +124,7 @@ Run,%ScriptFile%,ResetInterface
 Run,%ScriptFile%,Show_Basic_Gui
 
 [Check_Case_InSensitive]
-ShellExecute,Hide,cmd.exe,"/C If Defined WIMLIB_IMAGEX_IGNORE_CASE ( If #$pWIMLIB_IMAGEX_IGNORE_CASE#$p== 0 Exit 1 )"
+ShellExecute,Hide,cmd.exe,"/D /C If Defined WIMLIB_IMAGEX_IGNORE_CASE ( If #$pWIMLIB_IMAGEX_IGNORE_CASE#$p== 0 Exit 1 )"
 If,%ExitCode%,Equal,1,Begin
 Run,%ScriptFile%,ResetValue
 EchoExtended,"ERROR:#$xWIMLIB_IMAGEX_IGNORE_CASE Environment Variable is Defined and Set to 0 (Case-Sensitive) in your Environment.#$xWhy?#$x#$xTo Get the 'expected' behavior on Windows#$c it Must be Case-Insensitive#$c which is the Default value.#$xEXIT the Builder and Delete or Set this Environment Variable to 1#$xBefore Rebuilding.",Warn,,MessageError,,Halt
@@ -194,12 +196,12 @@ FileCreateBlank,%Gtemp%\HostOSArch.cmd
 TXTAddLine,%Gtemp%\HostOSArch.cmd,"If #$pPROCESSOR_ARCHITECTURE#$p== x86 (If Not Defined PROCESSOR_ARCHITEW6432 Exit 86)",Append
 TXTAddLine,%Gtemp%\HostOSArch.cmd,"Exit 64",Append
 End
-ShellExecute,Hide,cmd.exe,"/C #$q%Gtemp%\HostOSArch.cmd#$q"
+ShellExecute,Hide,cmd.exe,"/D /C #$q%Gtemp%\HostOSArch.cmd#$q"
 Set,%HostOSArch%,x%ExitCode%,Permanent
 
 [DeleteWithCmd_Examples]
-//If,ExistDir,%GTemp%,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q%GTemp%#$q"
-//If,ExistFile,%GTemp%\WimInfo.ini,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q%GTemp%\WimInfo.ini#$q"
+//If,ExistDir,%GTemp%,Shellexecute,Hide,cmd.exe,"/D /C rd /s /q #$q%GTemp%#$q"
+//If,ExistFile,%GTemp%\WimInfo.ini,Shellexecute,Hide,cmd.exe,"/D /C del /q /f #$q%GTemp%\WimInfo.ini#$q"
 
 [Run_WimInfo]
 If,Not,ExistDir,%GTemp%,DirMake,%GTemp%
@@ -287,6 +289,7 @@ Set,%Architecture%,"",Permanent
 Set,%Language%,"",Permanent
 Set,%FallBackLanguage%,"",Permanent
 Set,%HostOSArch%,x86,Permanent
+Set,%OpenHideOutput%,Open,Permanent
 IniWrite,%ProjectDir%\Script.Project,Main,AttachDir,""
 IniWrite,%ProjectDir%\Script.Project,Features,TargetArch,""
 IniWrite,%ProjectDir%\Script.Project,Features,AllInRam,""

@@ -3,7 +3,7 @@ Title=Macro
 Type=XPEPlugin
 Description=Macro File
 Author=ChriSR
-Date=2019.08.20
+Date=2019.11.20
 Version=004
 Level=0
 Download_Level=0
@@ -165,8 +165,9 @@ Echo,"Create #1 ShortCut"
 // If StartMenuFolder is Empty, Use the Part After the App Folder of the Script Folder. Create Root StartMenu Shortcut with StartMenuFolder = "."
 If,#1,Equal,StartMenu,Begin
   If,#2-,Equal,-,Begin
-    StrFormat,POS,%ScriptDir%,\App,%MXPE_Pos%
-    StrFormat,LTRIM,%ScriptDir%,%MXPE_Pos%,#2
+    StrFormat,REPLACE,%ScriptDir%,%BaseDir%,,#2
+    StrFormat,POS,#2,\App,%MXPE_Pos%
+    StrFormat,LTRIM,#2,%MXPE_Pos%,#2
     StrFormat,REPLACE,#2,App,,#2
     StrFormat,POS,#2,\,%MXPE_Pos%
     StrFormat,LTRIM,#2,%MXPE_Pos%,#2
@@ -214,7 +215,6 @@ If,#3-,Equal,-,Begin
     Set,#3,#$pStartMenu#$p\Programs\#3\%ProgramTitle%.lnk
   End
 End
-// PinUtil.exe, once final, replace the 3 PINTOOL section here by PinUtil. In pecmd.ini (Include folder), rename [PINTOOL] by [PinUtil] And remove the 3rd parameter (Pintool section) in EXEC PinUtil.exe Config Pecmd.ini Pintool
 Set,%MXPE_AddPin_Read%,
 IniRead,%GTarget_Sys%\pecmd.ini,PinUtil,#1#2,%MXPE_AddPin_Read%
 If,Not,%MXPE_AddPin_Read%-,Equal,-,Echo,"Pin #1#2 Already Exist. Pin #1#2=#3 Can Not be Added",Warn
@@ -260,14 +260,14 @@ End
 If,#1-,Equal,-,EchoExtended,"Error: DirDeleteQ - Missing Parameter: Directory",Warn,,MessageError,,Halt
 System,ErrorOff
 If,ExistDir,#1,DirDelete,#1
-If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q#1#$q"
+If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/D /C rd /s /q #$q#1#$q"
 If,ExistDir,#1,Begin
   Set,%MXPE_Answer%,No
   If,Question,"The Folder Could Not be Deleted. #$x#$x#1#$x#$x A File is Maybe Opened ? The Folder is Maybe Opened in Explorer ?#$xRetry ?",Set,%MXPE_Answer%,Yes
   If,%MXPE_Answer%,Equal,Yes,Begin
     System,ErrorOff
     If,ExistDir,#1,DirDelete,#1
-    If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/C rd /s /q #$q#1#$q"
+    If,ExistDir,#1,Shellexecute,Hide,cmd.exe,"/D /C rd /s /q #$q#1#$q"
     If,ExistDir,#1,EchoExtended,"Error: The Folder Could Not be Deleted. #$x#$x#1#$x#$x A File is Maybe Opened ? The Folder is Maybe Opened in Explorer ?#$xExit",Warn,,MessageError,,Halt
   End
   Else,EchoExtended,"Error: The Folder Could Not be Deleted. #$x#$x#1#$x#$x A File is Maybe Opened ? The Folder is Maybe Opened in Explorer ?#$xExit",Warn,,MessageError,,Halt
@@ -279,14 +279,14 @@ End
 If,#1-,Equal,-,EchoExtended,"Error: FileDeleteQ - Missing Parameter: File",Warn,,MessageError,,Halt
 System,ErrorOff
 If,ExistFile,#1,FileDelete,#1
-If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
+If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/D /C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
 If,ExistFile,#1,Begin
   Set,%MXPE_Answer%,No
   If,Question,"The File Could Not be Deleted.#$x#$x#1#$x#$x The File is Maybe Opened ?#$xRetry ?",Set,%MXPE_Answer%,Yes
   If,%MXPE_Answer%,Equal,Yes,Begin
     System,ErrorOff
     If,ExistFile,#1,FileDelete,#1
-    If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
+    If,ExistFile,#1,Shellexecute,Hide,cmd.exe,"/D /C del /q /f #$q#1#$q&del /q /f /A:R /A:H /A:S /A:A #$q#1#$q"
     If,ExistFile,#1,EchoExtended,"Error: The File Could Not be Deleted. #$x#$x#1#$x#$x The File is Maybe Opened ?#$xExit",Warn,,MessageError,,Halt
   End
   Else,EchoExtended,"Error: The File Could Not be Deleted. #$x#$x#1#$x#$x The File is Maybe Opened ?#$xExit",Warn,,MessageError,,Halt
@@ -305,12 +305,12 @@ If,#8-,Equal,-,EchoExtended,"Error: Download - Missing Parameter: Path",Warn,,Me
 If,Not,ExistDir,#8,DirMake,#8
 If,Not,ExistDir,#8,EchoExtended,"Error: Download - Missing Parameter: Path",Warn,,MessageError,,Halt
 If,#3,Equal,Hide,Set,#7,Hide
-Else,Set,#7,Open
+Else,Set,#7,%OpenHideOutput%
 If,#3,Equal,NoExitOnError,Set,#6,""
 Else,Set,#6,Exit
 //-
 //Echo,"Downloading #2 Please Wait..."
-ShellExecute,#7,cmd.exe,"/c Echo Downloading #$q#2#$q Please Wait... &%GTools%\aria2c.exe -x16 -s16 --allow-overwrite=true --auto-file-renaming=false -d#$q#8#$q -o#$q#9#$q #$q#2#$q"
+ShellExecute,#7,cmd.exe,"/D /C Echo Downloading #$q#2#$q Please Wait... &#$q%GTools%\aria2c.exe#$q --log-level=notice --log=#$q%Gtemp%\Aria2c_Download.log#$q -x16 -s16 --allow-overwrite=true --auto-file-renaming=false -d#$q#8#$q -o#$q#9#$q #$q#2#$q"
 If,Not,%ExitCode%,Equal,0,Begin
   If,ExistFile,#1,FileDelete,#1
   Set,%MXPE_ErrorMessage%,""
@@ -478,7 +478,7 @@ If,Not,#1,Equal,HKLM,EchoExtended,"Error: RegCopyKey, the Hive Key Must be HKLM 
 StrFormat,LEFT,#2,4,#9
 If,Not,#9,Equal,Tmp_,EchoExtended,"Error: RegCopyKey, the Main Key Must Start with Tmp_ #$x#$x#2",Warn,,MessageError,,Halt
 System,FileRedirect,OFF
-ShellExecute,Hide,cmd.exe,"/C CopyRegKey.cmd #$q#2#$q #$q#3#$q",%GTools%
+ShellExecute,Hide,cmd.exe,"/D /C CopyRegKey.cmd #$q#2#$q #$q#3#$q",%GTools%
 System,FileRedirect,ON
 //----------  END RegCopyKey Macro  ------------------------------
 

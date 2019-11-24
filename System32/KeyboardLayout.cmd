@@ -31,8 +31,10 @@ Echo   16] Russian (ru-RU)
 Echo   17] Spanish (es-ES)
 Echo   18] Swedish (sv-SE)
 Echo   19] Turkish (tr-TR)
+Echo   20] Arabic (101)
+Echo   21] Hebrew (he-IL)
 Echo.
-Echo   20] Exit
+Echo   22] Exit
 set /p Locale="Enter your choice: "
 Echo.
 If "%Locale%"=="01" Echo Set the Keyboard Layout to Belgian French (fr-BE) & Call :_Run %LCID%:0000080c
@@ -54,7 +56,9 @@ If "%Locale%"=="16" Echo Set the Keyboard Layout to Russian (ru-RU) & Call :_Run
 If "%Locale%"=="17" Echo Set the Keyboard Layout to Spanish (es-ES) & Call :_Run %LCID%:0000040a
 If "%Locale%"=="18" Echo Set the Keyboard Layout to Swedish (sv-SE) & Call :_Run %LCID%:0000041d
 If "%Locale%"=="19" Echo Set the Keyboard Layout to Turkish (tr-TR) & Call :_Run %LCID%:0000041f
-If "%Locale%"=="20" Exit
+If "%Locale%"=="20" Echo Set the Keyboard Layout to Arabic (101) & Call :_Run %LCID%::00000401
+If "%Locale%"=="21" Echo Set the Keyboard Layout to Hebrew (he-IL) & Call :_Run %LCID%:0002040d
+If "%Locale%"=="22" Exit
 Goto _Menu
 
 :_Run

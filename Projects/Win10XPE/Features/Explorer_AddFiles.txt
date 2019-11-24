@@ -266,7 +266,7 @@
 \Windows\INF\c_battery.inf
 \Windows\System32\batmeter.dll
 \Windows\System32\umpoext.dll
-; Possible Addition  \Windows\System32\umpoext.dll \Windows\System32\umpowmi.dll
+; Possible Addition \Windows\System32\umpowmi.dll
 ;
 ; Power management - In Winre.wim system32: powrprof.dll,workerdd.dll
 \Windows\System32\powercfg.cpl

@@ -3,8 +3,8 @@ Title=Build Core
 Type=XPEPlugin
 Description=Build Win10XPE Core based on WinRE.wim Recovery Environment with Features additions and Options
 Author=ChriSR
-Date=2019.09.19
-Version=005
+Date=2019.11.11
+Version=006
 Selected=True
 Mandatory=True
 NoWarning=False
@@ -146,7 +146,7 @@ PENMShortcut_Bevel=PENMShortcut_Bevel,1,12,4,62,133,121
 PENMDesktop_CheckBox="Desktop Shortcut",1,3,10,66,122,18,True,"__Add PENetwork Desktop Shortcut"
 PENMStartMenu_CheckBox="Start Menu Shortcut",1,3,10,84,122,18,True,"__Add PENetwork Start Menu Shortcut"
 PENMTaskBpin_CheckBox="Pin To TaskBar",1,3,10,102,122,18,False,"__Add PENetwork Pin To Taskbar Shortcut"
-PENMStartMpin_CheckBox="Pin To StartMenu",1,3,10,120,122,18,True,"__Add PENetwork Pin To StartMenu Shortcut"
+PENMStartMpin_CheckBox="Pin To StartMenu",1,3,10,120,122,18,False,"__Add PENetwork Pin To StartMenu Shortcut"
 PENMStartMenuFolder_TextBox="Start Menu Folder:",1,0,10,156,121,21,Network,"__PENetwork Start Menu Folder Name"
 PENM_TextLabel=PENetwork,1,1,145,67,72,18,8,Bold
 PENMImage_Software=PENetwork64.ico,1,5,143,83,64,64
@@ -278,45 +278,7 @@ If,%IE11_CheckBox%,Equal,True,Begin
   If,%Admin_CheckBox%,Equal,False,Message,"To Download with Internet Explorer 11, you need to Enable Switch to Admin",Information
 End
 
-[PreCheck_RootDrive]
-Set,%t%,0
-StrFormat,SPLIT,%BaseDir%,\,0,%t%
-If,%t%,Equal,1,EchoExtended,"Base Folder can not be a Root Drive (ex: D:).",Warn,,Message,,Halt
-
-[PreCheck_Build]
-If,%SourceBuild%,Smaller,16299,EchoExtended,"The Build is prepared for Windows 10 Build 16299 and maybe Following.#$x#$xDownload and choose a suitable Windows 10 Source.",Warn,,Message,,Halt
-
-[PreCheck_Tools]
-Set,%ToolsOK%,Yes
-If,Not,ExistFile,%GTools%\7z.dll,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\7z.exe,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\CopyRegKey.cmd,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\GWT.exe,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\HiveUnload.exe,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\libwim-15.dll,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\mkisofs.exe,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\SetACL.exe,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\wiminfo.exe,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\wimlib-imagex.exe,Set,%ToolsOK%,No
-If,Not,ExistFile,%GTools%\aria2c.exe,Set,%ToolsOK%,No
-If,%ToolsOK%,Equal,No,EchoExtended,"Error: Some Required Programs are Missing in the Tools Folder.",Warn,,MessageError,,Halt
-
-[PreCheck_CodeBox]
-Set,%w%,%ProjectDir%\CodeBox.txt
-If,Not,ExistFile,%w%,Begin
-  FileCreateBlank,%w%
-  TXTAddLine,%w%,"[main]",Append
-  TXTAddLine,%w%,"Title=CodeBox test",Append
-  TXTAddLine,%w%,"Description=Running custom commands",Append
-  TXTAddLine,%w%,"",Append
-  TXTAddLine,%w%,"[variables]",Append
-  TXTAddLine,%w%,"",Append
-  TXTAddLine,%w%,"[process]",Append
-  TXTAddLine,%w%,"If#$cExistFile#$c#$pAPI#$p#$cAddVariables#$c#$pAPI#$p#$cApiVar#$cGLOBAL",Append
-  TXTAddLine,%w%,"//-",Append
-End
-
-[PreCheck_Image_Exist]
+[Check_Image_Exist]
 If,Not,ExistFile,%GSource%\sources\install.wim,EchoExtended,"install.wim image was Not Found in the Windows 10 Source Folder.#$x#$xSelect the Root of the Windows 10 Source Folder.",Warn,,Message,,Halt
 If,Not,ExistFile,%GSource%\sources\boot.wim,EchoExtended,"boot.wim image was Not Found in the Windows 10 Source Folder.#$x#$xSelect the Root of the Windows 10 Source Folder.",Warn,,Message,,Halt
 
@@ -337,9 +299,6 @@ If,%WinXShell_RadioButton%,Equal,True,Begin
   If,%DotNET_CheckBox%,Equal,True,EchoExtended,"Do Not Use DotNET with WinXShell.",Warn,,Message,,Halt
   If,%FullSoftware_CheckBox%,Equal,True,EchoExtended,"WinXShell is Designed to be Light, it is not intended for using the Full Software hive.",Warn,,Message,,Halt
 End
-//If,%IE11_CheckBox%,Equal,True,Begin
-//If,%Architecture%_%WoW64_CheckBox%,Equal,x64_False,EchoExtended,"IE11 x64 run in hybrid-mode. It needs WoW64 basic",Warn,,Message,,Halt
-//End
 
 [SaveConfig]
 If,%Explorer_RadioButton%,Equal,True,Set,%Shell%,Explorer,Permanent
@@ -366,6 +325,10 @@ End
 If,%Admin_CheckBox%,Equal,True,Set,%FullSoftware%,True,Permanent
 Else,Set,%FullSoftware%,%FullSoftware_CheckBox%,Permanent
 //-
+// ShellExecute's Standard Output Redirect in PEBakery
+If,ExistFile,%WBExe%,Set,%OpenHideOutput%,Open,Permanent
+Else,Set,%OpenHideOutput%,Hide,Permanent
+//-
 Run,%scriptfile%,IniWriteFeatures
 
 [IniWriteFeatures]
@@ -390,23 +353,23 @@ If,Not,ExistFile,%ProjectDir%\Features\IE11.Script,IniWrite,%ProjectDir%\Script.
 Else,IniWrite,%ProjectDir%\Script.Project,Features,IE11,%IE11_CheckBox%
 If,Not,ExistFile,%ProjectDir%\Features\DotNET.Script,IniWrite,%ProjectDir%\Script.Project,Features,DotNET,False
 Else,IniWrite,%ProjectDir%\Script.Project,Features,DotNET,%DotNET_CheckBox%
-// Tip for not doing "System,RebuildVars" with PEBakery. It is not required, variables are refreshed and it does not work well in beta5
-If,Not,%WBExe%,Equal,#$pWBExe#$p,System,RebuildVars
+// System,RebuildVars not required with PEBakery
+If,ExistFile,%WBExe%,System,RebuildVars
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
+Exec,%ProjectDir%\Features\PreCheck.Script,Process
+//-
+Run,%ScriptFile%,Check_Image_Exist
+StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
+Loop,%ScriptFile%,Check_sr-Latn_Loop,1,%NbLang%
+Run,%scriptfile%,CheckWaikTool
+//-
 AddInterface,%ScriptFile%,InterfaceMain,""
 AddInterface,%ScriptFile%,InterfaceOption,""
 AddInterface,%ScriptFile%,InterfacePENetwork,""
 AddInterface,%ScriptFile%,InterfaceBuild,""
-//Run,%scriptfile%,PreCheck_RootDrive
-Run,%scriptfile%,PreCheck_Build
-Run,%scriptfile%,PreCheck_Tools
-Run,%scriptfile%,PreCheck_CodeBox
-Run,%scriptfile%,CheckWaikTool
-Run,%ScriptFile%,PreCheck_Image_Exist
-StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
-Loop,%ScriptFile%,Check_sr-Latn_Loop,1,%NbLang%
+//-
 Run,%ScriptFile%,CheckInput
 Run,%scriptfile%,SaveConfig
 //-
@@ -622,7 +585,7 @@ If,Not,ExistFile,%ProjectDir%\CoreListFiles.txt,Run,%ScriptFile%,Create_CoreList
 If,ExistFile,%ProjectDir%\CoreListFiles.txt,Begin
   Echo,"Waiting for changes in CoreListFiles.txt and closing the editor..."
   System,FileRedirect,OFF
-  ShellExecute,Hide,cmd.exe,"/C #$q%ProjectDir%\CoreListFiles.txt#$q"
+  ShellExecute,Hide,cmd.exe,"/D /C #$q%ProjectDir%\CoreListFiles.txt#$q"
   System,FileRedirect,ON
 End
 
@@ -672,7 +635,7 @@ End
 If,ExistFile,%GCustom%\Pecmdini\pecmd.ini,Begin
   Echo,"Waiting for changes in Pecmd.ini and closing the editor..."
   System,FileRedirect,OFF
-  ShellExecute,Hide,cmd.exe,"/C #$q%GCustom%\Pecmdini\pecmd.ini#$q"
+  ShellExecute,Hide,cmd.exe,"/D /C #$q%GCustom%\Pecmdini\pecmd.ini#$q"
   System,FileRedirect,ON
 End
 
@@ -688,7 +651,7 @@ End
 If,ExistFile,%GCustom%\Pecmdini\PecmdAdmin.ini,Begin
   Echo,"Waiting for changes in PecmdAdmin.ini and closing the editor..."
   System,FileRedirect,OFF
-  ShellExecute,Hide,cmd.exe,"/C #$q%GCustom%\Pecmdini\PecmdAdmin.ini#$q"
+  ShellExecute,Hide,cmd.exe,"/D /C #$q%GCustom%\Pecmdini\PecmdAdmin.ini#$q"
   System,FileRedirect,ON
 End
 
@@ -739,9 +702,8 @@ If,ExistDir,%GCustom%\%Architecture%\Drivers,Begin
     If,ExistFile,%DismExe%,Begin
       StrFormat,PATH,%DismExe%,%DismExePath%
       System,FileRedirect,OFF
-      If,%PauseDrivers_CheckBox%,Equal,True,ShellExecute,Open,cmd.exe,"/K Echo Drivers integration and Pause. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%GCustom%\%Architecture%\Drivers#$q /recurse /LogPath:#$q%DismLog%#$q&Echo.&Echo Close the window to Continue",%DismExePath%
-      Else,ShellExecute,Open,cmd.exe,"/C Echo Drivers integration. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%GCustom%\%Architecture%\Drivers#$q /recurse /LogPath:#$q%DismLog%#$q",%DismExePath%
-      //ShellExecute,Open,%DismExe%,"/image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%GCustom%\%Architecture%\Drivers#$q /recurse /LogPath:#$q%DismLog%#$q",%DismExePath%
+      If,%PauseDrivers_CheckBox%,Equal,True,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /K Echo Drivers integration and Pause. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%GCustom%\%Architecture%\Drivers#$q /recurse /LogPath:#$q%DismLog%#$q&Echo.&Echo Close the window to Continue",%DismExePath%
+      Else,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Drivers integration. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%GCustom%\%Architecture%\Drivers#$q /recurse /LogPath:#$q%DismLog%#$q",%DismExePath%
       System,FileRedirect,ON
       ShellExecute,Hide,%Gtools%\HiveUnload.exe,"/HKLM /Target:%GTarget_Sys%\config"
     End
@@ -753,18 +715,18 @@ OpenDir,%GCustom%\%Architecture%\Drivers
 
 [ExportDrivers]
 Echo,"Export Host PC Drivers..."
-If,ExistDir,%GCustom%\%Architecture%\ExportDrivers,DirDeleteQ,%GCustom%\%Architecture%\ExportDrivers
-DirMake,%GCustom%\%Architecture%\ExportDrivers
+If,ExistDir,%GCustom%\ExportDrivers\x86,DirDeleteQ,%GCustom%\ExportDrivers\x86
+If,ExistDir,%GCustom%\ExportDrivers\x64,DirDeleteQ,%GCustom%\ExportDrivers\x64
+If,Not,ExistDir,%GCustom%\ExportDrivers\%HostOSArch%,DirMake,%GCustom%\ExportDrivers\%HostOSArch%
 If,%HostOSArch%,Equal,x86,Set,%DismExe%,%GTools%\x86\DISM\dism.exe
 If,ExistFile,%DismExe%,Begin
   StrFormat,PATH,%DismExe%,%DismExePath%
   System,FileRedirect,OFF
-  If,%PauseDrivers_CheckBox%,Equal,True,ShellExecute,Open,cmd.exe,"/K Echo Export Host PC Drivers and Pause. Be patient...&Dism.exe /online /Export-Driver /Destination:#$q%GCustom%\%Architecture%\ExportDrivers#$q&Echo.&Echo Close the window to Continue",%DismExePath%
-  Else,ShellExecute,Open,cmd.exe,"/C Echo Export Host PC Drivers. Be patient...&Dism.exe /online /Export-Driver /Destination:#$q%GCustom%\%Architecture%\ExportDrivers#$q",%DismExePath%
-  //ShellExecute,Open,%DismExe%,"/online /Export-Driver /Destination:#$q%GCustom%\%Architecture%\ExportDrivers#$q",%DismExePath%
+  If,%PauseDrivers_CheckBox%,Equal,True,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /K Echo Export Host PC Drivers and Pause. Be patient...&Dism.exe /online /Export-Driver /Destination:#$q%GCustom%\ExportDrivers\%HostOSArch%#$q&Echo.&Echo Close the window to Continue",%DismExePath%
+  Else,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Export Host PC Drivers. Be patient...&Dism.exe /online /Export-Driver /Destination:#$q%GCustom%\ExportDrivers\%HostOSArch%#$q",%DismExePath%
   System,FileRedirect,ON
 End
-OpenDir,%GCustom%\%Architecture%\ExportDrivers
+OpenDir,%GCustom%\ExportDrivers\%HostOSArch%
 
 [PrepareSmallWim]
 Echo,"Extract Small SxS"
@@ -787,14 +749,14 @@ Set,%w%,%Gtemp%\WimSmallUpdate
 FileDeleteQ,%w%
 FileCreateBlank,%w%
 Run,%ScriptFile%,WimSmallUpdate
-ShellExecute,Hide,cmd.exe,"/C wimlib-imagex.exe update #$q%GTemp%\Winre.wim#$q 1 < #$q%w%#$q",%GTools%
+ShellExecute,Hide,cmd.exe,"/D /C wimlib-imagex.exe update #$q%GTemp%\Winre.wim#$q 1 < #$q%w%#$q",%GTools%
 If,%ExitCode%,Equal,0,Echo,"Wimlib Cleanup and reduce Winre.wim return : %ExitCode%"
 Else,Echo,"Wimlib Cleanup and reduce Winre.wim return : %ExitCode%",Warn
 FileDelete,%w%
 
 [ExtractWimFiles]
 Echo,"Apply Winre.wim in Target Folder. Be patient..."
-ShellExecute,Open,cmd.exe,"/C Echo Apply Winre.wim in Target Folder. Be patient...&Echo.&wimlib-imagex.exe apply #$q%GTemp%\Winre.wim#$q 1 #$q%GTarget%#$q --no-acls",%GTools%
+ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Apply Winre.wim in Target Folder. Be patient...&Echo.&wimlib-imagex.exe apply #$q%GTemp%\Winre.wim#$q 1 #$q%GTarget%#$q --no-acls",%GTools%
 If,%ExitCode%,Equal,0,Echo,"Wimlib Apply Winre.wim in Target Folder return : %ExitCode%"
 Else,Begin
   Echo,"Wimlib Apply Winre.wim in Target Folder return : %ExitCode%",Warn
@@ -803,7 +765,7 @@ End
 
 [ExtractWimListFiles]
 Echo,"Extract Winre.wim in Target Folder using CoreListFiles. Be patient..."
-ShellExecute,Open,cmd.exe,"/C Echo Extract Winre.wim in Target Folder using CoreListFiles. Be patient...&Echo.&wimlib-imagex.exe extract #$q%GTemp%\Winre.wim#$q 1 @#$q%ProjectDir%\CoreListFiles.txt#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob",%GTools%
+ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Extract Winre.wim in Target Folder using CoreListFiles. Be patient...&Echo.&wimlib-imagex.exe extract #$q%GTemp%\Winre.wim#$q 1 @#$q%ProjectDir%\CoreListFiles.txt#$q --dest-dir=#$q%GTarget%#$q --no-acls --nullglob",%GTools%
 If,%ExitCode%,Equal,0,Echo,"Extract Winre.wim in Target Folder using CoreListFiles return : %ExitCode%"
 Else,Begin
   Echo,"Extract Winre.wim in Target Folder using CoreListFiles return : %ExitCode%",Warn

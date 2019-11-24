@@ -226,7 +226,7 @@ End
 
 [MRegAddDriver]
 If,-#1,Equal,-,EchoExtended,"Error: RegAddDriver - Missing Parameter: Driver File Name ",Warn,,MessageError,,Halt
-Echo,"Register #1 Driver..."
+Echo,"Register #1 Driver for 1st Build. Be Patient..."
 System,FileRedirect,OFF
-ShellExecute,Hide,cmd.exe,"/C RegAddDriver.cmd #$q#1#$q",%GTools%
+ShellExecute,Hide,cmd.exe,"/D /C RegAddDriver.cmd #$q#1#$q",%GTools%
 System,FileRedirect,ON
