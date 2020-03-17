@@ -3,7 +3,7 @@ Title=Config
 Type=XPEPlugin
 Description=Configure the Base for Explorer
 Author=ChriSR
-Date=2019.10.12
+Date=2019.12.12
 Version=003
 Selected=None
 Mandatory=None
@@ -14,7 +14,7 @@ Credits=
 Contact=
 
 [Variables]
-%CacheVersion%=5
+%CacheVersion%=6
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
@@ -208,7 +208,7 @@ RegWrite,HKLM,0x4,"Tmp_System\ControlSet001\Control\Session Manager\Power",Hiber
 RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\FileSystem,NtfsDisableLastAccessUpdate,1
 RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\FileSystem,RefsDisableLastAccessUpdate,1
 // For Samba Servers
-RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LmCompatibilityLevel,2
+RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LmCompatibilityLevel,3
 // Allow network users to access without password > Also display Share with in Context Menu!
 RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Control\Lsa,LimitBlankPasswordUse,0
 // Computer Name

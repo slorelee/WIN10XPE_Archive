@@ -1,10 +1,10 @@
 [Main]
 Title=WinApps
 Type=XPEPlugin
-Description=WinApps: OSK,mspaint,ImagingDevices,SnippingTool,WordPad
+Description=WinApps: OSK,mspaint,ImagingDevices,SnippingTool,WordPad,StepsRecorder
 Author=ChriSR
-Date=2019.04.01
-Version=003
+Date=2019.12.10
+Version=004
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -29,6 +29,7 @@ ExtractSectionFiles,%ScriptFile%,WinApps_Wordpad_AddFiles
 //-
 // To stay light, PhotoViewer, SnippingTool are not included with WinXShell. Otherwise we need to find files other dependencies and registries
 If,Not,%Shell%,Equal,WinXShell,Begin
+  ExtractSectionFiles,%ScriptFile%,WinApps_StepsRecorder_AddFiles
   ExtractSectionFiles,%ScriptFile%,WinApps_PhotoViewer_AddFiles
   ExtractSectionFiles,%ScriptFile%,WinApps_SnippingTool_AddFiles
   // tipresx.dll.mui Exist in All Language Folders (for SnippingTool)
@@ -45,6 +46,7 @@ TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\WordPad","
 If,%Shell%,Equal,Explorer,Begin
   TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\PhotoViewer","LINK #$pPrograms#$p\Accessories\PhotoViewer"
   TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\Accessories\SnippingTool","LINK #$pPrograms#$p\Accessories\SnippingTool"
+  AddShortcut,StartMenu,Accessories,#$pSystemRoot#$p\System32\Psr.exe,"Steps Recorder",,#$pSystemRoot#$p\System32\Psr.exe
 End
 
 [Registry]
@@ -102,3 +104,11 @@ If,Not,%Shell%,Equal,WinXShell,RegWrite,HKLM,0x4,"Tmp_Default\Software\Microsoft
 \Windows\System32\UIAnimation.dll
 \Windows\System32\Windows.Globalization.dll
 \Windows\System32\wisp.dll
+
+[WinApps_StepsRecorder_AddFiles]
+\Windows\System32\aepic.dll
+\Windows\System32\msdrm.dll
+\Windows\System32\msoert2.dll
+\Windows\System32\psr.exe
+\Windows\System32\uireng.dll
+

@@ -3,7 +3,7 @@ Title=Build Core
 Type=XPEPlugin
 Description=Build Win10XPE Core based on WinRE.wim Recovery Environment with Features additions and Options
 Author=ChriSR
-Date=2019.11.11
+Date=2019.12.04
 Version=006
 Selected=True
 Mandatory=True
@@ -57,7 +57,7 @@ WinApps_CheckBox="Windows Apps",1,3,6,330,115,18,True,"__Add Windows Apps: Paint
 Msi_CheckBox="Msi Windows Installer",1,3,122,330,142,18,True,"__Add Msi Windows Installer"
 DotNET_CheckBox="Microsoft .NETFx4",1,3,6,348,115,18,False,"__Add Embedded Microsoft .NET Framework 4 - To Get WIFI, You Must Also Enable Network Addition"
 ImDisk_CheckBox="ImDisk Ramdisk B:\Temp",1,3,122,348,142,18,True,"__ImDisk Virtual Disk Driver. Create B: RamDisk and Set %Temp% to B:\Temp"
-Admin_CheckBox="Switch To Admin",1,3,6,366,115,18,False,_Admin_Info_,True,"__Switch to Administrator Account Login At Startup"
+Admin_CheckBox="Switch To Admin",1,3,6,366,115,18,True,"__Switch to Administrator Account Login At Startup"
 IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,True,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
 //-
 Drivers_Bevel=Drivers_Bevel,1,12,270,280,226,61
@@ -212,10 +212,11 @@ DrvInstPatch_CheckBox="Patch DrvInst.exe",1,3,256,83,120,18,True,"__Patch DrvIns
 ControllerPatch_CheckBox="Patch Controller.dll to Get the Credentials Window",1,3,256,102,302,18,False,"__Patch Windows.UI.CredDialogController.dll to Get the Credentials Window instead of the Credentials Console. It needs both Remote Desktop and Switch to Admin plugins"
 ControllerPatch_TextLabel="If both Remote Desktop and Switch to Admin Enabled",1,1,272,118,286,18,8,Normal
 AllCatalogs_CheckBox="Add All Win10 Catalogs",1,3,6,132,200,18,False,"__Add All Windows 10 (install.wim) Catalogs"
-AllNls_CheckBox="Add All National Language Support (NLS) Files",1,3,6,151,255,18,True,"__Add All National Language Support (NLS) Files. Otherwise Copy Them From the Registry Settings. It May Not Be  Enough for Extended Languages."
-AllKeyboard_CheckBox="Add All KeyBoards",1,3,6,170,110,18,True,"__Add All KeyBoards. Otherwise Copy Them From the Registry Settings. It May Not Be Enough for Extended Languages."
+AllNls_CheckBox="Add All National Language Support (NLS) Files",1,3,6,151,255,18,True,"__Add All National Language Support (NLS) Files. Otherwise They Will be Copied According to the Registry Settings. It May Not Be Enough for Extended Languages."
+AllKeyboard_CheckBox="Add All KeyBoards",1,3,6,170,110,18,True,"__Add All KeyBoards. Otherwise They Will be Copied According to the Registry Settings. It May Not Be Enough for Extended Languages."
 DelSpeech_CheckBox="Delete Speech Folder in Builds Without 'Accessibility' Feature",1,3,6,189,360,18,True,"__Cleanup, Delete the Speech Folder in Constructions Without the Accessibility Feature."
 DelSysWOW64_CheckBox="Delete SysWOW64 Folder in x64 Builds Without 'WoW64 Basic' Feature",1,3,6,208,375,18,True,"__Cleanup, Delete the SysWOW64 Folder in x64 Constructions Without 'WoW64 Basic' Feature."
+DelwbemRepository_CheckBox="Delete WMI Repository folder",1,3,6,227,375,18,True,"__Cleanup, Delete the wbem Repository Folder. The WMI Repository Will be Rebuilt, Refresh at Startup But it Takes a Little Time."
 
 [MainInterface]
 IniWrite,%ScriptFile%,Main,Interface,InterfaceMain
@@ -267,11 +268,6 @@ Visible,%PENMUpdate_Button%,#1,Permanent
 Visible,%PENMOptions_TextLabel%,#1,Permanent
 Visible,%PENMOptions2_TextLabel%,#1,Permanent
 
-[Admin_Info]
-If,%Admin_CheckBox%,Equal,True,Begin
-  If,%Network_CheckBox%,Equal,False,Message,"To get Wifi with Switch to Admin, you must also Enabled Network Addition",Information
-End
-
 [IE11_Info]
 If,%IE11_CheckBox%,Equal,True,Begin
   //If,%Architecture%_%WoW64_CheckBox%,Equal,x64_False,Message,"Internet Explorer 11 x64 Run in Hybrid-Mode. It needs WoW64 basic",Information
@@ -321,9 +317,9 @@ Else,Begin
   Set,%Target_Prog%,%GISO%\Programs,Permanent
   Set,%PE_Programs%,Y:\Programs,Permanent
 End
-// Switch to Admin require Full Software Hive
-If,%Admin_CheckBox%,Equal,True,Set,%FullSoftware%,True,Permanent
-Else,Set,%FullSoftware%,%FullSoftware_CheckBox%,Permanent
+// Full Software Hive
+Set,%FullSoftware%,%FullSoftware_CheckBox%,Permanent
+If,%Network_CheckBox%,Equal,True,Set,%FullSoftware%,True,Permanent
 //-
 // ShellExecute's Standard Output Redirect in PEBakery
 If,ExistFile,%WBExe%,Set,%OpenHideOutput%,Open,Permanent
@@ -822,11 +818,13 @@ TxtAddline,%w%,"delete '\Windows\System32\diagtrack.dll' --force",Append
 Loop,%ScriptFile%,WimSmallUpdateMuiFile_Loop,1,%NbLang%,\Windows\System32,diagtrack.dll.mui
 //-
 // WMI Repository will be rebuilt, refresh at startup
-TxtAddline,%w%,"delete '\Windows\System32\wbem\AutoRecover' --force --recursive",Append
-TxtAddline,%w%,"delete '\Windows\System32\wbem\Logs' --force --recursive",Append
-TxtAddline,%w%,"delete '\Windows\System32\wbem\Repository' --force --recursive",Append
-TxtAddline,%w%,"delete '\Windows\System32\wbem\tmf' --force --recursive",Append
-TxtAddline,%w%,"delete '\Windows\System32\wbem\xml' --force --recursive",Append
+If,%DelwbemRepository_CheckBox%,Equal,True,Begin
+  TxtAddline,%w%,"delete '\Windows\System32\wbem\AutoRecover' --force --recursive",Append
+  TxtAddline,%w%,"delete '\Windows\System32\wbem\Logs' --force --recursive",Append
+  TxtAddline,%w%,"delete '\Windows\System32\wbem\Repository' --force --recursive",Append
+  TxtAddline,%w%,"delete '\Windows\System32\wbem\tmf' --force --recursive",Append
+  TxtAddline,%w%,"delete '\Windows\System32\wbem\xml' --force --recursive",Append
+End
 //-
 // Edge web plateform is useless
 TxtAddline,%w%,"delete '\Windows\System32\edgehtml.dll' --force",Append

@@ -3,7 +3,7 @@ Title=Admin
 Type=XPEPlugin
 Description=Admin Login
 Author=ChriSR
-Date=2019.10.02
+Date=2019.12.04
 Version=002
 Selected=None
 Mandatory=None
@@ -77,8 +77,15 @@ RegWrite,HKLM,0x4,Tmp_Software\Microsoft\Windows\CurrentVersion\Policies\System,
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\seclogon
 //ACLRegKey,Tmp_System\ControlSet001\Services\gpsvc
 RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\gpsvc,Start,3
+//-
 //ACLRegKey,Tmp_System\ControlSet001\Services\TrustedInstaller
 RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\TrustedInstaller,Start,3
+//-
+If,Not,%FullSoftware%,Equal,True,Begin
+  RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\Authentication
+  RegCopyKey,HKLM,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+End
+//-
 If,%AdminCountDown_NumberBox%,Bigger,0,Begin
   // Enable Mouse Cursor (EnableCursorSuppression=0) or use Exec = Winpeshl.exe in PecmdAdmin.ini
   RegWrite,HKLM,0x4,Tmp_Software\Microsoft\Windows\CurrentVersion\Policies\System,EnableCursorSuppression,0

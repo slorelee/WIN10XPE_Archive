@@ -130,6 +130,11 @@
 \Windows\System32\DeviceCenter.dll
 \Windows\System32\DeviceEject.exe
 \Windows\System32\StorageContextHandler.dll
+\windows\system32\DDOres.dll
+\windows\system32\DeviceSetupManager.dll
+\windows\system32\DeviceSetupManagerAPI.dll
+\windows\system32\DeviceSetupStatusProvider.dll
+\windows\system32\DevPropMgr.dll
 ;
 ; Map a network drive also in network addition
 \Windows\System32\netplwiz.dll

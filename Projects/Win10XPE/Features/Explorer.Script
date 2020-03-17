@@ -214,6 +214,9 @@ If,ExistRegSection,HKLM,"Tmp_Software\Classes\Folder\shellex\ContextMenuHandlers
 RegWrite,HKLM,0x3,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer,link,00,00,00,00
 System,ERROROFF
 RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons",29,"#$pSystemRoot#$p\system32\transparent.ico"
+//Eject_Device
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\DsmSvc
+RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\DsmSvc
 
 [AdditionalFonts]
 // Additional Fonts, optional in addition to segoeui.ttf

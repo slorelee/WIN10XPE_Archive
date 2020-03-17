@@ -3,7 +3,7 @@ Title=WoW64 basic
 Type=XPEPlugin
 Description=WoW64 basic
 Author=ChriSR
-Date=2019.07.18
+Date=2019.12.04
 Version=003
 Selected=None
 Mandatory=None
@@ -57,7 +57,7 @@ If,%SourceBuild%,Bigger,18300,ExtractSectionFiles,%ScriptFile%,WoW64_1903_AddFil
 Echo,"Processing %ScriptTitle% Registry..."
 //RegImportFile,%ScriptDir%\WoW64_RegSoftware.txt
 RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node\CLSID
-RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node\Interface
+//RegCopyKey,HKLM,Tmp_Software\Classes\Wow6432Node\Interface
 //-
 RegCopyKey,HKLM,Tmp_Software\Classes\WOW6432Node\DirectShow
 RegCopyKey,HKLM,"Tmp_Software\Classes\WOW6432Node\Media Type"
