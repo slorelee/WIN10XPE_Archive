@@ -3,8 +3,8 @@ Title=Explorer
 Type=XPEPlugin
 Description=Explorer
 Author=ChriSR
-Date=2019.08.26
-Version=002
+Date=2020.05.13
+Version=003
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -38,6 +38,7 @@ If,ExistFile,%ScriptDir%\Explorer_AddFiles.txt,ExtractListFiles,%ScriptDir%\Expl
 //-
 If,%SourceBuild%,Bigger,17000,ExtractSectionFiles,%ScriptFile%,Explorer_1803_AddFiles
 If,%SourceBuild%,Bigger,17700,ExtractSectionFiles,%ScriptFile%,Explorer_1809_AddFiles
+If,Not,%SourceBuild%,Smaller,20150,ExtractSectionFiles,%ScriptFile%,Explorer_20150_AddFiles
 //-
 IniRead,%ProjectDir%\Script.Project,Features,AllCatalogs,%AllCatalogs%
 If,%AllCatalogs%,Equal,True,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_All
@@ -58,7 +59,11 @@ End
 \Windows\System32\StateRepository.core.dll
 \Windows\System32\Windows.StateRepository.dll
 \Windows\System32\Windows.StateRepositoryBroker.dll
+\Windows\System32\Windows.StateRepositoryCore.dll
 \Windows\System32\Windows.StateRepositoryClient.dll
+
+[Explorer_20150_AddFiles]
+\Windows\System32\dmenrollengine.dll
 
 [Reg_Themes]
 RegImportFile,%ScriptDir%\Themes_RegDefault.txt
@@ -215,6 +220,7 @@ RegWrite,HKLM,0x3,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Explorer
 System,ERROROFF
 RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons",29,"#$pSystemRoot#$p\system32\transparent.ico"
 //Eject_Device
+RegCopyKey,HKLM,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\DeviceDisplayObjects"
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\DsmSvc
 RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\DsmSvc
 

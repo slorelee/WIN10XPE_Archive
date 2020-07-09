@@ -3,8 +3,8 @@ Title=StartIsBack
 Type=XPEPlugin
 Description=StartIsBack Start menu is back and it's better than ever. Get the most useful shell enhancement for Windows 10 now!
 Author=ChriSR
-Date=2019.01.31
-Version=001
+Date=2020.07.05
+Version=002
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -40,6 +40,11 @@ DirMake,%Target_Prog%\%ProgramFolder%
 ShellExecute,Hide,%GTools%\7z.exe,"x #$q%ScriptDir%\%SetupFile%#$q -y -o#$q%Target_Prog%\%ProgramFolder%#$q"
 FileDelete,%Target_Prog%\%ProgramFolder%\UpdateCheck.exe
 If,%Architecture%,Equal,x86,FileDelete,%Target_Prog%\%ProgramFolder%\StartIsBack64.dll
+//- SIB User Account Picture v2.9*
+If,Not,ExistDir,%GTarget%\Users\Default\AppData\Roaming\Microsoft\Windows\AccountPictures,DirMake,%GTarget%\Users\Default\AppData\Roaming\Microsoft\Windows\AccountPictures
+FileCopy,%GCustom%\UserAccountPicture\*.*,%GTarget%\Users\Default\AppData\Roaming\Microsoft\Windows\AccountPictures,NoWarn
+FileDelete,%GTarget%\Users\Default\AppData\Roaming\Microsoft\Windows\AccountPictures\user-200.png
+ExtractWimFile,\Windows\System32\shdocvw.dll
 
 [Reg_StartIsBack]
 RegImportFile,%ScriptDir%\StartIsBack_RegDefault.txt
@@ -58,3 +63,8 @@ If,%Architecture%,Equal,x86,Begin
   RegWrite,HKLM,0x1,Tmp_Software\Classes\CLSID\{E5C31EC8-C5E6-4E07-957E-944DB4AAD85E}\InProcServer32,,"X:\Program Files\StartIsBack\StartIsBack32.dll"
   RegWrite,HKLM,0x2,Tmp_Software\Classes\CLSID\{FCEA18FF-BC55-4E63-94D7-1B2EFBFE706F},LocalizedString,"@X:\Program Files\StartIsBack\StartIsBack32.dll,-510"
 End
+//- SIB User Account Picture v2.9*
+RegCopyKey,HKLM,Tmp_Software\Classes\.accountpicture-ms
+RegCopyKey,HKLM,Tmp_Software\Classes\accountpicturefile
+RegWrite,HKLM,0x1,Tmp_Software\Microsoft\Windows\CurrentVersion\PropertySystem\PropertyHandlers\.accountpicture-ms,,{9a02e012-6303-4e1e-b9a1-630f802592c5}
+RegWrite,HKLM,0x1,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\AccountPicture,SourceId,AccountPicture

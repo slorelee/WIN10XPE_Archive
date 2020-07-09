@@ -85,6 +85,12 @@
 \Windows\System32\WindowManagementAPI.dll
 \Windows\System32\GameInput.dll
 ;
+;- Added to get Wifi Network with Full Software Hive & without requiring Network Additions
+\Windows\System32\wcmapi.dll
+\Windows\System32\wcmcsp.dll
+\Windows\System32\wcmsvc.dll
+\Windows\System32\mobilenetworking.dll
+;
 ; Advanced system setting
 \Windows\System32\sysdm.cpl
 \Windows\System32\DeviceProperties.exe

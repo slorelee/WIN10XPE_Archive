@@ -112,11 +112,11 @@ Architecture_Value=,0,1,116,239,164,18,8,Bold
 Language_Value=,0,1,116,257,164,18,8,Bold
 FBLanguage_Value=,0,1,116,275,164,18,8,Bold
 Play_TextLabel="Start Building By Using The Big Blue Arrow 'Play' Button On Top",0,1,10,305,375,18,8,Bold
-Donate_Bevel=Donate_Bevel,0,12,421,223,128,95
-Donate_TextLabel="Support Win10XPE Dev",0,1,427,228,120,18,8,Normal
-Image_Donate=btn_donate.gif,0,5,443,247,86,25,https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9WZ5EDAMPH6SE
-Homepage_WebLabel="Win10XPE Home Page",0,10,432,278,105,18,http://theoven.org/index.php?topic=2421.0
-SupportLog_CheckBox="Enable Support Log",0,3,427,297,120,18,False,"__Enable extended Win10XPE Support Log: SupportLog_Win10XPE_YYMMDDHHMM00.7z"
+Donate_Bevel=Donate_Bevel,1,12,421,151,128,95
+Donate_TextLabel="Support Win10XPE Dev",1,1,427,156,120,18,8,Normal
+Image_Donate=btn_donate.gif,1,5,443,175,86,25,https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9WZ5EDAMPH6SE
+Homepage_WebLabel="Win10XPE Home Page",1,10,432,206,105,18,http://theoven.org/index.php?topic=2421.0
+SupportLog_CheckBox="Enable Support Log",1,3,427,225,120,18,False,"__Enable extended Win10XPE Support Log: SupportLog_Win10XPE_YYMMDDHHMM00.7z"
 
 [ResetValue]
 Run,%ScriptFile%,ResetGlobalVar
@@ -352,11 +352,11 @@ Visible,%Architecture_Value%,#1,Permanent
 Visible,%Language_Value%,#1,Permanent
 Visible,%FBLanguage_Value%,#1,Permanent
 Visible,%Play_TextLabel%,#1,Permanent
-Visible,%Donate_Bevel%,#1,Permanent
-Visible,%Donate_TextLabel%,#1,Permanent
-Visible,%Image_Donate%,#1,Permanent
-Visible,%Homepage_WebLabel%,#1,Permanent
-Visible,%SupportLog_CheckBox%,#1,Permanent
+//Visible,%Donate_Bevel%,#1,Permanent
+//Visible,%Donate_TextLabel%,#1,Permanent
+//Visible,%Image_Donate%,#1,Permanent
+//Visible,%Homepage_WebLabel%,#1,Permanent
+//Visible,%SupportLog_CheckBox%,#1,Permanent
 
 [process]
 If,ExistFile,%API%,AddVariables,%API%,ApiVar,GLOBAL

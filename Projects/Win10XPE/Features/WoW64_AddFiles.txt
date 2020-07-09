@@ -3,6 +3,7 @@
 \Windows\System32\wow64cpu.dll
 \Windows\System32\wow64win.dll
 \Windows\System32\wowreg32.exe
+\Windows\System32\ntdll.dll
 ;
 ; In Winre.wim \Windows\SysWOW64\downlevel
 ; SysWOW64 Files and mui

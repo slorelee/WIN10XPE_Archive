@@ -3,8 +3,8 @@ Title=Admin
 Type=XPEPlugin
 Description=Admin Login
 Author=ChriSR
-Date=2019.12.04
-Version=002
+Date=2020.05.13
+Version=003
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -40,6 +40,9 @@ If,Not,ExistFile,%GTarget_Win%\Web\Screen\img100.jpg,Begin
   If,Not,ExistDir,%GTarget_Win%\Web\Screen,DirMake,%GTarget_Win%\Web\Screen
   If,ExistFile,%GTarget_Win%\Web\Wallpaper\Windows\img0.jpg,FileCopy,%GTarget_Win%\Web\Wallpaper\Windows\img0.jpg,%GTarget_Win%\Web\Screen\img100.jpg
 End
+//- missing wallpaper fix for black screen with admin account
+If,ExistFile,%GTarget_Sys%\winre.jpg,FileDeleteQ,%GTarget_Sys%\winre.jpg
+If,ExistFile,%GTarget_Win%\Web\Wallpaper\Windows\img0.jpg,FileCopy,%GTarget_Win%\Web\Wallpaper\Windows\img0.jpg,%GTarget_Sys%\winre.jpg
 //-
 //If,%SourceBuild%,Bigger,18850,Set,%PreCreateAdminProfile%,True
 If,%PreCreateAdminProfile%,Equal,True,Begin
@@ -92,6 +95,10 @@ If,%AdminCountDown_NumberBox%,Bigger,0,Begin
   TXTReplace,%GTarget_Sys%\PecmdAdmin.ini,"CALL ADMIN#$x//CALL SWITCHTOADMINQUESTION","//CALL ADMIN#$xCALL SWITCHTOADMINQUESTION"
   TXTReplace,%GTarget_Sys%\PecmdAdmin.ini,"#YN *3000 $N","#YN *%AdminCountDown_NumberBox%000 $N"
 End
+//-
+//- Disable Acrylic Blur Effect Lock Screen
+RegWrite,HKLM,0x4,Tmp_Software\Policies\Microsoft\Windows\System,DisableAcrylicBackgroundOnLogon,1
+
 
 [ChangeAdminName]
 If,Not,%AdminName_TextBox%-,Equal,-,Begin

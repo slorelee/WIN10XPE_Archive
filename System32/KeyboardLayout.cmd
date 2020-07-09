@@ -56,7 +56,7 @@ If "%Locale%"=="16" Echo Set the Keyboard Layout to Russian (ru-RU) & Call :_Run
 If "%Locale%"=="17" Echo Set the Keyboard Layout to Spanish (es-ES) & Call :_Run %LCID%:0000040a
 If "%Locale%"=="18" Echo Set the Keyboard Layout to Swedish (sv-SE) & Call :_Run %LCID%:0000041d
 If "%Locale%"=="19" Echo Set the Keyboard Layout to Turkish (tr-TR) & Call :_Run %LCID%:0000041f
-If "%Locale%"=="20" Echo Set the Keyboard Layout to Arabic (101) & Call :_Run %LCID%::00000401
+If "%Locale%"=="20" Echo Set the Keyboard Layout to Arabic (101) & Call :_Run %LCID%:00000401
 If "%Locale%"=="21" Echo Set the Keyboard Layout to Hebrew (he-IL) & Call :_Run %LCID%:0002040d
 If "%Locale%"=="22" Exit
 Goto _Menu
