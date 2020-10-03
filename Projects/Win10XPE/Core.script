@@ -3,8 +3,8 @@ Title=Build Core
 Type=XPEPlugin
 Description=Build Win10XPE Core based on WinRE.wim Recovery Environment with Features additions and Options
 Author=ChriSR
-Date=2020.05.15
-Version=006
+Date=2020.09.16
+Version=007
 Selected=True
 Mandatory=True
 NoWarning=False
@@ -13,7 +13,7 @@ Download_Level=0
 Credits=
 Contact=
 Interface=InterfaceMain
-History515=Removed Full Software Hive Requirement for Network Additions - updated GWT.exe
+History07=Add Host Net Drivers
 
 [Variables]
 %AdditionalFiles%=%BaseDir%\Projects\Include\%Architecture%\AdditionalFiles
@@ -67,6 +67,9 @@ PauseDrivers_CheckBox=Pause,1,3,392,284,52,18,False,"__Pause When Integrating Dr
 DriversOpen_Button="Copy Drivers Here",1,8,274,303,144,34,DriversOpen,opendir.bmp,True,"__Copy Your Custom Drivers Here"
 DriversPlay_Button=,1,8,419,303,24,34,DriversPlay,Play16.bmp,False,"__Integrate Provided Drivers Into The Build"
 ExportDrivers_Button=Export,1,8,444,303,48,34,ExportDrivers,0,False,"__Export Host PC Drivers With Dism"
+HostNetDrivers_Bevel=HostNetDrivers_Bevel,1,12,270,339,226,29
+HostNetDrivers_CheckBox="Add Host Net Drivers",1,3,276,345,144,18,True,"__Add the Host's Network Drivers (If Same OS and Architecture)"
+HostNetDriversPlay_Button=,1,8,464,342,28,24,HostNetDriversPlay,Play16.bmp,False,"__Extract and Integrate Host's Network Drivers Into The Build"
 //-
 Wallpaper_Button="Copy Wallpaper (img0.jpg) Here",1,8,270,37,226,26,WallpaperOpen,wallpaper.bmp,False,"__Copy Your Custom Wallpaper Image (img0.jpg) Here"
 UserAccount_Button="Copy User Logo (user-200.png) Here",1,8,270,67,226,26,UserAccountOpen,User-Account.bmp,False,"__Copy Your Custom User Account Picture (user-200.png) Here"
@@ -521,6 +524,7 @@ Exec,%ProjectDir%\Features\CoreOptions.Script,Process,HiveLoaded
 Exec,%ProjectDir%\Features\ThemesColor.Script,Process,HiveLoaded
 HiveUnLoadALL
 If,%Drivers_CheckBox%,Equal,True,Run,%ScriptFile%,DriversPlay
+If,%HostNetDrivers_CheckBox%,Equal,True,Run,%ScriptFile%,HostNetDriversPlay
 
 [FullSoftwareNetworkDefault]
 //- Added from Network Additions to get Wifi Network with Full Software Hive & without requiring Network Additions
@@ -707,9 +711,28 @@ OpenDir,%GCustom%\UserAccountPicture
 OpenDir,%GCustom%\StartupMP3
 
 [DriversPlay]
-Echo,"Integrate Drivers..."
-If,ExistDir,%GCustom%\%Architecture%\Drivers,Begin
-  Retrieve,FOLDERSIZE,%GCustom%\%Architecture%\Drivers,%DriverFolderSize%
+Run,%ScriptFile%,IntegrateDrivers,%GCustom%\%Architecture%\Drivers
+
+[HostNetDriversPlay]
+If,ExistRegKey,HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion",CurrentMajorVersionNumber,Begin
+  RegRead,HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion",CurrentMajorVersionNumber,%HostOS%
+  If,Win%HostOS%%HostOSArch%,Equal,%OS%%Architecture%,Begin
+    Echo,"Export Host Net Drivers..."
+    If,ExistDir,%GCustom%\%Architecture%\HostNetDrivers,DirDeleteQ,%GCustom%\%Architecture%\HostNetDrivers
+    //Set,%PatchInfFile%,""
+    Set,%PatchInfFile%,1
+    ShellExecute,Hide,%GTools%\HostNetDrv.exe,"#$q%GCustom%\%Architecture%\HostNetDrivers#$q %PatchInfFile%"
+    Run,%ScriptFile%,IntegrateDrivers,%GCustom%\%Architecture%\HostNetDrivers
+  End
+  Else,Echo,"Exporting Host Network Drivers is Not Possible. The Host Win%HostOS% %HostOSArch% Does Not Match Your Build %OS% %Architecture%",warn
+End
+Else,Echo,"Exporting Host Network Drivers is Not Possible. The Host Does Not Match Your Build %OS% %Architecture%",warn
+
+[IntegrateDrivers]
+Set,%DriverFolder%,#1
+Echo,"Integrate Drivers From #$q%DriverFolder%#$q ..."
+If,ExistDir,%DriverFolder%,Begin
+  Retrieve,FOLDERSIZE,%DriverFolder%,%DriverFolderSize%
   If,Not,%DriverFolderSize%,Equal,0,Begin
     StrFormat,PATH,%DismLog%,%DismLogPath%
     If,Not,ExistDir,%DismLogPath%,DirMake,%DismLogPath%
@@ -717,8 +740,8 @@ If,ExistDir,%GCustom%\%Architecture%\Drivers,Begin
     If,ExistFile,%DismExe%,Begin
       StrFormat,PATH,%DismExe%,%DismExePath%
       System,FileRedirect,OFF
-      If,%PauseDrivers_CheckBox%,Equal,True,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /K Echo Drivers integration and Pause. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%GCustom%\%Architecture%\Drivers#$q /recurse /LogPath:#$q%DismLog%#$q&Echo.&Echo Close the window to Continue",%DismExePath%
-      Else,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Drivers integration. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%GCustom%\%Architecture%\Drivers#$q /recurse /LogPath:#$q%DismLog%#$q",%DismExePath%
+      If,%PauseDrivers_CheckBox%,Equal,True,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /K Echo Drivers integration and Pause From #$q%DriverFolder%#$q. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%DriverFolder%#$q /recurse /LogPath:#$q%DismLog%#$q&Echo.&Echo Close the window to Continue",%DismExePath%
+      Else,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Integrate Drivers From #$q%DriverFolder%#$q. Be patient...&Dism.exe /image:#$q%GTarget%#$q /Add-Driver /Driver:#$q%DriverFolder%#$q /recurse /LogPath:#$q%DismLog%#$q",%DismExePath%
       System,FileRedirect,ON
       ShellExecute,Hide,%Gtools%\HiveUnload.exe,"/HKLM /Target:%GTarget_Sys%\config"
     End
@@ -823,7 +846,7 @@ If,%SetupFiles_CheckBox%,Equal,True,TxtAddline,%w%,"delete '\sources' --force --
 If,%DelSpeech_CheckBox%%Accessibility_CheckBox%,Equal,TrueFalse,TxtAddline,%w%,"delete '\Windows\Speech' --force --recursive",Append
 // Pure 64 bit, without WoW64 support): Program Files (x86) is not required
 If,%DelSysWOW64_CheckBox%,Equal,True,Begin
-  If,%Architecture%%WoW64Support%,Equal,x64False,TxtAddline,%w%,"delete '\Windows\SysWOW64' --force  --recursive",Append
+  If,%Architecture%%WoW64_CheckBox%,Equal,x64False,TxtAddline,%w%,"delete '\Windows\SysWOW64' --force  --recursive",Append
 End
 If,%Architecture%,Equal,x64,TxtAddline,%w%,"delete '\Program Files (x86)' --force  --recursive",Append
 TxtAddline,%w%,"delete '\Windows\WinSxs' --force --recursive",Append
