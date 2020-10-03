@@ -33,7 +33,7 @@ Halt_TextLabel="Halts for a Build without Additional Apps",1,1,6,216,236,18,8,Bo
 [process]
 If,%AddPlugin1_CheckBox%,Equal,True,Begin
   If,ExistFile,%AddPlugin1_FileBox%,Exec,%AddPlugin1_FileBox%,Process
-  Else,EchoExtended,"Plugin: %AddPlugin2_FileBox% Not Found",Warn,,MessageError,10
+  Else,EchoExtended,"Plugin: %AddPlugin1_FileBox% Not Found",Warn,,MessageError,10
 End
 //-
 If,%AddPlugin2_CheckBox%,Equal,True,Begin

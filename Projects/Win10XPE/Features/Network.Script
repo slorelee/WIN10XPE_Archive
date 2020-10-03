@@ -3,8 +3,8 @@ Title=Network
 Type=XPEPlugin
 Description=Network
 Author=ChriSR
-Date=2020.05.15
-Version=003
+Date=2020.07.17
+Version=004
 Selected=None
 Mandatory=None
 NoWarning=False
@@ -14,18 +14,22 @@ Credits=
 Contact=
 History002=KYHI - Added Network and Sharing Center - Notes Below
 History003=KYHI - ReSorted & Removed Full Software Hive Requirement
-
+History004=KYHI - Remote Network Driver Interface Specification
+ 
 [Variables]
 %EnableNetworkListService%=True
 %EnableFunctionDiscoveryService%=True
 %EnableNetworkCenter%=True
+%EnableRNDIS%=True
 %HideNetTrayIcon%=False
+RegAddDriver=Run,%ScriptFile%,MRegAddDriver
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
 If,%FullSoftware%,Equal,True,Set,%EnableNetworkListService%,True
 If,%FullSoftware%,Equal,True,Set,%EnableFunctionDiscoveryService%,True
 If,%FullSoftware%,Equal,True,Set,%EnableNetworkCenter%,True
+If,%FullSoftware%,Equal,True,Set,%EnableRNDIS%,True
 //-
 Run,%ScriptFile%,AddFiles
 //-
@@ -35,6 +39,7 @@ Run,%ScriptFile%,Network_Registry
 If,%EnableNetworkListService%,Equal,True,Run,%ScriptFile%,NetworkList
 If,%EnableFunctionDiscoveryService%,Equal,True,Run,%ScriptFile%,FunctionDiscovery
 If,%EnableNetworkCenter%,Equal,True,Run,%ScriptFile%,NetworkShareCenter
+If,%EnableRNDIS%,Equal,True,Run,%ScriptFile%,RNDIS
 If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
 
 [AddFiles]
@@ -292,3 +297,36 @@ If,%Architecture%,Equal,x64,RegCopyKey,HKLM,Tmp_Software\Wow6432Node\Microsoft\W
 \Windows\System32\xwizards.dll
 \Windows\System32\xwreg.dll
 \Windows\System32\xwtpw32.dll
+
+[RNDIS]
+// Remote Network Driver Interface Specification
+ExtractSectionFiles,%ScriptFile%,RNDIS_AddFiles
+RegAddDriver,netrndis.inf
+RegAddDriver,rndiscmp.inf
+RegAddDriver,wceisvista.inf
+
+[RNDIS_AddFiles]
+\Windows\System32\drivers\RNDISMP.sys
+\Windows\System32\drivers\usb8023.sys
+
+[MRegAddDriver]
+Echo,"Extracting #1 Driver Support Files..."
+StrFormat,RTRIM,#1,3,#2
+ExtractWimFile,\Windows\INF\#2*
+ExtractWimFile,\Windows\System32\#2*
+ExtractWimFile,\Windows\System32\Drivers\#2*
+ExtractWimFile,\Windows\System32\Driverstore\??-??\#1_loc
+ExtractWimFile,\Windows\System32\DriverStore\FileRepository\#1*
+//ExtractWimFile,\Windows\WinSxS\*#1*
+//ExtractWimFile,\Windows\WinSxS\Manifests\*#1*
+//-
+Echo,"Writing #1 Driver Registry Values..."
+RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DeviceIds,"#1"
+RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverFiles,"#1"
+RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverInfFiles,"#1"
+RegCopyKey,HKLM,Tmp_Drivers\DriverDatabase\DriverPackages,"#1*"
+RegCopyKey,HKLM,Tmp_System\ControlSet001\Services,"#1"
+RegCopyKey,HKLM,Tmp_System\DriverDatabase\DeviceIds,"#1"
+RegCopyKey,HKLM,Tmp_System\DriverDatabase\DriverFiles,"#1"
+RegCopyKey,HKLM,Tmp_System\DriverDatabase\DriverInfFiles,"#1"
+RegCopyKey,HKLM,Tmp_System\DriverDatabase\DriverPackages,"#1*"

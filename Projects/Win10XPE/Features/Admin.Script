@@ -93,12 +93,11 @@ If,%AdminCountDown_NumberBox%,Bigger,0,Begin
   // Enable Mouse Cursor (EnableCursorSuppression=0) or use Exec = Winpeshl.exe in PecmdAdmin.ini
   RegWrite,HKLM,0x4,Tmp_Software\Microsoft\Windows\CurrentVersion\Policies\System,EnableCursorSuppression,0
   TXTReplace,%GTarget_Sys%\PecmdAdmin.ini,"CALL ADMIN#$x//CALL SWITCHTOADMINQUESTION","//CALL ADMIN#$xCALL SWITCHTOADMINQUESTION"
-  TXTReplace,%GTarget_Sys%\PecmdAdmin.ini,"#YN *3000 $N","#YN *%AdminCountDown_NumberBox%000 $N"
+  TXTReplace,%GTarget_Sys%\PecmdAdmin.ini,"#YN *5000 $N","#YN *%AdminCountDown_NumberBox%000 $N"
 End
 //-
 //- Disable Acrylic Blur Effect Lock Screen
 RegWrite,HKLM,0x4,Tmp_Software\Policies\Microsoft\Windows\System,DisableAcrylicBackgroundOnLogon,1
-
 
 [ChangeAdminName]
 If,Not,%AdminName_TextBox%-,Equal,-,Begin

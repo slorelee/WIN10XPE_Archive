@@ -39,6 +39,7 @@ If,ExistFile,%ScriptDir%\Explorer_AddFiles.txt,ExtractListFiles,%ScriptDir%\Expl
 If,%SourceBuild%,Bigger,17000,ExtractSectionFiles,%ScriptFile%,Explorer_1803_AddFiles
 If,%SourceBuild%,Bigger,17700,ExtractSectionFiles,%ScriptFile%,Explorer_1809_AddFiles
 If,Not,%SourceBuild%,Smaller,20150,ExtractSectionFiles,%ScriptFile%,Explorer_20150_AddFiles
+If,%SourceVersion%,Equal,10.0.19041.450,ExtractSectionFiles,%ScriptFile%,Explorer_19041_450_AddFiles
 //-
 IniRead,%ProjectDir%\Script.Project,Features,AllCatalogs,%AllCatalogs%
 If,%AllCatalogs%,Equal,True,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_All
@@ -61,6 +62,10 @@ End
 \Windows\System32\Windows.StateRepositoryBroker.dll
 \Windows\System32\Windows.StateRepositoryCore.dll
 \Windows\System32\Windows.StateRepositoryClient.dll
+
+[Explorer_19041_450_AddFiles]
+\Windows\System32\Shell32.dll
+\Windows\System32\SHCore.dll
 
 [Explorer_20150_AddFiles]
 \Windows\System32\dmenrollengine.dll
@@ -221,8 +226,6 @@ System,ERROROFF
 RegWrite,HKLM,0x1,"Tmp_Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons",29,"#$pSystemRoot#$p\system32\transparent.ico"
 //Eject_Device
 RegCopyKey,HKLM,"Tmp_Software\Microsoft\Windows NT\CurrentVersion\DeviceDisplayObjects"
-RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\DsmSvc
-RegWrite,HKLM,0x0,Tmp_System\Setup\AllowStart\DsmSvc
 
 [AdditionalFonts]
 // Additional Fonts, optional in addition to segoeui.ttf
