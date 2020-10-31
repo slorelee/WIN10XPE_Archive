@@ -3,8 +3,8 @@ Title=Create ISO
 Type=XPEPlugin
 Description=Create or Recreate boot.wim and ISO.#$xCopy the ISO on a USB stick, disk, with both Bios and UEFI compatibility.#$xUse the Tools to Add files or Edit Win10XPE registry hives.
 Author=ChriSR
-Date=2020.06.16
-Version=006
+Date=2020.10.28
+Version=007
 Selected=True
 Mandatory=False
 NoWarning=False
@@ -21,7 +21,7 @@ Contact=
 %tmout%=5
 %DisplayMenu%=False
 %Usb7iceExe%=%GTools%\Usb7ice.exe
-%RufusExe%=%GTools%\rufus-3.11p.exe
+%RufusExe%=%GTools%\rufus-3.12p.exe
 %RufusIni%=%GTools%\rufus.ini
 //-
 %RegSoftware%=%GTarget_Sys%\config\SOFTWARE
@@ -119,6 +119,7 @@ If,%DrvInstPatch_CheckBox%,Equal,True,Run,%ScriptFile%,DrvInstPatch
 If,%ControllerPatch_CheckBox%,Equal,True,Run,%ScriptFile%,ControllerPatch
 If,Not,ExistFile,%GTarget_Sys%\DeviceSetupManager.dll.org,Run,%ScriptFile%,EjectDevicePatch
 //-
+Run,%ScriptFile%,Check_Replace_C2X
 Run,%ScriptFile%,Check_Extract_SysFiles
 //-
 DirDeleteQ,%GISO%\sources
@@ -145,18 +146,32 @@ ExtractFile,%ScriptFile%,Folder,DrvInstPatch.exe,%GTemp%\DrvInstPatch
 ShellExecute,Hide,%GTemp%\DrvInstPatch\DrvInstPatch.exe,"P %GTarget_Sys%\drvinst.exe"
 
 [ControllerPatch]
-// Patch Windows.UI.CredDialogController.dll to Get the Credentials Window Only If both Remote Desktop and Switch to Admin Enabled
+// Patch Windows.UI.CredDialogController.dll to Get the Credentials Window other than Credentials Console
 Iniread,%ProjectDir%\Script.Project,Features,Admin,%Admin%
 If,%Admin%,Equal,True,Begin
-  If,ExistFile,%GTarget_Sys%\mstsc.exe,Begin
-    Echo,"Patch Controller.dll to Get the Credentials Window..."
-    //FileCopy,%GTarget_Sys%\Windows.UI.CredDialogController.dll,%GTarget_Sys%\Windows.UI.CredDialogController_org.dll
-    If,ExistFile,%GTarget_Sys%\Windows.UI.CredDialogController.dll,ShellExecute,Hide,%GTools%\binmay.exe,"-u #$q%GTarget_Sys%\Windows.UI.CredDialogController.dll#$q -s 5C004D0069006E0069004E0054000000 -r 5C004D0069006E0069004E0058000000"
-  End
+  //If,ExistFile,%GTarget_Sys%\mstsc.exe,Begin
+  Echo,"Patch Controller.dll to Get the Credentials Window..."
+  //If,ExistFile,%GTarget_Sys%\Windows.UI.CredDialogController.dll,ShellExecute,Hide,%GTools%\binmay.exe,"-u #$q%GTarget_Sys%\Windows.UI.CredDialogController.dll#$q -s 5C004D0069006E0069004E0054000000 -r 5C004D0069006E0069004E0058000000"
+  If,ExistFile,%GTarget_Sys%\Windows.UI.CredDialogController.dll,ShellExecute,Hide,%GTools%\binmay.exe,"-u #$q%GTarget_Sys%\Windows.UI.CredDialogController.dll#$q -s u:MiniNT -r u:NiniNT"
+  //End
 End
 
 [EjectDevicePatch]
 ShellExecute,Hide,%GTools%\binmay.exe,"-u #$q%GTarget_Sys%\DeviceSetupManager.dll#$q -s u:SystemSetupInProgress -r u:DisableDeviceSetupMgr"
+
+[Check_Replace_C2X]
+RegHiveLoad,Tmp_Software,%RegSoftware%
+RegRead,HKLM,Tmp_Software\Classes\CLSID\{0000002F-0000-0000-C000-000000000046}\InprocServer32,,%Drive%
+StrFormat,LEFT,%Drive%,3,%Drive%
+If,Not,%Drive%,Equal,X:\,Run,%ScriptFile%,Reg_Replace_C2X
+RegHiveUnLoad,Tmp_Software
+
+[Reg_Replace_C2X]
+Echo,"Updating C:\ to X:\ Drive in Registry"
+ShellExecute,Hide,%Gtools%\RegFind.exe,"-p HKEY_LOCAL_MACHINE\Tmp_Software -y C:\ -r X:\"
+RegHiveLoad,Tmp_System,%RegSystem%
+ShellExecute,Hide,%Gtools%\RegFind.exe,"-p HKEY_LOCAL_MACHINE\Tmp_System -y C:\ -r X:\"
+RegHiveUnLoad,Tmp_System
 
 [Check_Extract_SysFiles]
 Echo,"Check and Add System Resources Files..."
@@ -373,7 +388,8 @@ If,%bcdefiValue%,Equal,False,Begin
 End
 
 [SetBcdBoot]
-If,%HostOSArch%,Equal,x86,Set,%BcdEditExe%,%GTools%\x86\BCDBoot\bcdedit.exe
+Run,%ScriptFile%,SetBcdEditExe
+System,FileRedirect,OFF
 If,ExistFile,%BcdEditExe%,Begin
   StrFormat,PATH,%BcdEditExe%,%BcdEditExePath%
   If,ExistFile,%GISO%\Boot\bcd,Begin
@@ -392,9 +408,11 @@ If,ExistFile,%BcdEditExe%,Begin
     IniWrite,%XPECache%\HiveCache.ini,BcdCache,bcdboot,True
   End
 End
+System,FileRedirect,ON
 
 [SetBcdEfi]
-If,%HostOSArch%,Equal,x86,Set,%BcdEditExe%,%GTools%\x86\BCDBoot\bcdedit.exe
+Run,%ScriptFile%,SetBcdEditExe
+System,FileRedirect,OFF
 If,ExistFile,%BcdEditExe%,Begin
   StrFormat,PATH,%BcdEditExe%,%BcdEditExePath%
   If,ExistFile,%GISO%\efi\microsoft\boot\bcd,Begin
@@ -412,6 +430,15 @@ If,ExistFile,%BcdEditExe%,Begin
     FileCopy,%GISO%\efi\microsoft\boot\bcd,%XPECache%\bcdefi
     IniWrite,%XPECache%\HiveCache.ini,BcdCache,bcdefi,True
   End
+End
+System,FileRedirect,ON
+
+[SetBcdEditExe]
+// On Windows 7 use bcdedit host version. bcdedit.exe v10.0.10586.0 is the latest version compatible with Windows 7
+RegRead,HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion",CurrentVersion,%CurrentVersion%
+If,%CurrentVersion%,Equal,6.1,Set,%BcdEditExe%,%WindowsDir%\System32\bcdedit.exe
+Else,Begin
+  If,%HostOSArch%,Equal,x86,Set,%BcdEditExe%,%GTools%\x86\BCDBoot\bcdedit.exe
 End
 
 [MakeISO]

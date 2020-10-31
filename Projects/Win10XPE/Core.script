@@ -492,7 +492,7 @@ If,%DisplayDrivers_CheckBox%,Equal,True,Begin
 End
 //-
 If,%Network_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\Network.Script,Process,HiveLoaded
-If,%Network_CheckBox%_%FullSoftware%,Equal,False_True,Run,%ScriptFile%,FullSoftwareNetworkDefault
+Else,Run,%ScriptFile%,FullSoftwareNetworkDefault
 If,%NetDrivers_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\NetDrivers.Script,Process,HiveLoaded
 If,%PENMAddPENetwork_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\PENetwork.Script,Process,HiveLoaded
 Else,TXTReplace,%GTarget_Sys%\pecmd.ini,"EXEC #$pProgramFiles#$p\PENetwork\PENetwork.exe","//EXEC #$pProgramFiles#$p\PENetwork\PENetwork.exe"

@@ -15,7 +15,7 @@ Contact=
 History002=KYHI - Added Network and Sharing Center - Notes Below
 History003=KYHI - ReSorted & Removed Full Software Hive Requirement
 History004=KYHI - Remote Network Driver Interface Specification
- 
+
 [Variables]
 %EnableNetworkListService%=True
 %EnableFunctionDiscoveryService%=True
@@ -72,6 +72,7 @@ RegWrite,HKLM,0x7,Tmp_System\ControlSet001\Services\WlanSvc,DependOnService,nati
 //RegWrite,HKLM,0x7,Tmp_System\ControlSet001\Services\WlanSvc,DependOnService,nativewifip,RpcSs,Ndisuio
 If,%SourceBuild%,Bigger,17000,Begin
   RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\WlanSvc,ErrorControl,1
+  System,ERROROFF
   RegWrite,HKLM,0x2,Tmp_System\ControlSet001\Services\WlanSvc,ImagePath,"#$pSystemRoot#$p\System32\Svchost.exe -k LocalSystemNetworkRestricted -p"
   RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\WlanSvc,Start,2
   RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\WlanSvc,Type,32
