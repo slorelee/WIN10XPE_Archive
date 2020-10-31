@@ -529,6 +529,7 @@ If,%HostNetDrivers_CheckBox%,Equal,True,Run,%ScriptFile%,HostNetDriversPlay
 [FullSoftwareNetworkDefault]
 //- Added from Network Additions to get Wifi Network with Full Software Hive & without requiring Network Additions
 ExtractSectionFiles,%ScriptFile%,FullSoftwareNetworkDefault_AddFiles
+System,ERROROFF
 If,%SourceBuild%,Bigger,17000,RegWrite,HKLM,0x2,Tmp_System\ControlSet001\Services\WlanSvc,ImagePath,"#$pSystemRoot#$p\System32\Svchost.exe -k LocalSystemNetworkRestricted -p"
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\netprofm
 RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\Wcmsvc
