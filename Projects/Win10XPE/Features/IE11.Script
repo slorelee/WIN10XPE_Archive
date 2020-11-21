@@ -61,8 +61,8 @@ Run,%ScriptFile%,IE11_Shortcuts
 If,%IE11StartMenuFolder_TextBox%-,Equal,-,Set,%IE11StartMenuFolder_TextBox%,%StartMenuFolder%
 If,%IE11Desktop_CheckBox%,Equal,True,AddShortcut,Desktop,,#$pProgramFiles#$p\Internet Explorer\iexplore.exe
 If,%IE11StartMenu_CheckBox%,Equal,True,AddShortcut,StartMenu,%IE11StartMenuFolder_TextBox%,#$pProgramFiles#$p\Internet Explorer\iexplore.exe
-If,%IE11StartMpin_CheckBox%,Equal,True,AddPin,StartMenu,,$Start_Menu\Programs\%IE11StartMenuFolder_TextBox%\Internet Explorer.lnk
-If,%IE11TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,$Start_Menu\Programs\%IE11StartMenuFolder_TextBox%\Internet Explorer.lnk
+If,%IE11StartMpin_CheckBox%,Equal,True,AddPin,StartMenu,,#$pProgramFiles#$p\Internet Explorer\iexplore.exe
+If,%IE11TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,#$pProgramFiles#$p\Internet Explorer\iexplore.exe
 
 [IE11_AddFiles]
 \Program Files\Internet Explorer
@@ -158,8 +158,8 @@ If,%IE11TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,$Start_Menu\Programs\%IE11
 \Windows\System32\mfcore.dll
 \Windows\System32\MFMediaEngine.dll
 \Windows\System32\mfmp4srcsnk.dll
-\windows\System32\mfnetcore.dll
-\windows\System32\mfnetsrc.dll
+\Windows\System32\mfnetcore.dll
+\Windows\System32\mfnetsrc.dll
 \Windows\System32\mfperfhelper.dll
 \Windows\System32\mfplat.dll
 \Windows\System32\mfsvr.dll

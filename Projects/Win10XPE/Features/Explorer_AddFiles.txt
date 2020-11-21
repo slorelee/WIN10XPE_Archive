@@ -250,6 +250,9 @@
 \Windows\System32\prm*.dll
 \Windows\System32\MLS*.dll
 ;
+; Cursor required for touch screens
+\Windows\cursors\aero_arrow.cur
+;
 ; ShellHWDetection
 \Windows\System32\shsvcs.dll
 ;

@@ -186,7 +186,7 @@ TXTReplace,%GTarget_Sys%\Pecmd.ini,"_SUB NetInit","_SUB NetInit#$x#$xREGI #HKLM\
 \Windows\System32\Wbem\netprofm.mof
 
 [NetworkList_Registry]
-//- NetworkSetup2 and NetworkUxManager from Installed Win10
+// NetworkSetup2 and NetworkUxManager from Installed Win10
 RegImportFile,%ScriptDir%\NetworkList_RegSystem.txt
 //- NetworkSetup2 and NetworkUxManager from Source Win10
 //RegCopyKey,HKLM,Tmp_System\ControlSet001\NetworkSetup2
@@ -248,8 +248,8 @@ RegCopyKey,HKLM,Tmp_Software\Classes\NetworkExplorerPlugins
 \Windows\System32\fdProxy.dll
 \Windows\System32\FDResPub.dll
 \Windows\System32\fdSSDP.dll
-;; Done in Network-AddFiles \Windows\System32\fdWCN.dll
-;; Done in Network-AddFiles \Windows\System32\fdWNet.dll
+; Done in Network-AddFiles \Windows\System32\fdWCN.dll
+; Done in Network-AddFiles \Windows\System32\fdWNet.dll
 \Windows\System32\fdWSD.dll
 \Windows\System32\WSDApi.dll
 ; SSDP Discovery services

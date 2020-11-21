@@ -27,7 +27,7 @@ Image_Software=pwsh4848.ico,1,5,145,35,48,48
 Button_Launch_Program=Launch,1,8,10,142,119,25,Launch_Program,Launch.bmp,False,"__Click Here To Launch Program"
 HomePage_WebLabel="Home Page",1,10,338,6,55,18,https://github.com/PowerShell/PowerShell
 ProgramVer_TextLabel="Program Version:",1,1,440,4,85,18,8,Normal
-ProgramVer_TextBox=,1,0,440,20,85,21,7.0.3,"__Program Version To Download"
+ProgramVer_TextBox=,1,0,440,20,85,21,7.1.0,"__Program Version To Download"
 
 [Info]
 // 6.2.3 6.2.4 7.0.0 7.0.1 7.0.2

@@ -25,9 +25,8 @@ pTextLabel1="XPE Feature Plugin",1,1,19,18,230,18,8,Bold
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
-If,%Architecture%,Equal,x86,ExtractSectionFiles,%ScriptFile%,DotNET_AddFiles
-If,%Architecture%,Equal,x64,ExtractSectionFiles,%ScriptFile%,DotNET_AddFiles64
-If,%Architecture%%WoW64Support%,Equal,x64True,ExtractSectionFiles,%ScriptFile%,DotNET_AddFilesWoW64
+ExtractSectionFiles,%ScriptFile%,DotNET_%Architecture%_AddFiles
+If,%Architecture%%WoW64Support%,Equal,x64True,ExtractSectionFiles,%ScriptFile%,DotNET_AddFiles6432
 //--
 If,Not,#1,Equal,HiveLoaded,HiveLoadALL
 If,ExistFile,%Gtarget_Win%\%ProgramFolder%\Framework\v2.0.50727\InstallUtil.exe,Run,%ScriptFile%,Add_Registry_NETFx3
@@ -37,7 +36,7 @@ If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
 ExtractFile,%ScriptFile%,Folder,%ProgramExe%,%GTarget_Win%\%ProgramFolder%
 AddShortcut,StartMenu,System Tools,#$pSystemRoot#$p\%ProgramFolder%\%ProgramExe%
 
-[DotNET_AddFiles]
+[DotNET_x86_AddFiles]
 \Windows\Microsoft.NET
 \Program Files\Microsoft.NET
 \Program Files\Reference Assemblies
@@ -69,7 +68,7 @@ AddShortcut,StartMenu,System Tools,#$pSystemRoot#$p\%ProgramFolder%\%ProgramExe%
 \Windows\System32\??-??\sxstrace.exe.mui
 \Windows\System32\??-??\UIAutomationCore.dll.mui
 
-[DotNET_AddFiles64]
+[DotNET_x64_AddFiles]
 \Windows\Microsoft.NET
 \Program Files (x86)\Microsoft.NET
 \Program Files (x86)\Reference Assemblies
@@ -102,7 +101,7 @@ AddShortcut,StartMenu,System Tools,#$pSystemRoot#$p\%ProgramFolder%\%ProgramExe%
 \Windows\System32\??-??\sxstrace.exe.mui
 \Windows\System32\??-??\UIAutomationCore.dll.mui
 
-[DotNET_AddFilesWoW64]
+[DotNET_AddFiles6432]
 \Windows\SysWOW64\MUI\0409\mscorees.dll
 \Windows\SysWoW64\aspnet_counters.dll
 \Windows\SysWOW64\dfshim.dll

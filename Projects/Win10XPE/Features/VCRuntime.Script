@@ -18,15 +18,12 @@ History002=KYHI - Additional File Support For 10.0.18632 - 2019.05.10 - 2019.09.
 [Process]
 Echo,"Processing %ScriptTitle%..."
 ExtractSectionFiles,%ScriptFile%,VCRuntime_%Architecture%_AddFiles
-If,%Architecture%,Equal,x64,Begin
-  IniRead,%ProjectDir%\Script.Project,Features,WoW64basic,%WoW64basic%
-  If,%WoW64basic%,Equal,True,ExtractSectionFiles,%ScriptFile%,VCRuntime_x6432_AddFiles
-End
+If,%Architecture%%WoW64Support%,Equal,x64True,ExtractSectionFiles,%ScriptFile%,VCRuntime_AddFiles6432
 //-
 If,%FullSoftware%,Equal,False,Begin
   If,Not,#1,Equal,HiveLoaded,Begin
+    RegHiveLoad,Src_Software,%Gtemp%\Install.hives\SOFTWARE
     RegHiveLoad,Tmp_Software,%RegSoftware%
-    RegHiveLoad,Tmp_Install_Software,%Gtemp%\Install.hives\SOFTWARE
   End
   //-
   If,%Architecture%,Equal,x86,Run,%ScriptFile%,Registry_x86
@@ -36,7 +33,7 @@ If,%FullSoftware%,Equal,False,Begin
   End
   //-
   If,Not,#1,Equal,HiveLoaded,Begin
-    RegHiveunLoad,Tmp_Install_Software
+    RegHiveunLoad,Src_Software
     RegHiveunLoad,Tmp_Software
   End
 End
@@ -85,7 +82,7 @@ End
 \Windows\WinSxS\manifests\amd64_microsoft.vc90.crt*
 \Windows\WinSxS\manifests\amd64_policy.9.0.microsoft.vc90.crt*
 
-[VCRuntime_x6432_AddFiles]
+[VCRuntime_AddFiles6432]
 ; In winre.wim \Windows\SysWOW64\msvcp110_win.dll, \Windows\SysWOW64\downlevel\ucrtbase.dll
 \Windows\SysWOW64\msvcirt.dll
 \Windows\SysWOW64\msvcp_win.dll
