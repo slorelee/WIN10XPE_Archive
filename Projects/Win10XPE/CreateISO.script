@@ -17,11 +17,11 @@ Contact=
 %Debug_Display_CheckSysFiles%=False
 %ImageName%=%ProjectName%_%Architecture%
 %ISOFileName%=%BaseDir%\%ProjectName%_%Architecture%.ISO
-%BcdEditExe%=%GTools%\%Architecture%\BCDBoot\bcdedit.exe
+%BcdEditExe%=%GTools%\x64\BCDBoot\bcdedit.exe
 %tmout%=5
 %DisplayMenu%=False
 %Usb7iceExe%=%GTools%\Usb7ice.exe
-%RufusExe%=%GTools%\rufus-3.12p.exe
+%RufusExe%=%GTools%\rufus-3.13p.exe
 %RufusIni%=%GTools%\rufus.ini
 //-
 %RegSoftware%=%GTarget_Sys%\config\SOFTWARE
@@ -38,39 +38,42 @@ Copy=Run,%ScriptFile%,PCopy
 CopyMui=Run,%ScriptFile%,PCopyMui
 
 [Interface]
-ISO_Bevel=ISO_Bevel,1,12,6,6,248,199
-ISO_TextLabel="Image & ISO",1,1,12,12,84,18,8,Bold
-CompressMax_CheckBox="Max Compression",1,3,141,12,110,16,False,"__Use LZX max compression (slower for packing) instead of XPRESS"
-CreateWimISO_Button=" Create boot.wim and ISO",1,8,10,30,240,50,Process,CreateISO24.bmp,False,"__Create or Recreate boot.wim and ISO (eg: after adding files, edit registry,...)"
-CreateISO_Button=" Create ISO",1,8,10,86,240,30,CreateISO,CreateISO.bmp,False,"__Create or Recreate ISO from an already existing boot.wim image"
-IsoRoot_Bevel=IsoRoot_Bevel,1,12,11,121,238,58
-IsoRoot_CheckBox=" Include Files In ISO Root",1,3,16,125,176,16,False,"__include files and folders at the Root of ISO"
-OpenRoot_Button="Open ISO Root Folders",1,8,16,143,228,32,IsoRootOpen,opendir.bmp,True,"__Open the IsoRoot folder and copy your files and folders inside"
-PressAnyKey_CheckBox="Add Press Any Key To Boot...",1,3,12,184,170,18,False,"__Add Press any key to boot from USB, CD/DVD"
-Bcdedit_CheckBox=bcd,1,3,213,184,40,18,True,"__Set boot configuration data localization + Menu legacy"
-USB_Bevel=USB_Bevel,1,12,6,217,248,99
-USB_TextLabel="Copy to USB",1,1,12,221,84,18,8,Bold
-Copy2USB_Button=" USB7ice - Copy ISO to USB",1,8,10,238,240,34,Copy2USB,USB7ice24.bmp,False,"__Copy the ISO previously created on your USB stick, disk, with USB7ice. Support Dual Boot BIOS+UEFI"
-Rufus_Button=" Rufus - Reliable USB Formatting Utility",1,8,10,276,240,34,LoadRufus,Rufus.bmp,False,"__Copy the ISO previously created on your USB stick, disk, with Rufus - The Reliable USB Formatting Utility"
-RufusDualBoot_CheckBox="Enable Dual Boot BIOS+UEFI in Rufus",0,3,292,292,220,18,True,"__Enable Dual Boot Legacy BIOS + UEFI in Rufus"
+ISO_Bevel=ISO_Bevel,1,12,6,6,248,204
+ISO_TextLabel="Image & ISO",1,1,12,14,84,18,8,Bold
+CompressMax_CheckBox=,1,3,139,14,16,16,False,"__Use LZX max compression (slower for packing) instead of XPRESS. It is Required for iPXE"
+CompressMax_TextLabel1="Max Compression",1,1,157,8,96,18,8,Normal,"__Use LZX max compression (slower for packing) instead of XPRESS. It is Required for iPXE"
+CompressMax_TextLabel2="(Required for iPXE)",1,1,155,22,98,18,8,Normal,"__Use LZX max compression (slower for packing) instead of XPRESS. It is Required for iPXE"
+CreateWimISO_Button=" Create boot.wim and ISO",1,8,10,37,240,50,Process,CreateISO24.bmp,False,"__Create or Recreate boot.wim and ISO (eg: after adding files, edit registry,...)"
+CreateISO_Button=" Create ISO",1,8,10,93,240,30,CreateISO,CreateISO.bmp,False,"__Create or Recreate ISO from an already existing boot.wim image"
+IsoRoot_Bevel=IsoRoot_Bevel,1,12,11,128,238,58
+IsoRoot_CheckBox=" Include Files In ISO Root",1,3,16,132,176,16,False,"__include files and folders at the Root of ISO"
+OpenRoot_Button="Open ISO Root Folders",1,8,16,150,228,32,IsoRootOpen,opendir.bmp,True,"__Open the IsoRoot folder and copy your files and folders inside"
+PressAnyKey_CheckBox="Add Press Any Key To Boot...",1,3,12,189,170,18,False,"__Add Press any key to boot from USB, CD/DVD"
+Bcdedit_CheckBox=bcd,1,3,213,189,40,18,True,"__Set boot configuration data localization + Menu legacy"
 //-
-Tools_Bevel=Tools_Bevel,1,12,292,6,248,199
+USB_Bevel=USB_Bevel,1,12,6,221,248,99
+USB_TextLabel="Copy to USB",1,1,12,225,84,18,8,Bold
+Copy2USB_Button=" USB7ice - Copy ISO to USB",1,8,10,242,240,34,Copy2USB,USB7ice24.bmp,False,"__Copy the ISO previously created on your USB stick, disk, with USB7ice. Support Dual Boot BIOS+UEFI"
+Rufus_Button=" Rufus - Reliable USB Formatting Utility",1,8,10,280,240,34,LoadRufus,Rufus.bmp,False,"__Copy the ISO previously created on your USB stick, disk, with Rufus - The Reliable USB Formatting Utility"
+//-
+Tools_Bevel=Tools_Bevel,1,12,292,6,248,202
 Tools_TextLabel=Tools,1,1,298,12,42,18,8,Bold
-Hive_Bevel=Hive_Bevel,1,12,298,30,236,77
-BTN_LoadHive="  Edit Target Hives",1,8,302,34,152,48,EditHive,RegEdit24.bmp,False,"__Edit Target Hives (eg: Tmp_Software)"
-BTN_HiveUnLoad=H,1,8,302,85,18,18,HiveUnloadPlay,0,False,"__Unload all project hives that remain loaded"
-CB_SoftwareHive=Software,1,3,460,34,70,18,True,"__Edit the Software registry hive "
-CB_SystemHive=System,1,3,460,52,70,18,True,"__Edit the System registry hive "
-CB_DefaultHive=Default,1,3,460,70,70,18,True,"__Edit the Default registry hive "
-CB_DriversHive=Drivers,1,3,460,88,70,18,False,"__Edit the Drivers registry hive "
-RegConvertPE_Button=" Reg Convert PE",1,8,298,115,236,44,RegConvertPE,Registry.bmp,False,"__Convert a Registry file to a script or a converted (Tmp_*) Reg file"
-TargetOpen_Button=" Open Target Folder",1,8,298,167,236,32,TargetOpen,opendir.bmp,False,"__Open Target Folder"
-pWebLabel1="Rufus Downloads",1,10,292,217,83,18,https://rufus.akeo.ie/downloads/
+Hive_Bevel=Hive_Bevel,1,12,298,30,236,79
+BTN_LoadHive="  Edit Target Hives",1,8,302,35,152,48,EditHive,RegEdit24.bmp,False,"__Edit Target Hives (eg: Tmp_Software)"
+BTN_HiveUnLoad=H,1,8,302,86,18,18,HiveUnloadPlay,0,False,"__Unload all project hives that remain loaded"
+CB_SoftwareHive=Software,1,3,460,35,70,18,True,"__Edit the Software registry hive "
+CB_SystemHive=System,1,3,460,53,70,18,True,"__Edit the System registry hive "
+CB_DefaultHive=Default,1,3,460,71,70,18,True,"__Edit the Default registry hive "
+CB_DriversHive=Drivers,1,3,460,89,70,18,False,"__Edit the Drivers registry hive "
+RegConvertPE_Button=" Reg Convert PE",1,8,298,116,236,40,RegConvertPE,Registry.bmp,False,"__Convert a Registry file to a script or a converted (Tmp_*) Reg file"
+TargetOpen_Button=" Open Target Folder",1,8,298,162,236,40,TargetOpen,opendir.bmp,False,"__Open Target Folder"
+Rufus_WebLabel="Rufus Downloads",1,10,292,221,83,18,https://rufus.akeo.ie/downloads/
 //-
-HideAdvancedOptions_Button=,0,8,292,238,8,8,HideAdvancedOptions,0,False,"__Hide Advanced Options"
-ShowAdvancedOptions_Button=,1,8,292,238,8,8,ShowAdvancedOptions,0,False,"__Show Advanced Options"
-WimOnly_CheckBox="Create Boot.Wim Only without ISO",0,3,292,252,212,16,False,"__Pack and Create Boot.Wim Only without ISO Creation"
-NoCDUsbY_CheckBox="Do not Create CDUsb.y (All In Ram)",0,3,292,272,212,16,False,"__Do not Create CDUsb.y with Run ALL Programs From RAM selected for AIOBoot"
+HideAdvancedOptions_Button=,0,8,292,242,8,8,HideAdvancedOptions,0,False,"__Hide Advanced Options"
+ShowAdvancedOptions_Button=,1,8,292,242,8,8,ShowAdvancedOptions,0,False,"__Show Advanced Options"
+WimOnly_CheckBox="Create Boot.wim Only without ISO",0,3,292,256,212,16,False,"__Pack and Create Boot.wim Only without ISO Creation"
+NoCDUsbY_CheckBox="Do not Create CDUsb.y (All In Ram)",0,3,292,275,212,16,False,"__Do not Create CDUsb.y with Run ALL Programs From RAM selected for AIOBoot"
+RufusDualBoot_CheckBox="Enable Dual Boot BIOS+UEFI in Rufus",0,3,292,294,220,18,True,"__Enable Dual Boot Legacy BIOS + UEFI in Rufus"
 
 [ShowAdvancedOptions]
 System,CURSOR,Wait
@@ -109,7 +112,6 @@ Run,%ScriptFile%,PreCheck_Image_Exist
 Run,%ScriptFile%,PreCheck_Hives_Exist
 //-
 AddInterface,%ProjectDir%\Core.script,InterfaceBuild,""
-StrFormat,SPLIT,%FallBackLanguage%,|,0,%NbLang%
 //-
 // To be sure, Unload Hive to avoid error 47 (sharing violation eg registry hive loaded) when capturing
 Run,%ScriptFile%,HiveUnload,%GTarget%
@@ -125,15 +127,7 @@ Run,%ScriptFile%,Check_Extract_SysFiles
 DirDeleteQ,%GISO%\sources
 DirMake,%GISO%\sources
 //-
-Echo,"Packing boot.wim image file, Be patient..."
-//ShellExecute,Open,%GTools%\wimlib-imagex.exe,"capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=LZX --verbose"
-If,%CompressMax_CheckBox%,Equal,True,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Packing boot.wim image file, Be patient...&Echo.&wimlib-imagex.exe capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=LZX --verbose",%GTools%
-Else,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Packing boot.wim image file, Be patient...&Echo.&wimlib-imagex.exe capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=XPRESS --verbose",%GTools%
-If,%ExitCode%,Equal,0,Echo,"Wimlib Packing boot.wim image file return : %ExitCode%"
-Else,Begin
-  Echo,"Wimlib Packing boot.wim image file return : %ExitCode%",Warn
-  EchoExtended,"Error: boot.wim image file was not properly packaged.",Warn,,MessageError,,Halt
-End
+Run,%ScriptFile%,CaptureWim
 //-
 Run,%ScriptFile%,CreateISO
 
@@ -181,6 +175,17 @@ If,%SourceBuild%,Bigger,18300,Set,%CheckmunFiles%,True
 Else,Set,%CheckmunFiles%,False
 //-
 Exec,%ProjectDir%\Features\CheckSysFiles.script,CheckSysFiles,Project,True,%CheckmunFiles%,%Action_After%
+
+[CaptureWim]
+Echo,"Packing boot.wim image file, Be patient..."
+//ShellExecute,Open,%GTools%\wimlib-imagex.exe,"capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=LZX --verbose"
+If,%CompressMax_CheckBox%,Equal,True,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Packing boot.wim image file, Be patient...&Echo.&wimlib-imagex.exe capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=LZX --verbose",%GTools%
+Else,ShellExecute,%OpenHideOutput%,cmd.exe,"/D /C Echo Packing boot.wim image file, Be patient...&Echo.&wimlib-imagex.exe capture #$q%GTarget%#$q #$q%GISO%\sources\boot.wim#$q #$q%ImageName%#$q #$q%ImageName%#$q --boot --flags=9 --compress=XPRESS --verbose",%GTools%
+If,%ExitCode%,Equal,0,Echo,"Wimlib Packing boot.wim image file return : %ExitCode%"
+Else,Begin
+  Echo,"Wimlib Packing boot.wim image file return : %ExitCode%",Warn
+  EchoExtended,"Error: boot.wim image file was not properly packaged.",Warn,,MessageError,,Halt
+End
 
 [CreateISO]
 Echo,"Create ISO"
@@ -458,7 +463,7 @@ End
 
 [Copy2USB]
 If,ExistFile,%Usb7iceExe%,Begin
-  If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%Usb7iceExe%,%ISOFileName%,%GTools%
+  If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%Usb7iceExe%,#$q%ISOFileName%#$q,%GTools%
   Else,ShellExecuteEx,Open,%Usb7iceExe%,,%GTools%
 End
 
@@ -476,7 +481,7 @@ If,ExistFile,%RufusExe%,Begin
   If,%RufusDualBoot_CheckBox%,Equal,True,TXTAddLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=1",Prepend
   Else,TXTAddLine,%RufusIni%,"EnableWindowsDualUefiBiosMode=0",Prepend
   //-
-  If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%RufusExe%,"-g -f FAT32 -i %ISOFileName%",%GTools%
+  If,ExistFile,%ISOFileName%,ShellExecuteEx,Open,%RufusExe%,"-g -f FAT32 -i #$q%ISOFileName%#$q",%GTools%
   Else,ShellExecuteEx,Open,%RufusExe%,"-g -f FAT32",%GTools%
 End
 

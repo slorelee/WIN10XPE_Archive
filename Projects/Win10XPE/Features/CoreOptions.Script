@@ -65,7 +65,7 @@ End
 If,%SourceBuild%,Bigger,17700,Begin
   If,%DarkTheme_CheckBox%,Equal,True,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize,AppsUseLightTheme,0
   Else,RegWrite,HKLM,0x4,Tmp_Default\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize,AppsUseLightTheme,1
-  If,%DarkThemeShortcut_CheckBox%,Equal,True,Begin
+  If,%DarkThemeShortcut_CheckBox%%Explorer_RadioButton%,Equal,TrueTrue,Begin
     TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pDesktop#$p\Change Explorer Theme","LINK #$pDesktop#$p\Change Explorer Theme"
     TXTReplace,%GTarget_Sys%\pecmd.ini,"//LINK #$pPrograms#$p\System Tools\Change Explorer Theme","LINK #$pPrograms#$p\System Tools\Change Explorer Theme"
   End

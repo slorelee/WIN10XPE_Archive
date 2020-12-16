@@ -3,17 +3,17 @@ Title=PowerShell Core
 Type=XPEPlugin
 Description=PowerShell Core is a cross-platform (Windows, Linux, and macOS) automation and configuration tool/framework that works well with your existing tools and is optimized for dealing with structured data.
 Author=KYHI
-Date=2020.07.15
+Date=2020.12.05
 Credits=TheOven.org Forum
 Contact=
-Version=005
+Version=006
 Level=5
 Download_Level=2
 Selected=False
 Mandatory=False
 NoWarning=False
 History001=KYHI Initial XPE Plugin Created 2018.07.27
-History005=KYHI - Use ScriptDir Download & ProgramVersion *TextBox - 2020.07.15
+History005=KYHI - Use Download & ProgramVersion *TextBox - 2020.07.15
 
 [Interface]
 Shortcut_Bevel=Shortcut_Bevel,1,12,4,6,133,121
@@ -27,7 +27,7 @@ Image_Software=pwsh4848.ico,1,5,145,35,48,48
 Button_Launch_Program=Launch,1,8,10,142,119,25,Launch_Program,Launch.bmp,False,"__Click Here To Launch Program"
 HomePage_WebLabel="Home Page",1,10,338,6,55,18,https://github.com/PowerShell/PowerShell
 ProgramVer_TextLabel="Program Version:",1,1,440,4,85,18,8,Normal
-ProgramVer_TextBox=,1,0,440,20,85,21,7.1.0,"__Program Version To Download"
+ProgramVer_TextBox=,1,0,440,20,85,21,7.0.3,"__Program Version To Download"
 
 [Info]
 // 6.2.3 6.2.4 7.0.0 7.0.1 7.0.2
@@ -85,12 +85,12 @@ If,%StartMpin_CheckBox%,Equal,True,AddPin,StartMenu
 If,%TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar
 
 [Extract]
-If,Not,ExistFile,%ScriptDir%\%SetupFile%,Run,%ScriptFile%,Update_Container
+If,Not,ExistFile,%ProgCache%\%ProgramFolder%\%SetupFile%,Run,%ScriptFile%,Update_Container
 //--
 Echo,"Extracting %ScriptTitle% Setup File..."
 If,ExistDir,%GTemp%\%ProgramFolder%,DirDeleteQ,%GTemp%\%ProgramFolder%
 DirMake,%GTemp%\%ProgramFolder%
-ShellExecute,Hide,%GTools%\7z.exe,"x #$q%ScriptDir%\%SetupFile%#$q -y -o#$q%GTemp%\%ProgramFolder%#$q"
+ShellExecute,Hide,%GTools%\7z.exe,"x #$q%ProgCache%\%ProgramFolder%\%SetupFile%#$q -y -o#$q%GTemp%\%ProgramFolder%#$q"
 
 [PluginSetx64]
 Set,%ProgramExe%,%ProgramExex64%
@@ -101,14 +101,14 @@ Set,%SetupURL%,%SetupURLx64%
 [Launch_Program]
 If,%HostOSArch%,Equal,x64,Run,%ScriptFile%,PluginSetx64
 Run,%ScriptFile%,Extract
-OpenDir,%GTemp%\%ProgramFolder%
-//Start,,%ProgramExe%,,%GTemp%\%ProgramFolder%
+Start,,%ProgramExe%,,%GTemp%\%ProgramFolder%
+//OpenDir,%GTemp%\%ProgramFolder%
 
 [Update_Container]
 Echo,"The Container Files Is Being Updated... Please Wait.."
 If,%Architecture%,Equal,x64,Run,%ScriptFile%,PluginSetx64
-Download,%ScriptDir%\%SetupFile%,%SetupURL%,NoExitOnError
-If,Not,ExistFile,%ScriptDir%\%SetupFile%,EchoExtended,"Error: %SetupFile% has not been downloaded.",Warn,,Message,5,Exit
+Download,%ProgCache%\%ProgramFolder%\%SetupFile%,%SetupURL%,NoExitOnError
+If,Not,ExistFile,%ProgCache%\%ProgramFolder%\%SetupFile%,EchoExtended,"Error: %SetupFile% has not been downloaded.",Warn,,Message,5,Exit
 
 [AuthorEncoded]
 pwsh4848.ico=2265,3020

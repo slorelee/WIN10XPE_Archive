@@ -35,6 +35,7 @@
 \Windows\System32\msutb.dll
 \Windows\System32\mycomput.dll
 \Windows\System32\nsi.dll
+\Windows\System32\offreg.dll
 \Windows\System32\policymanager.dll
 \Windows\System32\pdh.dll
 \Windows\System32\PhotoMetadataHandler.dll

@@ -142,6 +142,7 @@
 \Windows\SysWOW64\ntmarta.dll
 \Windows\SysWOW64\ntshrui.dll
 \Windows\SysWOW64\odbc32.dll
+\Windows\System32\offreg.dll
 \Windows\SysWOW64\ole32.dll
 \Windows\SysWOW64\oleacc.dll
 \Windows\SysWOW64\oleaccrc.dll

@@ -3,7 +3,7 @@ Title=Additions
 Type=XPEPlugin
 Description=Add Files and Folders, configure the Registry.
 Author=ChriSR
-Date=2018.06.03
+Date=2020.12.05
 Version=001
 Selected=False
 Mandatory=False
@@ -97,9 +97,7 @@ ExtractListFiles,%GTemp%\AddFiles.txt
 FileDelete,%GTemp%\AddFiles.txt
 
 [RegConvertPE]
-If,ExistFile,%GTools%\RegCPE.exe,Begin
-ShellExecuteEx,Open,%GTools%\RegCPE.exe,,%GTools%
-End
+If,ExistFile,%GTools%\RegCPE.exe,ShellExecuteEx,Open,%GTools%\RegCPE.exe,,%GTools%
 
 [AddRegFile1Play]
 Run,%ScriptFile%,AddRegFilePlay,#1,%AddRegFile1_FileBox%
@@ -112,9 +110,11 @@ Run,%ScriptFile%,AddRegFilePlay,#1,%AddRegFile3_FileBox%
 
 [AddRegFilePlay]
 Run,%ScriptFile%,PreCheck_Image_Hives_Exist
-If,Not,#1,Equal,HiveLoaded,HiveLoadALL
-RegImportFile,#2
-If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
+If,ExistFile,#2,Begin
+  If,Not,#1,Equal,HiveLoaded,HiveLoadALL
+  RegImportFile,#2
+  If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
+End
 
 [AddRegEdit]
 FileDeleteQ,%GTemp%\AddReg.txt
@@ -132,11 +132,11 @@ Run,%ScriptFile%,PreCheck_Image_Hives_Exist
 FileDeleteQ,%GTemp%\AddReg.txt
 ExtractFile,%ScriptFile%,InterfaceEncoded,AddReg.txt,%GTemp%
 If,ExistFile,%GTemp%\AddReg.txt,Begin
-If,ExistSection,%GTemp%\AddReg.txt,Registry,Begin
-If,Not,#1,Equal,HiveLoaded,HiveLoadALL
-Run,%GTemp%\AddReg.txt,Registry
-If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
-End
+  If,ExistSection,%GTemp%\AddReg.txt,Registry,Begin
+    If,Not,#1,Equal,HiveLoaded,HiveLoadALL
+    Run,%GTemp%\AddReg.txt,Registry
+    If,Not,#1,Equal,HiveLoaded,HiveUnLoadALL
+  End
 End
 FileDelete,%GTemp%\AddReg.txt
 
