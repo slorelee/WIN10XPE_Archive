@@ -3,8 +3,8 @@ Title=Build Core
 Type=XPEPlugin
 Description=Build Win10XPE Core based on WinRE.wim Recovery Environment with Features additions and Options
 Author=ChriSR
-Date=2020.09.16
-Version=007
+Date=2020.12.17
+Version=008
 Selected=True
 Mandatory=True
 NoWarning=False
@@ -13,7 +13,7 @@ Download_Level=0
 Credits=
 Contact=
 Interface=InterfaceMain
-History07=Add Host Net Drivers
+History08=ChrisR Check winre.wim Version
 
 [Variables]
 %AdditionalFiles%=%BaseDir%\Projects\Include\%Architecture%\AdditionalFiles
@@ -383,6 +383,8 @@ ShellExecute,Hide,%GTools%\wimlib-imagex.exe,"extract #$q%GSource%\sources\insta
 If,%ExitCode%,Equal,0,Echo,"Wimlib extract Winre.wim image file from install.wim return: %ExitCode%"
 Else,EchoExtended,"Error: Wimlib extract Winre.wim image file from install.wim return: %ExitCode%",Warn,,MessageError,,Halt
 //-
+If,Not,%SourceBuild%,Smaller,19041,Run,%ScriptFile%,Check_Winre_Version
+//-
 If,ExistFile,%XPECache%\HiveCache.ini,Begin
   IniRead,%XPECache%\HiveCache.ini,Cache,FullSoftware,%FullSoftwareIni%
   If,%FullSoftwareIni%,Equal,True,Begin
@@ -587,6 +589,27 @@ ShellExecute,Hide,%GTools%\WimInfo.exe,"-wim:#$q%GSource%\sources\install.wim#$q
 If,Not,ExistFile,%GTemp%\WimInfo.ini,EchoExtended,"Error: Wim file information missing. A problem occurred to Get Image Information.#$x#$xTry using official MS sources.",Warn,,MessageError,,Halt
 IniRead,%GTemp%\WimInfo.ini,Attributes,ImageCount,%ImageCountVar%
 If,%ImageCountVar%,Smaller,1,EchoExtended,"Error: Wim file information missing. A problem occurred to Get Image Information.#$x#$xTry using official MS sources.",Warn,,MessageError,,Halt
+
+[Check_Winre_Version]
+If,%SourceVersion%,Bigger,10.0.19041.264,Begin
+  If,Not,ExistDir,%GTemp%,DirMake,%GTemp%
+  ShellExecute,Hide,%GTools%\WimInfo.exe,"-wim:#$q%GTemp%\winre.wim#$q -ini:#$q%GTemp%\WinreInfo.ini#$q"
+  If,Not,ExistFile,%GTemp%\WinreInfo.ini,EchoExtended,"Error: Winre.wim Image information missing. A problem occurred to Get Image Information.#$x#$xTry using official MS sources.",Warn,,MessageError,,Halt
+  IniRead,%GTemp%\WinreInfo.ini,1,VERSION,%WinreVersion%
+  If,Not,%WinreVersion%,Equal,%SourceVersion%,Begin
+    Set,%answer%,No
+    If,%SourceBuild%,Equal,19041,Begin
+      If,Question,"Winre.wim Version (%WinreVersion%) Does Not match Install.wim Version (%SourceVersion%)#$x#$xIncompatibilities Are Likely to Occur With Perhaps an Unreliable Result.#$x#$xPreferably Use Windows 10 version 2004 - 20H1#$x#$x Continue Anyway ?",20,False,Set,%answer%,Yes
+      If,%answer%,Equal,No,Halt,"Winre.wim Version (%WinreVersion%) Does Not match Install.wim Version (%SourceVersion%). Incompatibilities Are Likely to Occur With Perhaps an Unreliable Result. Preferably Use Windows 10 version 2004 - 20H1"
+      Else,Echo,"Winre.wim Version (%WinreVersion%) Does Not match Install.wim Version (%SourceVersion%). Incompatibilities Are Likely to Occur With Perhaps an Unreliable Result. Preferably Use Windows 10 version 2004 - 20H1",Warn
+    End
+    Else,Begin
+      If,Question,"Winre.wim Version (%WinreVersion%) Does Not match Install.wim Version (%SourceVersion%)#$x#$xIncompatibilities Are Likely to Occur With Perhaps an Unreliable Result.#$x#$xPreferably Use Another Windows 10 Version#$x#$x Continue Anyway ?",20,False,Set,%answer%,Yes
+      If,%answer%,Equal,No,Halt,"Winre.wim Version (%WinreVersion%) Does Not match Install.wim Version (%SourceVersion%). Incompatibilities Are Likely to Occur With Perhaps an Unreliable Result. Preferably Use Another Windows 10 Version"
+      Else,Echo,"Winre.wim Version (%WinreVersion%) Does Not match Install.wim Version (%SourceVersion%). Incompatibilities Are Likely to Occur With Perhaps an Unreliable Result. Preferably Use Another Windows 10 Version",Warn
+    End
+  End
+End
 
 [ClearMakeFolder]
 DirDeleteQ,%GTarget%
