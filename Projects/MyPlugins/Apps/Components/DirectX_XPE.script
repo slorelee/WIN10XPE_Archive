@@ -3,17 +3,17 @@ Title=DirectX
 Type=XPEPlugin
 Description=DirectX For Win10XPE and LDDM Graphics Subsystem.
 Author=KYHI
-Date=2019.03.29
+Date=2020.12.16
 Credits=ChrisR
 Contact=
-Version=002
+Version=003
 Level=5
 Download_Level=2
 Selected=False
 Mandatory=False
 NoWarning=False
 History001=KYHI Initial XPE Plugin Created 2018.10.11
-History002=KYHI - 2019.03.29
+History003=ChrisR Comment out the drivers that already exist in winre.wim for 20H2 support - 2020.12.16
 
 [Variables]
 %ProgramTitle%=DirectX Diagnostic
@@ -123,15 +123,8 @@ If,%TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,#$pSystemRoot#$p\system32\%Pro
 \Windows\System32\dpnhupnp.dll
 \Windows\System32\dpnlobby.dll
 \Windows\System32\dpnsvr.exe
-\Windows\System32\drivers\dxgkrnl.sys
-\Windows\System32\drivers\dxgmms1.sys
+; \Windows\System32\drivers that already exist in Winre.wim: dxgkrnl.sys,dxgmms1.sys,ks.sys,mskssrv.sys,mspclock.sys,mspqm.sys,mstee.sys,stream.sys
 \Windows\System32\drivers\gm.dls
-\Windows\System32\drivers\ks.sys
-\Windows\System32\drivers\mskssrv.sys
-\Windows\System32\drivers\mspclock.sys
-\Windows\System32\drivers\mspqm.sys
-\Windows\System32\drivers\mstee.sys
-\Windows\System32\drivers\stream.sys
 \Windows\System32\dsdmo.dll
 \Windows\System32\dsound.dll
 \Windows\System32\dswave.dll

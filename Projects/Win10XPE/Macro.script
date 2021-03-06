@@ -451,7 +451,7 @@ If,#6,Equal,Halt,Halt,#1
 Echo,#1
 
 [MEchoExtended_Echo_LoopWarn]
-Echo,#1,#2
+Echo,#1,Warn
 
 [MEchoExtended_Message]
 If,#4,Equal,Message,Begin

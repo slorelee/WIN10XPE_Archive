@@ -3,7 +3,7 @@ Title=Admin
 Type=XPEPlugin
 Description=Admin Login
 Author=ChriSR
-Date=2020.05.13
+Date=2021.01.14
 Version=003
 Selected=None
 Mandatory=None
@@ -63,6 +63,7 @@ If,%SourceBuild%,Bigger,17700,Begin
   ExtractWimFile,\Windows\System32\Windows.ApplicationModel.dll
 End
 If,%SourceBuild%,Bigger,18300,ExtractWimFile,\Windows\System32\wuceffects.dll
+If,%SourceBuild%,Bigger,20000,ExtractWimFile,\Windows\System32\pfclient.dll
 //-
 Set,%VersionName%,*
 If,%SourceBuild%,Bigger,17000,Set,%VersionName%,.rs4

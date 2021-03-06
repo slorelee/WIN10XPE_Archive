@@ -1,17 +1,19 @@
 ; Not required with build 16299 \Windows\System32\SetWoW64.exe(loadWoW64.exe)
 \Windows\System32\wow64.dll
+\Windows\System32\wow64base.dll
 \Windows\System32\wow64cpu.dll
 \Windows\System32\wow64win.dll
 \Windows\System32\wowreg32.exe
 \Windows\System32\ntdll.dll
 ;
 ; In Winre.wim \Windows\SysWOW64\downlevel
-; SysWOW64 Files and mui
+; SysWOW64 Files (mui & mun files done withCheckSysFiles)
 ; If,ExistFile,%target_sys%\imageres.dll,FileCopy,%target_sys%\imageres.dll,%target_win%\SysWOW64\
 \Windows\SysWOW64\C_*.NLS
 \Windows\SysWOW64\KBD*.dll
 \Windows\SysWOW64\aclui.dll
 \Windows\SysWOW64\actxprxy.dll
+\Windows\SysWOW64\activeds.dll
 \Windows\SysWOW64\adsldp.dll
 \Windows\SysWOW64\adsldpc.dll
 \Windows\SysWOW64\advapi32.dll
@@ -77,6 +79,7 @@
 \Windows\SysWOW64\dxgi.dll
 \Windows\SysWOW64\edputil.dll
 \Windows\SysWOW64\ExplorerFrame.dll
+\Windows\SysWOW64\findstr.exe
 \Windows\SysWOW64\FirewallAPI.dll
 \Windows\SysWOW64\fltlib.dll
 \Windows\SysWOW64\fwbase.dll
@@ -217,6 +220,7 @@
 \Windows\SysWOW64\win32u.dll
 \Windows\SysWOW64\winbrand.dll
 \Windows\SysWOW64\WindowsCodecs.dll
+\Windows\SysWOW64\Windows.FileExplorer.Common.dll
 \Windows\SysWOW64\Windows.Globalization.dll
 \Windows\SysWOW64\windows.storage.dll
 \Windows\SysWOW64\wininet.dll
