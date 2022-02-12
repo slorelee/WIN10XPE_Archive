@@ -1,7 +1,7 @@
 [Main]
 Title=Win10XPE
 Type=XPEPlugin
-Description=Build Win10XPE by using an Original Windows 10 ISO x86 or x64...#$xThe build is based on the Winre.wim recovery environment.
+Description=Build Win10XPE by using an Original Windows 10, Windows 11 ISO x86 or x64...#$xThe build is based on the Winre.wim recovery environment.
 Author=ChrisR
 Date=2019.09.14
 Version=002
@@ -90,12 +90,12 @@ Image_ValuePos4=,_Select_Image_Value_,False
 
 [Interface]
 Reset_Button=Reset,1,8,513,10,38,18,ResetValue,0,False,"__Reset Global Variables and Interfaces Values"
-TechBench_TextLabel="Download Windows 10 Original ISO (Final) From ",1,1,10,10,280,18,8,Bold
-TechBench_WebLabel="TechBench by WZT - RG Adguard",1,10,291,10,160,18,https://tb.rg-adguard.net/public.php
-Mount_TextLabel="Mount Windows 10 ISO or Extract the ISO in a Folder",1,1,10,37,345,18,8,Bold
-SelectISO_Button=" Select the Windows 10 Source Folder",1,8,10,65,220,50,SelectISO,opendir.bmp,False,"__Select the Root of the Mounted or Extracted Windows 10 Source Folder"
+TechBench_TextLabel="Download Windows 10, 11 Original ISO (Final) From ",1,1,10,10,300,18,8,Bold
+TechBench_WebLabel="TechBench by WZT - RG Adguard",1,10,311,10,160,18,https://tb.rg-adguard.net/public.php
+Mount_TextLabel="Mount Windows 10, 11 ISO or Extract the ISO in a Folder",1,1,10,37,345,18,8,Bold
+SelectISO_Button=" Select the Windows 10, 11 Source Folder",1,8,10,65,240,50,SelectISO,opendir.bmp,False,"__Select the Root of the Mounted or Extracted Windows 10 Source Folder"
 SourceTab_TextLabel="* No Need To Use The Source Tab, Source Directory",1,1,10,116,276,18,8,Normal
-Source_Value=,1,1,236,83,315,18,10,Bold
+Source_Value=,1,1,256,83,295,18,10,Bold
 Image_TextLabel="Choose Image",0,1,16,137,80,18,8,Normal
 Image_Bevel=Image_Bevel,0,12,10,151,276,144
 Image_Value=,0,4,16,158,264,21,,_Select_Image_Value_,False

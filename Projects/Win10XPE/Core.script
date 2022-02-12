@@ -59,7 +59,7 @@ Msi_CheckBox="Msi Windows Installer",1,3,122,330,142,18,True,"__Add Msi Windows 
 DotNET_CheckBox="Microsoft .NETFx4",1,3,6,348,115,18,False,"__Add Embedded Microsoft .NET Framework 4 - To Get WIFI, You Must Also Enable Network Addition"
 ImDisk_CheckBox="ImDisk Ramdisk B:\Temp",1,3,122,348,142,18,True,"__ImDisk Virtual Disk Driver. Create B: RamDisk and Set %Temp% to B:\Temp"
 Admin_CheckBox="Switch To Admin",1,3,6,366,115,18,False,"__Switch to Administrator Account Login At Startup"
-IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,True,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
+IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,False,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
 //-
 Drivers_Bevel=Drivers_Bevel,1,12,270,280,226,61
 Drivers_CheckBox="Integrate Drivers",1,3,276,284,112,18,True,"__Integrate Your Custom Drivers"
@@ -220,7 +220,7 @@ AllNls_CheckBox="Add All National Language Support (NLS) Files",1,3,6,151,255,18
 AllKeyboard_CheckBox="Add All KeyBoards",1,3,6,170,110,18,True,"__Add All KeyBoards. Otherwise They Will be Copied According to the Registry Settings. It May Not Be Enough for Extended Languages."
 DelSpeech_CheckBox="Delete Speech Folder in Builds Without 'Accessibility' Feature",1,3,6,189,360,18,False,"__Cleanup, Delete the Speech Folder in Constructions Without the Accessibility Feature."
 DelSysWOW64_CheckBox="Delete SysWOW64 Folder in x64 Builds Without 'WoW64 Basic' Feature",1,3,6,208,375,18,True,"__Cleanup, Delete the SysWOW64 Folder in x64 Constructions Without 'WoW64 Basic' Feature."
-DelEdgeWebPlateform_CheckBox="Delete Edge Web Plateform",1,3,6,227,375,18,True,"__Cleanup, Delete Edge Web Plateform Component. Adding Edge Web Browsing Functionalities Should Be Done in Apps Plugins."
+DelEdgeWebPlateform_CheckBox="Delete Edge Web Plateform",1,3,6,227,375,18,False,"__Cleanup, Delete Edge Web Plateform Component. Adding Edge Web Browsing Functionalities Should Be Done in Apps Plugins."
 DelwbemRepository_CheckBox="Delete WMI Repository folder",1,3,6,246,375,18,True,"__Cleanup, Delete the wbem Repository Folder. The WMI Repository Will be Rebuilt, Refresh at Startup But it Takes a Little Time."
 
 [MainInterface]
@@ -483,6 +483,7 @@ If,%VCRuntime_CheckBox%,Equal,True,Exec,%ProjectDir%\Features\VCRuntime.Script,P
 If,%Shell%,Equal,Explorer,Begin
   Exec,%ProjectDir%\Features\Explorer.Script,Process,HiveLoaded
   Exec,%ProjectDir%\Features\StartIsBack.Script,Process,HiveLoaded
+  If,Not,%SourceBuild%,Smaller,22000,Exec,%ProjectDir%\Features\Exp10ForWin11.Script,Process,HiveLoaded
 End
 Else,Exec,%ProjectDir%\Features\WinXShell.Script,Process,HiveLoaded
 //-

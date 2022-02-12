@@ -3,7 +3,7 @@ Title=Config
 Type=XPEPlugin
 Description=Configure the Base for Explorer
 Author=ChriSR
-Date=2020.11.01
+Date=2021.06.22
 Version=004
 Selected=None
 Mandatory=None
@@ -20,6 +20,8 @@ Contact=
 Echo,"Processing %ScriptTitle%..."
 Run,%ScriptFile%,RegConfig
 Run,%ScriptFile%,RegConfig_PostCache
+//-
+If,%SourceBuild%,Bigger,19041,Run,%scriptfile%,NotepadLegacy
 
 [RegConfig]
 If,ExistFile,%XPECache%\HiveCache.ini,Run,%ScriptFile%,CheckHiveCacheINI
@@ -303,6 +305,50 @@ RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfile\shell\print\command,,"#$pSystemRo
 RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfile\shell\printto\command,,"#$pSystemRoot#$p\system32\Notepad.exe /pt #$q#$p1#$q #$q#$p2#$q #$q#$p3#$q #$q#$p4#$q"
 //-
 If,%SourceBuild%,Equal,19041,Run,%scriptfile%,Fix_20H2_Reg_FullSoftware
+
+[NotepadLegacy]
+RegHiveLoad,Tmp_Software,%RegSoftware%
+RegWrite,HKLM,0x1,Tmp_Software\Classes\txtfilelegacy,,"Text Document"
+RegWrite,HKLM,0x4,Tmp_Software\Classes\txtfilelegacy,EditFlags,2162688
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfilelegacy,FriendlyTypeName,"@#$pSystemRoot#$p\system32\notepad.exe,-469"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfilelegacy\DefaultIcon,,"#$pSystemRoot#$p\system32\imageres.dll,-102"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfilelegacy\shell\open\command,,"#$pSystemRoot#$p\system32\NOTEPAD.EXE #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfilelegacy\shell\print\command,,"#$pSystemRoot#$p\system32\NOTEPAD.EXE /p #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\txtfilelegacy\shell\printto\command,,"#$pSystemRoot#$p\system32\notepad.exe /pt #$q#$p1#$q #$q#$p2#$q #$q#$p3#$q #$q#$p4#$q"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt,,txtfilelegacy
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt,"Content Type",text/plain
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt,PerceivedType,text
+RegWrite,HKLM,0x0,Tmp_Software\Classes\.txt\OpenWithProgids
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt\PersistentHandler,,{5e941d80-bf96-11cd-b579-08002b30bfeb}
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.txt\ShellNew,NullFile,
+RegWrite,HKLM,0x2,Tmp_Software\Classes\.txt\ShellNew,FriendlyTypeName,"@#$pSystemRoot#$p\system32\notepad.exe,-469"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.ini,,inifile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.ini,PerceivedType,text
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.ini\PersistentHandler,,{5e941d80-bf96-11cd-b579-08002b30bfeb}
+RegWrite,HKLM,0x1,Tmp_Software\Classes\inifile,,"Configuration Settings"
+RegWrite,HKLM,0x4,Tmp_Software\Classes\inifile,EditFlags,2097152
+RegWrite,HKLM,0x1,Tmp_Software\Classes\inifile,FriendlyTypeName,"@shell32.dll,-10151"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inifile\DefaultIcon,,"#$pSystemRoot#$p\system32\imageres.dll,-69"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inifile\shell\open\command,,"#$pSystemRoot#$p\system32\NOTEPAD.EXE #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inifile\shell\print\command,,"#$pSystemRoot#$p\system32\NOTEPAD.EXE /p #$p1"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.inf,,inffile
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.inf,PerceivedType,text
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.inf\PersistentHandler,,{5e941d80-bf96-11cd-b579-08002b30bfeb}
+RegWrite,HKLM,0x1,Tmp_Software\Classes\inffile,,"Setup Information"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile,FriendlyTypeName,"@#$pSystemRoot#$p\System32\setupapi.dll,-2000"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\DefaultIcon,,"#$pSystemRoot#$p\System32\imageres.dll,-69"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\inffile\shell\Install,,&Install
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\shell\Install,MUIVerb,"@#$pSystemRoot#$p\System32\setupapi.dll,-2002"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\shell\Install\command,,"#$pSystemRoot#$p\System32\InfDefaultInstall.exe #$q#$p1#$q"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\shell\open\command,,"#$pSystemRoot#$p\system32\NOTEPAD.EXE #$p1"
+RegWrite,HKLM,0x2,Tmp_Software\Classes\inffile\shell\print\command,,"#$pSystemRoot#$p\system32\NOTEPAD.EXE /p #$p1"
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.log,,txtfilelegacy
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.scp,,txtfilelegacy
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.wtx,,txtfilelegacy
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.cfg,,txtfilelegacy
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.script,,txtfilelegacy
+RegWrite,HKLM,0x1,Tmp_Software\Classes\.cfg,,txtfilelegacy
+RegHiveUnLoad,Tmp_Software
 
 [Fix_20H2_Reg_FullSoftware]
 If,ExistDir,%GTarget_Win%\WinSxS\x86_microsoft.windows.common-controls_*_6.0.19041.1_*,Begin
