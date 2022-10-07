@@ -12,7 +12,7 @@ Version=003
 Selected=None
 Mandatory=None
 NoWarning=False
-History003=KYHI - Support v2.9.5 - 2020.09.06
+History003=ChrisR - Support v2.9.17 - 2021.11.29
 
 [Variables]
 %ProgramFolder%=StartIsBack

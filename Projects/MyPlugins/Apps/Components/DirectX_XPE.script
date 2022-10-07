@@ -123,7 +123,6 @@ If,%TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,#$pSystemRoot#$p\system32\%Pro
 \Windows\System32\dpnhupnp.dll
 \Windows\System32\dpnlobby.dll
 \Windows\System32\dpnsvr.exe
-; \Windows\System32\drivers that already exist in Winre.wim: dxgkrnl.sys,dxgmms1.sys,ks.sys,mskssrv.sys,mspclock.sys,mspqm.sys,mstee.sys,stream.sys
 \Windows\System32\drivers\gm.dls
 \Windows\System32\dsdmo.dll
 \Windows\System32\dsound.dll
@@ -196,6 +195,13 @@ If,%TaskBpin_CheckBox%,Equal,True,AddPin,TaskBar,,#$pSystemRoot#$p\system32\%Pro
 \Windows\SysWOW64\en-US\joy.cpl.mui
 \Windows\SystemResources\qedwipes.dll.mun
 \Windows\SystemResources\themeui.dll.mun
+; Fix 21H1 Black Screen
+\Windows\System32\drivers\dxgkrnl.sys
+\Windows\System32\drivers\dxgmms1.sys
+\Windows\System32\drivers\dxgmms2.sys
+\Windows\System32\??-??\dxgkrnl.sys.mui
+\Windows\System32\??-??\dxgmms2.sys.mui
+\Windows\System32\??-??\dxgwdi.dll.mui
 
 [DirectX_AddFiles6432]
 \Windows\SysWOW64\??-??\cpfilters.dll.mui

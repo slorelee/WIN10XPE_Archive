@@ -59,7 +59,7 @@ Msi_CheckBox="Msi Windows Installer",1,3,122,330,142,18,True,"__Add Msi Windows 
 DotNET_CheckBox="Microsoft .NETFx4",1,3,6,348,115,18,False,"__Add Embedded Microsoft .NET Framework 4 - To Get WIFI, You Must Also Enable Network Addition"
 ImDisk_CheckBox="ImDisk Ramdisk B:\Temp",1,3,122,348,142,18,True,"__ImDisk Virtual Disk Driver. Create B: RamDisk and Set %Temp% to B:\Temp"
 Admin_CheckBox="Switch To Admin",1,3,6,366,115,18,False,"__Switch to Administrator Account Login At Startup"
-IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,False,_IE11_Info_,False,"__Add Internet Explorer 11. Requires Administrator Account For Downloads."
+IE11_CheckBox="Internet Explorer 11",1,3,122,366,138,18,False,_IE11_Info_,False,"__Add Internet Explorer 11. Only available in Windows 10. It Requires Administrator Account For Downloads."
 //-
 Drivers_Bevel=Drivers_Bevel,1,12,270,280,226,61
 Drivers_CheckBox="Integrate Drivers",1,3,276,284,112,18,True,"__Integrate Your Custom Drivers"
@@ -930,6 +930,7 @@ TxtAddline,%w%,"delete '#1\#9\#2' --force",Append
 [WimSmallUpdateMuiDir]
 TxtAddline,%w%,"delete '#1\ar-SA' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\bg-BG' --force --recursive",Append
+TxtAddline,%w%,"delete '#1\ca-ES' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\cs-CZ' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\da-DK' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\de-DE' --force --recursive",Append
@@ -939,12 +940,15 @@ TxtAddline,%w%,"delete '#1\en-US' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\es-ES' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\es-MX' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\et-EE' --force --recursive",Append
+TxtAddline,%w%,"delete '#1\eu-ES' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\fi-FI' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\fr-CA' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\fr-FR' --force --recursive",Append
+TxtAddline,%w%,"delete '#1\gl-ES' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\he-IL' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\hr-HR' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\hu-HU' --force --recursive",Append
+TxtAddline,%w%,"delete '#1\id-ID' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\it-IT' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\ja-JP' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\ko-KR' --force --recursive",Append
@@ -966,6 +970,7 @@ TxtAddline,%w%,"delete '#1\sv-SE' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\th-TH' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\tr-TR' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\uk-UA' --force --recursive",Append
+TxtAddline,%w%,"delete '#1\vi-VN' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\zh-CN' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\zh-HK' --force --recursive",Append
 TxtAddline,%w%,"delete '#1\zh-TW' --force --recursive",Append

@@ -27,6 +27,7 @@ History006=KYHI - Added Dependent file For BuildSource v19624 - 2020.05.13
 
 [Process]
 Echo,"Processing %ScriptTitle%..."
+If,Not,%SourceBuild%,Smaller,22000,EchoExtended,"IE11 is only available in Windows 10.",Warn,,,,Exit
 If,ExistFile,%ProjectDir%\Core.script,AddInterface,%ProjectDir%\Core.script,InterfacePENetwork,""
 RunFromRam
 ExtractSectionFiles,%ScriptFile%,IE11_AddFiles

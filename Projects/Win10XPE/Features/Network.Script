@@ -305,6 +305,7 @@ ExtractSectionFiles,%ScriptFile%,RNDIS_AddFiles
 RegAddDriver,netrndis.inf
 RegAddDriver,rndiscmp.inf
 RegAddDriver,wceisvista.inf
+RegAddDriver,netvwifimp.inf
 
 [RNDIS_AddFiles]
 \Windows\System32\drivers\RNDISMP.sys

@@ -262,6 +262,12 @@
 ; WB Dependencies addition
 \Windows\SysWOW64\ieframe.dll
 \Windows\SysWOW64\mshtml.dll
+\Windows\SysWOW64\advpack.dll
+\Windows\SysWOW64\DiagnosticDataSettings.dll
+\Windows\SysWOW64\IEAdvpack.dll
+\windows\SysWOW64\srpapi.dll
+\Windows\SysWOW64\vaultcli.dll
+\windows\SysWOW64\WerFault.exe
 
 ; WinSXS - ExtractWimFile,\Windows\WinSxS\x86_microsoft.windows.c..-controls.resources_*_%Language%_* . wimlib-imagex.exe (v1.13 and older) Extract Path with Wildward Does Not Work on Windows 7 32/64 bits but Works on Windows 10
 \Windows\WinSxS\x86_microsoft.windows.c..-controls.resources_*_xx-xx_*

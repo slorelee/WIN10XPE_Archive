@@ -3,7 +3,7 @@ Title=Explorer
 Type=XPEPlugin
 Description=Explorer
 Author=ChriSR
-Date=2020.05.13
+Date=2022.09.22
 Version=003
 Selected=None
 Mandatory=None
@@ -78,6 +78,9 @@ End
 \Windows\System32\wuceffects.dll
 ;Support to search files in This PC
 \Windows\System32\EhStorShell.dll
+\Windows\System32\Windows.UI.Core.TextInput.dll
+\Windows\System32\windowsudk.shellcommon.dll
+\Windows\System32\catroot\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\Microsoft-Windows-Desktop-Shared-Drivers-merged-Package*.cat
 
 [Reg_Themes]
 RegImportFile,%ScriptDir%\Themes_RegDefault.txt

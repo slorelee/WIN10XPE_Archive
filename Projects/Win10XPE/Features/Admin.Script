@@ -3,7 +3,7 @@ Title=Admin
 Type=XPEPlugin
 Description=Admin Login
 Author=ChriSR
-Date=2021.01.14
+Date=2022.09.22
 Version=003
 Selected=None
 Mandatory=None
@@ -84,6 +84,8 @@ RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\gpsvc,Start,3
 //-
 //ACLRegKey,Tmp_System\ControlSet001\Services\TrustedInstaller
 RegWrite,HKLM,0x4,Tmp_System\ControlSet001\Services\TrustedInstaller,Start,3
+//-
+If,%SourceBuild%,Bigger,22620,RegCopyKey,HKLM,Tmp_System\ControlSet001\Services\TextInputManagementService
 //-
 If,Not,%FullSoftware%,Equal,True,Begin
   RegCopyKey,HKLM,Tmp_Software\Microsoft\Windows\CurrentVersion\Authentication

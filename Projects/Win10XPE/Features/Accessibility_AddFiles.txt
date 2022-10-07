@@ -20,4 +20,4 @@
 \Windows\System32\Windows.Perception.Stub.dll
 \Windows\System32\Windows.UI.dll
 \Windows\System32\Windows.UI.Xaml.dll
-\windows\SYSTEM32\Windows.UI.Xaml.Resources.19H1.dll
+\windows\System32\Windows.UI.Xaml.Resources.*.dll
