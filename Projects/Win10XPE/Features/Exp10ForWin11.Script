@@ -22,7 +22,7 @@ Echo,"Processing %ScriptTitle%..."
 If,Not,%SourceBuild%,Smaller,22000,Begin
   //--
   Run,%ScriptFile%,Extract
-  FileCopy,%GTemp%\%TempFolder%\%Architecture%\Explorer.exe,%GTarget_Win%
+  FileCopy,%GTemp%\%TempFolder%\%Architecture%\Explorer.exe,%GTarget_Win%,NoWarn
   //--
   If,Not,#1,Equal,HiveLoaded,RegHiveLoad,Tmp_Default,%RegDefault%
   RegWrite,HKLM,0x4,Tmp_Default\Software\StartIsBack,Start_RightPaneIcons,0

@@ -38,9 +38,10 @@ If,ExistFile,%ScriptDir%\Explorer_AddFiles.txt,ExtractListFiles,%ScriptDir%\Expl
 //-
 If,%SourceBuild%,Bigger,17000,ExtractSectionFiles,%ScriptFile%,Explorer_1803_AddFiles
 If,%SourceBuild%,Bigger,17700,ExtractSectionFiles,%ScriptFile%,Explorer_1809_AddFiles
-If,Not,%SourceBuild%,Smaller,20150,ExtractSectionFiles,%ScriptFile%,Explorer_20150_AddFiles
 If,%SourceBuild%,Equal,19041,ExtractSectionFiles,%ScriptFile%,Explorer_19041_19042_AddFiles
 If,%SourceBuild%,Equal,19042,ExtractSectionFiles,%ScriptFile%,Explorer_19041_19042_AddFiles
+If,Not,%SourceBuild%,Smaller,20150,ExtractSectionFiles,%ScriptFile%,Explorer_20150_AddFiles
+If,Not,%SourceBuild%,Smaller,22000,ExtractSectionFiles,%ScriptFile%,Explorer_22000_AddFiles
 //-
 IniRead,%ProjectDir%\Script.Project,Features,AllCatalogs,%AllCatalogs%
 If,%AllCatalogs%,Equal,True,ExtractSectionFiles,%ScriptDir%\Catalog_AddFiles.txt,Catalog_AddFiles_All
@@ -71,6 +72,12 @@ End
 
 [Explorer_20150_AddFiles]
 \Windows\System32\dmenrollengine.dll
+
+[Explorer_22000_AddFiles]
+;Fix DWM for Windows 11 update (>= 22000.282)
+\Windows\System32\wuceffects.dll
+;Support to search files in This PC
+\Windows\System32\EhStorShell.dll
 
 [Reg_Themes]
 RegImportFile,%ScriptDir%\Themes_RegDefault.txt
